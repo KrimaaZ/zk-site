@@ -5,11 +5,9 @@ import { usePathname } from 'next/navigation'
 import { useLang } from '@/lib/lang'
 
 const links = [
-  { href: '/feed',     label: 'Feed',     emoji: '🏡' },
-  { href: '/food',     label: 'Food',     emoji: '🥗' },
-  { href: '/workout',  label: 'Workout',  emoji: '💪' },
-  { href: '/valorant', label: 'Valorant', emoji: '🎮' },
-  { href: '/trading',  label: 'Trading',  emoji: '📈' },
+  { href: '/feed',    label: 'Feed',    emoji: '🏡' },
+  { href: '/food',    label: 'Food',    emoji: '🥗' },
+  { href: '/workout', label: 'Workout', emoji: '💪' },
 ]
 
 export default function Navbar() {
