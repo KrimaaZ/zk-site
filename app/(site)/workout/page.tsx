@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Modal from '@/components/Modal'
 import { useLang } from '@/lib/lang'
 import TrainingProgram from '@/components/workout/TrainingProgram'
+import ProgressionTracker from '@/components/workout/ProgressionTracker'
 
 type Exercise = { name: string; sets: number; reps: string; notes: string }
 type Session = { id: number; type: string; title: string; date: string; exercises: string; notes: string | null }
@@ -19,7 +20,7 @@ const emptyForm = { type: 'PULL', title: '', date: new Date().toISOString().spli
 const emptyEx: Exercise = { name: '', sets: 3, reps: '8-10', notes: '' }
 
 export default function WorkoutPage() {
-  const [view, setView] = useState<'program' | 'sessions'>('program')
+  const [view, setView] = useState<'program' | 'progress' | 'sessions'>('program')
   const [activeTab, setActiveTab] = useState('PULL')
   const [sessions, setSessions] = useState<Session[]>([])
   const [modal, setModal] = useState(false)
@@ -89,7 +90,7 @@ export default function WorkoutPage() {
 
       {/* View toggle */}
       <div className="flex gap-2 mb-5">
-        {([['program', '📋 Program'], ['sessions', '🗒️ Sessions']] as const).map(([key, label]) => (
+        {([['program', '📋 Program'], ['progress', '📈 Progress'], ['sessions', '🗒️ Sessions']] as const).map(([key, label]) => (
           <button key={key} onClick={() => setView(key)}
             className="px-4 py-2 rounded-xl text-sm font-medium transition-all"
             style={{ backgroundColor: view === key ? '#1a3a1a' : '#f0e8d8', color: view === key ? '#fff' : '#6b4226' }}>
@@ -100,6 +101,9 @@ export default function WorkoutPage() {
 
       {/* Program view */}
       {view === 'program' && <TrainingProgram />}
+
+      {/* Progress view */}
+      {view === 'progress' && <ProgressionTracker />}
 
       {/* Sessions view */}
       {view === 'sessions' && <>
