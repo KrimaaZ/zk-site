@@ -1,17 +1,21 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useLang } from '@/lib/lang'
+import { Suspense } from 'react'
 
 const links = [
-  { href: '/feed',    label: 'Feed',    emoji: '🏡' },
-  { href: '/food',    label: 'Food',    emoji: '🥗' },
-  { href: '/workout', label: 'Workout', emoji: '💪' },
+  { href: '/feed',                  label: 'Feed',     emoji: '🏡', match: (p: string, q: string) => p.startsWith('/feed') },
+  { href: '/food',                  label: 'Food',     emoji: '🥗', match: (p: string, q: string) => p.startsWith('/food') },
+  { href: '/workout',               label: 'Workout',  emoji: '💪', match: (p: string, q: string) => p.startsWith('/workout') && q !== 'progress' },
+  { href: '/workout?view=progress', label: 'Tracking', emoji: '📈', match: (p: string, q: string) => p.startsWith('/workout') && q === 'progress' },
 ]
 
-export default function Navbar() {
+function NavInner() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const view = searchParams.get('view') ?? ''
   const { lang, toggle } = useLang()
 
   if (pathname === '/') return null
@@ -29,7 +33,7 @@ export default function Navbar() {
             {/* Desktop nav */}
             <div className="hidden sm:flex gap-1 items-center">
               {links.map(link => {
-                const active = pathname.startsWith(link.href)
+                const active = link.match(pathname, view)
                 return (
                   <Link key={link.href} href={link.href}
                     className="px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5"
@@ -60,7 +64,7 @@ export default function Navbar() {
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 flex border-t"
         style={{ backgroundColor: '#1a3a1a', borderColor: '#2d6a4f' }}>
         {links.map(link => {
-          const active = pathname.startsWith(link.href)
+          const active = link.match(pathname, view)
           return (
             <Link key={link.href} href={link.href}
               className="flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-colors text-xs"
@@ -72,5 +76,13 @@ export default function Navbar() {
         })}
       </div>
     </>
+  )
+}
+
+export default function Navbar() {
+  return (
+    <Suspense>
+      <NavInner />
+    </Suspense>
   )
 }

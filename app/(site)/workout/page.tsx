@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Modal from '@/components/Modal'
 import { useLang } from '@/lib/lang'
 import TrainingProgram from '@/components/workout/TrainingProgram'
@@ -19,8 +20,10 @@ const TYPE_COLORS: Record<string, { emoji: string; color: string }> = {
 const emptyForm = { type: 'PULL', title: '', date: new Date().toISOString().split('T')[0], notes: '' }
 const emptyEx: Exercise = { name: '', sets: 3, reps: '8-10', notes: '' }
 
-export default function WorkoutPage() {
-  const [view, setView] = useState<'program' | 'progress' | 'sessions'>('program')
+function WorkoutInner() {
+  const searchParams = useSearchParams()
+  const initialView = (searchParams.get('view') as 'program' | 'progress' | 'sessions') ?? 'program'
+  const [view, setView] = useState<'program' | 'progress' | 'sessions'>(initialView)
   const [activeTab, setActiveTab] = useState('PULL')
   const [sessions, setSessions] = useState<Session[]>([])
   const [modal, setModal] = useState(false)
@@ -221,5 +224,13 @@ export default function WorkoutPage() {
         </Modal>
       )}
     </div>
+  )
+}
+
+export default function WorkoutPage() {
+  return (
+    <Suspense>
+      <WorkoutInner />
+    </Suspense>
   )
 }
