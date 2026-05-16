@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Modal from '@/components/Modal'
 import { useLang } from '@/lib/lang'
+import TrainingProgram from '@/components/workout/TrainingProgram'
 
 type Exercise = { name: string; sets: number; reps: string; notes: string }
 type Session = { id: number; type: string; title: string; date: string; exercises: string; notes: string | null }
@@ -18,6 +19,7 @@ const emptyForm = { type: 'PULL', title: '', date: new Date().toISOString().spli
 const emptyEx: Exercise = { name: '', sets: 3, reps: '8-10', notes: '' }
 
 export default function WorkoutPage() {
+  const [view, setView] = useState<'program' | 'sessions'>('program')
   const [activeTab, setActiveTab] = useState('PULL')
   const [sessions, setSessions] = useState<Session[]>([])
   const [modal, setModal] = useState(false)
@@ -74,14 +76,33 @@ export default function WorkoutPage() {
 
   return (
     <div>
+      {/* Page header */}
       <div className="flex items-center justify-between gap-3 mb-5">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#1a3a1a' }}>💪 Workout</h1>
           <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#8b5e3c' }}>{t.workoutSubtitle}</p>
         </div>
-        <button onClick={openAdd} className="btn-glass btn-glass-green px-4 py-2.5 rounded-xl text-sm font-medium">{t.logBtn}</button>
+        {view === 'sessions' && (
+          <button onClick={openAdd} className="btn-glass btn-glass-green px-4 py-2.5 rounded-xl text-sm font-medium">{t.logBtn}</button>
+        )}
       </div>
 
+      {/* View toggle */}
+      <div className="flex gap-2 mb-5">
+        {([['program', '📋 Program'], ['sessions', '🗒️ Sessions']] as const).map(([key, label]) => (
+          <button key={key} onClick={() => setView(key)}
+            className="px-4 py-2 rounded-xl text-sm font-medium transition-all"
+            style={{ backgroundColor: view === key ? '#1a3a1a' : '#f0e8d8', color: view === key ? '#fff' : '#6b4226' }}>
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Program view */}
+      {view === 'program' && <TrainingProgram />}
+
+      {/* Sessions view */}
+      {view === 'sessions' && <>
       <div className="flex gap-2 overflow-x-auto pb-1 mb-5" style={{ scrollbarWidth: 'none' }}>
         {TYPES.map(tp => {
           const info = TYPE_INFO[tp]
@@ -132,6 +153,8 @@ export default function WorkoutPage() {
           })}
         </div>
       )}
+
+      </>}
 
       {modal && (
         <Modal title={editing ? t.editSession : t.logSession} onClose={() => setModal(false)} wide>
