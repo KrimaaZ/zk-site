@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-Day Hypertrophy Program</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.11.0/tabler-icons-webfont.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f0e8;color:#1a3a1a;min-height:100vh;padding:24px 16px}
+.widget{max-width:880px;margin:0 auto}
+.widget-title{font-size:22px;font-weight:800;color:#1a3a1a;margin-bottom:4px;letter-spacing:-.3px}
+.widget-sub{font-size:13px;color:#8b5e3c;margin-bottom:20px}
+
+/* TABS */
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:4px;margin-bottom:20px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:80px;display:flex;flex-direction:column;align-items:center;padding:10px 6px;border-radius:12px;cursor:pointer;border:2px solid #e8dcc8;background:#fff;transition:all .15s ease;white-space:nowrap;gap:1px}
+.tab:hover{border-color:#c4a882;background:#faf7f2}
+.tab.active{background:#1D9E75;border-color:#1D9E75}
+.tab-day{font-size:9px;font-weight:700;letter-spacing:.08em;color:#a07850}
+.tab.active .tab-day{color:rgba(255,255,255,.7)}
+.tab-name{font-size:13px;font-weight:800;color:#1a3a1a}
+.tab.active .tab-name{color:#fff}
+.tab-type{font-size:9px;color:#8b5e3c;text-align:center;line-height:1.3}
+.tab.active .tab-type{color:rgba(255,255,255,.8)}
+
+/* PANELS */
+.day-panel{display:none}
+.day-panel.active{display:block}
+.day-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e8dcc8}
+
+/* HEADER */
+.day-header{padding:22px 24px 20px}
+.day-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;color:#fff}
+.day-title{font-size:22px;font-weight:800;color:#1a3a1a;margin-bottom:3px;letter-spacing:-.3px}
+.day-subtitle{font-size:13px;color:#8b5e3c;margin-bottom:14px;line-height:1.5}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.pill{padding:3px 11px;border-radius:100px;font-size:11px;font-weight:600}
+
+/* SECTION */
+.section{padding:0 24px 8px}
+.section-head{display:flex;align-items:center;gap:7px;padding:14px 0 10px;border-bottom:1px solid #f0e8d8;margin-bottom:2px}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a07850}
+
+/* EXERCISE ROW */
+.ex-row{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid #f9f5ef}
+.ex-row:last-child{border-bottom:none}
+.ex-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;margin-top:2px}
+.ex-body{flex:1;min-width:0}
+.ex-name{font-size:14px;font-weight:700;color:#1a3a1a;margin-bottom:3px;line-height:1.3}
+.ex-detail{font-size:12px;color:#8b5e3c;margin-bottom:6px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.dot{width:3px;height:3px;border-radius:50%;background:#c4a882;flex-shrink:0}
+.ex-tip{padding:7px 11px;border-radius:7px;font-size:11px;line-height:1.5;border-left:3px solid}
+.ex-badge{flex-shrink:0;text-align:center;min-width:48px;padding-top:2px}
+.ex-sets{font-size:13px;font-weight:800;color:#1a3a1a}
+.ex-label{font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#a07850;margin-top:1px}
+
+/* SUPERSET */
+.ss-group{border:1px solid #e8dcc8;border-radius:12px;overflow:hidden;margin-bottom:10px}
+.ss-head{background:#f9f5ef;padding:7px 14px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8b5e3c;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e8dcc8}
+.ss-ex{padding:11px 14px;display:flex;gap:11px;align-items:flex-start;border-bottom:1px solid #f0e8d8}
+.ss-ex:last-child{border-bottom:none}
+.ss-letter{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px}
+.ss-body{flex:1}
+.ss-name{font-size:13px;font-weight:700;color:#1a3a1a;margin-bottom:2px}
+.ss-detail{font-size:11px;color:#8b5e3c;margin-bottom:5px}
+.ss-tip{padding:6px 10px;border-radius:6px;font-size:11px;line-height:1.5;border-left:3px solid}
+.ss-badge{flex-shrink:0;text-align:center;min-width:44px}
+.ss-sets{font-size:12px;font-weight:800;color:#1a3a1a}
+.ss-label{font-size:9px;font-weight:600;text-transform:uppercase;color:#a07850;letter-spacing:.05em}
+
+/* COACH TIP */
+.coach{margin:4px 24px 24px;padding:14px 16px;border-radius:12px;background:#ebf7f3;border-left:4px solid #1D9E75;display:flex;gap:11px;align-items:flex-start}
+.coach-ico{font-size:18px;flex-shrink:0;margin-top:1px}
+.coach-lbl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1D9E75;margin-bottom:3px}
+.coach-txt{font-size:13px;line-height:1.6;color:#1a3a1a}
+
+/* COLOR SYSTEM */
+.bg-g{background:#1D9E75}.bg-b{background:#378ADD}.bg-p{background:#7F77DD}.bg-a{background:#BA7517}.bg-r{background:#E05252}.bg-v{background:#9B6FE0}
+.tip-g{background:#ebf7f3;border-color:#1D9E75;color:#0d6b49}
+.tip-b{background:#eaf2fc;border-color:#378ADD;color:#1e5a9e}
+.tip-p{background:#f0effc;border-color:#7F77DD;color:#4a45a0}
+.tip-a{background:#fbf3e4;border-color:#BA7517;color:#7a4c0f}
+.tip-r{background:#fdeaea;border-color:#E05252;color:#9e2020}
+.tip-v{background:#f5f0fd;border-color:#9B6FE0;color:#6030a0}
+.hdr-g{background:#f0faf6}.hdr-b{background:#f0f6fd}.hdr-a{background:#fdf8f0}.hdr-p{background:#f5f4fd}.hdr-r{background:#fdf5f5}
+.pl-g{background:#ebf7f3;color:#0d6b49}.pl-b{background:#eaf2fc;color:#1e5a9e}.pl-p{background:#f0effc;color:#4a45a0}.pl-a{background:#fbf3e4;color:#7a4c0f}.pl-r{background:#fdeaea;color:#9e2020}.pl-v{background:#f5f0fd;color:#6030a0}
+
+@media(max-width:640px){
+  body{padding:14px 10px}
+  .day-header{padding:18px 16px}
+  .section{padding:0 16px 8px}
+  .coach{margin:4px 16px 20px}
+  .tab{min-width:64px;padding:8px 4px}
+  .tab-name{font-size:12px}
+  .tab-type{font-size:8px}
+  .day-title{font-size:19px}
+}
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="widget-title">6-Day Hypertrophy Program</div>
+  <div class="widget-sub">Push · Pull · Legs · Upper · Lower · Arms — V-Taper Blueprint</div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" onclick="show(0)">
+      <span class="tab-day">MON</span><span class="tab-name">Push</span><span class="tab-type">Chest · Delts · Tris</span>
+    </button>
+    <button class="tab" onclick="show(1)">
+      <span class="tab-day">TUE</span><span class="tab-name">Pull</span><span class="tab-type">Back · Rear · Bis</span>
+    </button>
+    <button class="tab" onclick="show(2)">
+      <span class="tab-day">WED</span><span class="tab-name">Legs</span><span class="tab-type">Quads · Hams · Glutes</span>
+    </button>
+    <button class="tab" onclick="show(3)">
+      <span class="tab-day">THU</span><span class="tab-name">Upper</span><span class="tab-type">Chest · Back · Delts</span>
+    </button>
+    <button class="tab" onclick="show(4)">
+      <span class="tab-day">FRI</span><span class="tab-name">Lower</span><span class="tab-type">Quads · PC · Glutes</span>
+    </button>
+    <button class="tab" onclick="show(5)">
+      <span class="tab-day">SAT</span><span class="tab-name">Arms</span><span class="tab-type">Bis · Tris · Forearms</span>
+    </button>
+  </div>
+
+  <!-- ───── DAY 1: PUSH ───── -->
+  <div class="day-panel active" id="p0">
+    <div class="day-card">
+      <div class="day-header hdr-g">
+        <div class="day-badge bg-g"><i class="ti ti-barbell"></i> DAY 1</div>
+        <div class="day-title">Push Day</div>
+        <div class="day-subtitle">Chest · Shoulders · Triceps — Building V-taper width and upper chest mass</div>
+        <div class="pills">
+          <span class="pill pl-g">Upper Chest</span>
+          <span class="pill pl-g">Mid Chest</span>
+          <span class="pill pl-b">Front Delt</span>
+          <span class="pill pl-b">Side Delt</span>
+          <span class="pill pl-p">Triceps Long Head</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-layers" style="color:#a07850;font-size:13px"></i><span class="section-label">Compound Foundation</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-g">1</div>
+          <div class="ex-body">
+            <div class="ex-name">Incline Barbell Press</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>8 reps<div class="dot"></div>2 min rest</div>
+            <div class="ex-tip tip-g">Upper chest builds the V-taper illusion — prioritise this movement every session</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×8</div><div class="ex-label">primary</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-g">2</div>
+          <div class="ex-body">
+            <div class="ex-name">Flat Dumbbell Press</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>10 reps<div class="dot"></div>90 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×10</div><div class="ex-label">chest</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-b">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Seated Dumbbell Shoulder Press</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>10 reps<div class="dot"></div>90 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×10</div><div class="ex-label">primary</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-crosshair" style="color:#a07850;font-size:13px"></i><span class="section-label">Isolation &amp; Detail Work</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-b">4</div>
+          <div class="ex-body">
+            <div class="ex-name">Cable Lateral Raise</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>15 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-b">Cable keeps tension at peak contraction — this is your width builder</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×15</div><div class="ex-label">width</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-g">5</div>
+          <div class="ex-body">
+            <div class="ex-name">Cable Fly — Low to High</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-g">Targets upper chest fiber direction for maximum development</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">upper chest</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-p">6</div>
+          <div class="ex-body">
+            <div class="ex-name">Overhead Cable Tricep Extension</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-p">Long head stretch under load = arm mass and definition</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">mass</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-p">7</div>
+          <div class="ex-body">
+            <div class="ex-name">Rope Tricep Pushdown</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>15 reps<div class="dot"></div>Drop set on last set</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×15</div><div class="ex-label">finisher</div></div>
+        </div>
+      </div>
+
+      <div class="coach"><span class="coach-ico">💬</span><div>
+        <div class="coach-lbl">Coach's Note</div>
+        <div class="coach-txt">End with a brutal pump drop set to failure on the last exercise. The pump is not vanity — it drives nutrient delivery and hypertrophic signalling into the muscle.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ───── DAY 2: PULL ───── -->
+  <div class="day-panel" id="p1">
+    <div class="day-card">
+      <div class="day-header hdr-b">
+        <div class="day-badge bg-b"><i class="ti ti-arrow-down-circle"></i> DAY 2</div>
+        <div class="day-title">Pull Day</div>
+        <div class="day-subtitle">Back · Rear Delt · Biceps — Back width is V-taper width</div>
+        <div class="pills">
+          <span class="pill pl-g">Lats</span>
+          <span class="pill pl-g">Upper Back</span>
+          <span class="pill pl-g">Rhomboids</span>
+          <span class="pill pl-b">Rear Delt</span>
+          <span class="pill pl-p">Biceps</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-layers" style="color:#a07850;font-size:13px"></i><span class="section-label">Compound Foundation</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-g">1</div>
+          <div class="ex-body">
+            <div class="ex-name">Wide-Grip Pull-Up / Lat Pulldown</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>8 reps<div class="dot"></div>2 min rest</div>
+            <div class="ex-tip tip-g">Think elbows to pockets — pull with your back, not your arms</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×8</div><div class="ex-label">width</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-g">2</div>
+          <div class="ex-body">
+            <div class="ex-name">Barbell Bent-Over Row</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>8 reps<div class="dot"></div>2 min rest</div>
+            <div class="ex-tip tip-g">Overhand grip, 45° torso, drive elbows back through the movement</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×8</div><div class="ex-label">thickness</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-g">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Seated Cable Row — Close Grip</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>10 reps<div class="dot"></div>90 sec rest</div>
+            <div class="ex-tip tip-g">Pause 1 full second at peak contraction — squeeze the shoulder blades hard</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×10</div><div class="ex-label">detail</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-crosshair" style="color:#a07850;font-size:13px"></i><span class="section-label">Isolation &amp; Detail Work</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-b">4</div>
+          <div class="ex-body">
+            <div class="ex-name">Face Pull</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>15 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-b">Non-negotiable for V-shape — pull to forehead, external rotate at peak</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×15</div><div class="ex-label">health</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-g">5</div>
+          <div class="ex-body">
+            <div class="ex-name">Single-Arm Dumbbell Row</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>10 reps each<div class="dot"></div>60 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×10</div><div class="ex-label">mass</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-p">6</div>
+          <div class="ex-body">
+            <div class="ex-name">Incline Dumbbell Curl</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>10 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-p">Full stretch at the bottom = peak bicep development and long head activation</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×10</div><div class="ex-label">peak</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-p">7</div>
+          <div class="ex-body">
+            <div class="ex-name">Hammer Curl</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">width</div></div>
+        </div>
+      </div>
+
+      <div class="coach"><span class="coach-ico">💬</span><div>
+        <div class="coach-lbl">Coach's Note</div>
+        <div class="coach-txt">Back width equals V-taper width. Visualize your lats spreading like wings on every single rep — the mind-muscle connection on pull day is everything.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ───── DAY 3: LEGS ───── -->
+  <div class="day-panel" id="p2">
+    <div class="day-card">
+      <div class="day-header hdr-a">
+        <div class="day-badge bg-a"><i class="ti ti-run"></i> DAY 3</div>
+        <div class="day-title">Leg Day</div>
+        <div class="day-subtitle">Quads · Hamstrings · Glutes · Calves — Go deep, go heavy, embrace the burn</div>
+        <div class="pills">
+          <span class="pill pl-a">Quads</span>
+          <span class="pill pl-a">Hamstrings</span>
+          <span class="pill pl-a">Glutes</span>
+          <span class="pill pl-a">Calves</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-layers" style="color:#a07850;font-size:13px"></i><span class="section-label">Compound Foundation</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-a">1</div>
+          <div class="ex-body">
+            <div class="ex-name">Barbell Back Squat</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>8 reps<div class="dot"></div>2–3 min rest</div>
+            <div class="ex-tip tip-a">Break parallel, drive knees out, keep chest tall through the entire range</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×8</div><div class="ex-label">primary</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-a">2</div>
+          <div class="ex-body">
+            <div class="ex-name">Romanian Deadlift</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>10 reps<div class="dot"></div>2 min rest</div>
+            <div class="ex-tip tip-a">Hinge, not squat — feel the hamstring stretch at the bottom of each rep</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×10</div><div class="ex-label">hinge</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-a">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Leg Press — Feet High &amp; Wide</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>90 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">volume</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-crosshair" style="color:#a07850;font-size:13px"></i><span class="section-label">Isolation &amp; Detail Work</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-a">4</div>
+          <div class="ex-body">
+            <div class="ex-name">Leg Extension</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-a">Hold peak contraction for 1 full second on every rep</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">quad</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-a">5</div>
+          <div class="ex-body">
+            <div class="ex-name">Lying Leg Curl</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">hamstring</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-a">6</div>
+          <div class="ex-body">
+            <div class="ex-name">Standing Calf Raise</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>20 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-a">3 sec negative, full stretch at the bottom — calves respond to range of motion</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×20</div><div class="ex-label">calves</div></div>
+        </div>
+      </div>
+
+      <div class="coach"><span class="coach-ico">💬</span><div>
+        <div class="coach-lbl">Coach's Note</div>
+        <div class="coach-txt">Go deep, go heavy, embrace the burn. Leg training is where mental toughness meets physical results — nobody built a great physique skipping leg day.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ───── DAY 4: UPPER ───── -->
+  <div class="day-panel" id="p3">
+    <div class="day-card">
+      <div class="day-header hdr-p">
+        <div class="day-badge bg-p"><i class="ti ti-arrows-exchange"></i> DAY 4</div>
+        <div class="day-title">Upper Day</div>
+        <div class="day-subtitle">Chest · Back · Shoulders — Antagonist superset format for maximum volume</div>
+        <div class="pills">
+          <span class="pill pl-g">Chest</span>
+          <span class="pill pl-g">Lats</span>
+          <span class="pill pl-g">Upper Back</span>
+          <span class="pill pl-b">Side Delt</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-layers" style="color:#a07850;font-size:13px"></i><span class="section-label">Compound Foundation — Superset Pairs</span></div>
+
+        <div class="ss-group">
+          <div class="ss-head"><i class="ti ti-repeat" style="font-size:11px"></i> Superset 1 — A then B, no rest between · 90 sec after B</div>
+          <div class="ss-ex">
+            <div class="ss-letter bg-g">A</div>
+            <div class="ss-body">
+              <div class="ss-name">Dumbbell Incline Press</div>
+              <div class="ss-detail">4 sets · 10 reps</div>
+              <div class="ss-tip tip-g">Upper chest emphasis — 2 sec eccentric, explosive press</div>
+            </div>
+            <div class="ss-badge"><div class="ss-sets">4×10</div><div class="ss-label">push</div></div>
+          </div>
+          <div class="ss-ex">
+            <div class="ss-letter" style="background:#2d6a4f;color:#fff">B</div>
+            <div class="ss-body">
+              <div class="ss-name">Chest-Supported Dumbbell Row</div>
+              <div class="ss-detail">4 sets · 10 reps</div>
+              <div class="ss-tip tip-g">Antagonist superset = more volume, better pump, less time</div>
+            </div>
+            <div class="ss-badge"><div class="ss-sets">4×10</div><div class="ss-label">pull</div></div>
+          </div>
+        </div>
+
+        <div class="ss-group">
+          <div class="ss-head"><i class="ti ti-repeat" style="font-size:11px"></i> Superset 2 — A then B, no rest between · 60 sec after B</div>
+          <div class="ss-ex">
+            <div class="ss-letter bg-b">A</div>
+            <div class="ss-body">
+              <div class="ss-name">Lateral Raise Drop Set</div>
+              <div class="ss-detail">3 sets · 15 reps, drop weight, 15 more</div>
+              <div class="ss-tip tip-b">Width builder — don't chase weight at the cost of form</div>
+            </div>
+            <div class="ss-badge"><div class="ss-sets">3×15+</div><div class="ss-label">width</div></div>
+          </div>
+          <div class="ss-ex">
+            <div class="ss-letter" style="background:#2d6a4f;color:#fff">B</div>
+            <div class="ss-body">
+              <div class="ss-name">Straight-Arm Pulldown</div>
+              <div class="ss-detail">3 sets · 15 reps</div>
+              <div class="ss-tip tip-g">Pure lat isolation — keep arms straight and feel the sweep</div>
+            </div>
+            <div class="ss-badge"><div class="ss-sets">3×15</div><div class="ss-label">lat</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-crosshair" style="color:#a07850;font-size:13px"></i><span class="section-label">Isolation &amp; Detail Work</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-g">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Cable Crossover — High to Low</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">chest</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-b">4</div>
+          <div class="ex-body">
+            <div class="ex-name">Upright Row — Cable or EZ Bar</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">delt</div></div>
+        </div>
+      </div>
+
+      <div class="coach"><span class="coach-ico">💬</span><div>
+        <div class="coach-lbl">Coach's Note</div>
+        <div class="coach-txt">Every push pairs with a pull. Antagonist training builds the symmetry that separates a great physique from a good one — push the pace, minimal rest between paired exercises.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ───── DAY 5: LOWER ───── -->
+  <div class="day-panel" id="p4">
+    <div class="day-card">
+      <div class="day-header hdr-r">
+        <div class="day-badge bg-r"><i class="ti ti-arrows-down"></i> DAY 5</div>
+        <div class="day-title">Lower Day</div>
+        <div class="day-subtitle">Quad Focus · Posterior Chain — Two leg days is the difference between good and great</div>
+        <div class="pills">
+          <span class="pill pl-r">Quads</span>
+          <span class="pill pl-r">Hamstrings</span>
+          <span class="pill pl-r">Glutes</span>
+          <span class="pill pl-a">Soleus</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-layers" style="color:#a07850;font-size:13px"></i><span class="section-label">Compound Foundation</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-r">1</div>
+          <div class="ex-body">
+            <div class="ex-name">Hack Squat Machine</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>10 reps<div class="dot"></div>2 min rest</div>
+            <div class="ex-tip tip-r">Feet low for max quad recruitment — narrow stance for teardrop definition</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×10</div><div class="ex-label">quad</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-r">2</div>
+          <div class="ex-body">
+            <div class="ex-name">Sumo Deadlift / Trap Bar Deadlift</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>6 reps<div class="dot"></div>3 min rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×6</div><div class="ex-label">hinge</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-r">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Bulgarian Split Squat</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>10 reps per leg<div class="dot"></div>90 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×10</div><div class="ex-label">unilateral</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-crosshair" style="color:#a07850;font-size:13px"></i><span class="section-label">Isolation &amp; Detail Work</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-r">4</div>
+          <div class="ex-body">
+            <div class="ex-name">Seated Leg Curl</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-r">Seated position hits the upper hamstring head — different feel to lying curl</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">hamstring</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-a">5</div>
+          <div class="ex-body">
+            <div class="ex-name">Seated Calf Raise</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>20 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-a">Targets the soleus — a completely different muscle to standing calf raises</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×20</div><div class="ex-label">soleus</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-r">6</div>
+          <div class="ex-body">
+            <div class="ex-name">Hip Thrust — Barbell or Machine</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>90 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">glutes</div></div>
+        </div>
+      </div>
+
+      <div class="coach"><span class="coach-ico">💬</span><div>
+        <div class="coach-lbl">Coach's Note</div>
+        <div class="coach-txt">Two dedicated leg days is the difference between good and great physiques. Your lower body is half your muscle mass — train it like it matters, because it does.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ───── DAY 6: ARMS ───── -->
+  <div class="day-panel" id="p5">
+    <div class="day-card">
+      <div class="day-header hdr-p">
+        <div class="day-badge bg-v"><i class="ti ti-dumbbell"></i> DAY 6</div>
+        <div class="day-title">Arms Day</div>
+        <div class="day-subtitle">Biceps · Triceps · Forearms — Sculpted, not just big</div>
+        <div class="pills">
+          <span class="pill pl-v">Biceps Long Head</span>
+          <span class="pill pl-v">Biceps Short Head</span>
+          <span class="pill pl-p">Triceps Long Head</span>
+          <span class="pill pl-p">Forearms</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-layers" style="color:#a07850;font-size:13px"></i><span class="section-label">Compound Foundation</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-v">1</div>
+          <div class="ex-body">
+            <div class="ex-name">EZ-Bar Preacher Curl</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>10 reps<div class="dot"></div>90 sec rest</div>
+            <div class="ex-tip tip-v">Larry Scott's signature move — best for bicep peak development</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×10</div><div class="ex-label">peak</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-v">2</div>
+          <div class="ex-body">
+            <div class="ex-name">Cable Curl — Low Pulley</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-v">Constant tension throughout full range — cable never lets the muscle rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">tension</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-p">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Close-Grip Bench Press</div>
+            <div class="ex-detail">4 sets<div class="dot"></div>8 reps<div class="dot"></div>2 min rest</div>
+            <div class="ex-tip tip-p">Heaviest tricep movement — elbows tucked, press through the triceps not chest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">4×8</div><div class="ex-label">primary</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><i class="ti ti-crosshair" style="color:#a07850;font-size:13px"></i><span class="section-label">Isolation &amp; Detail Work</span></div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-v">4</div>
+          <div class="ex-body">
+            <div class="ex-name">Concentration Curl</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-v">Arnold's signature isolation move — squeeze hard at the top of every rep</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">isolation</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-p">5</div>
+          <div class="ex-body">
+            <div class="ex-name">Skull Crusher — EZ Bar</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>10 reps<div class="dot"></div>90 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×10</div><div class="ex-label">mass</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-p">6</div>
+          <div class="ex-body">
+            <div class="ex-name">Single-Arm Overhead DB Extension</div>
+            <div class="ex-detail">3 sets<div class="dot"></div>12 reps<div class="dot"></div>60 sec rest</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">3×12</div><div class="ex-label">stretch</div></div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num bg-p">7</div>
+          <div class="ex-body">
+            <div class="ex-name">Reverse Curl + Wrist Curl</div>
+            <div class="ex-detail">2 sets<div class="dot"></div>15 reps<div class="dot"></div>60 sec rest</div>
+            <div class="ex-tip tip-p">Thick forearms signal strength — the finishing touch to complete arms</div>
+          </div>
+          <div class="ex-badge"><div class="ex-sets">2×15</div><div class="ex-label">forearms</div></div>
+        </div>
+      </div>
+
+      <div class="coach"><span class="coach-ico">💬</span><div>
+        <div class="coach-lbl">Coach's Note</div>
+        <div class="coach-txt">A dedicated arm session builds sculpted arms, not just big ones. Control every rep, feel every contraction — this day is about precision over ego lifting.</div>
+      </div></div>
+    </div>
+  </div>
+
+</div>
+<script>
+function show(i){
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.querySelectorAll('.day-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+}
+</script>
+</body>
+</html>
