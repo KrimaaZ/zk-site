@@ -7,7 +7,8 @@
       "PowerShell(winget --version)",
       "PowerShell(node -v 2>$null)",
       "PowerShell(npm -v 2>$null)",
-      "Bash(mkdir -p /mnt/c/Users/HP/Desktop/site/app/food /mnt/c/Users/HP/Desktop/site/app/workout /mnt/c/Users/HP/Desktop/site/app/api/meals /mnt/c/Users/HP/Desktop/site/app/api/exercises /mnt/c/Users/HP/Desktop/site/components/food /mnt/c/Users/HP/Desktop/site/components/workout /mnt/c/Users/HP/Desktop/site/components/layout /mnt/c/Users/HP/Desktop/site/data /mnt/c/Users/HP/Desktop/site/lib /mnt/c/Users/HP/Desktop/site/scripts && echo \"dirs created\")"
+      "Bash(mkdir -p /mnt/c/Users/HP/Desktop/site/app/food /mnt/c/Users/HP/Desktop/site/app/workout /mnt/c/Users/HP/Desktop/site/app/api/meals /mnt/c/Users/HP/Desktop/site/app/api/exercises /mnt/c/Users/HP/Desktop/site/components/food /mnt/c/Users/HP/Desktop/site/components/workout /mnt/c/Users/HP/Desktop/site/components/layout /mnt/c/Users/HP/Desktop/site/data /mnt/c/Users/HP/Desktop/site/lib /mnt/c/Users/HP/Desktop/site/scripts && echo \"dirs created\")",
+      "Bash(git clone *)"
     ]
   }
 }

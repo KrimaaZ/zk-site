@@ -1,21 +1,7 @@
 'use client'
-import { createContext, useContext, useState, ReactNode } from 'react'
 
-interface SidebarCtx {
-  isOpen: boolean
-  toggle: () => void
-  close:  () => void
+import { LangProvider } from '@/lib/lang'
+
+export default function Providers({ children }: { children: React.ReactNode }) {
+  return <LangProvider>{children}</LangProvider>
 }
-
-const Ctx = createContext<SidebarCtx>({ isOpen: false, toggle: () => {}, close: () => {} })
-
-export function Providers({ children }: { children: ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false)
-  return (
-    <Ctx.Provider value={{ isOpen, toggle: () => setIsOpen(p => !p), close: () => setIsOpen(false) }}>
-      {children}
-    </Ctx.Provider>
-  )
-}
-
-export const useSidebar = () => useContext(Ctx)

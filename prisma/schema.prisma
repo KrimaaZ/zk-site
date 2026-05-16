@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  ingredients  String
+  instructions String
+  prepTime     Int
+  cookTime     Int
+  servings     Int
+  category     String
+  imageUrl     String?
+  createdAt    DateTime @default(now())
+}
+
+model MealPlan {
+  id        Int    @id @default(autoincrement())
+  date      String @unique
+  breakfast Int?
+  lunch     Int?
+  dinner    Int?
+}
+
+model WorkoutSession {
+  id        Int      @id @default(autoincrement())
+  type      String
+  title     String
+  date      String
+  exercises String
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
+model ValorantTip {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  category  String
+  agent     String?
+  drill     String?
+  createdAt DateTime @default(now())
+}
+
+model Trade {
+  id         Int      @id @default(autoincrement())
+  date       String
+  instrument String
+  type       String
+  entry      Float
+  exit       Float?
+  size       Float
+  pnl        Float?
+  notes      String?
+  status     String   @default("OPEN")
+  createdAt  DateTime @default(now())
+}
+
+model BacktestStrategy {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  rules       String
+  timeframe   String
+  winRate     Float?
+  riskReward  Float?
+  notes       String?
+  createdAt   DateTime @default(now())
+}
