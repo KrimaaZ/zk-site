@@ -6,10 +6,11 @@ import { useLang } from '@/lib/lang'
 import { Suspense } from 'react'
 
 const links = [
-  { href: '/feed',                  label: 'Feed',     emoji: '🏡', match: (p: string, q: string) => p.startsWith('/feed') },
-  { href: '/food',                  label: 'Food',     emoji: '🥗', match: (p: string, q: string) => p.startsWith('/food') },
-  { href: '/workout',               label: 'Workout',  emoji: '💪', match: (p: string, q: string) => p.startsWith('/workout') && q !== 'progress' },
-  { href: '/workout?view=progress', label: 'Tracking', emoji: '📈', match: (p: string, q: string) => p.startsWith('/workout') && q === 'progress' },
+  { href: '/feed',                  label: 'Feed',     emoji: '🏡', match: (p: string, _q: string) => p.startsWith('/feed') },
+  { href: '/food',                  label: 'Food',     emoji: '🥗', match: (p: string, _q: string) => p.startsWith('/food') },
+  { href: '/diet',                  label: 'Diet',     emoji: '🥩', match: (p: string, _q: string) => p.startsWith('/diet') },
+  { href: '/workout',               label: 'Workout',  emoji: '💪', match: (p: string, q: string)  => p.startsWith('/workout') && q !== 'progress' },
+  { href: '/workout?view=progress', label: 'Tracking', emoji: '📈', match: (p: string, q: string)  => p.startsWith('/workout') && q === 'progress' },
 ]
 
 function NavInner() {
