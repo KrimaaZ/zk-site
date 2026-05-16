@@ -61,8 +61,10 @@ export default function WelcomePage() {
 
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-10">
           {[
-            { href: '/food',    label: '🥗 Food',    cls: 'btn-glass-green' },
-            { href: '/workout', label: '💪 Workout', cls: 'btn-glass-brown' },
+            { href: '/food',                  label: '🥗 Food',     cls: 'btn-glass-green' },
+            { href: '/diet',                  label: '🥩 Diet',     cls: 'btn-glass-brown' },
+            { href: '/workout',               label: '💪 Workout',  cls: 'btn-glass-brown' },
+            { href: '/workout?view=progress', label: '📈 Tracking', cls: 'btn-glass-green' },
           ].map(item => (
             <Link key={item.href} href={item.href}
               className={`btn-glass ${item.cls} px-4 py-2.5 rounded-xl text-sm font-medium`}>
