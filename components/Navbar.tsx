@@ -26,7 +26,7 @@ function NavInner() {
       <nav style={{ backgroundColor: '#1a3a1a' }} className="shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="font-bold text-xl tracking-widest" style={{ color: '#74c69d' }}>
-            ZK
+            MAK
           </Link>
 
           <div className="flex items-center gap-2">

@@ -42,14 +42,14 @@ export default function WelcomePage() {
             boxShadow: '0 8px 40px rgba(26,58,26,0.5), inset 0 1px 0 rgba(255,255,255,0.15)',
           }}
         >
-          <span className="font-bold text-4xl sm:text-5xl tracking-tighter" style={{ color: '#74c69d' }}>ZK</span>
+          <span className="font-bold text-4xl sm:text-5xl tracking-tighter" style={{ color: '#74c69d' }}>MAK</span>
         </div>
 
         <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3" style={{ color: '#d8f3dc' }}>
           {t.tagline}
         </h1>
         <p className="text-base sm:text-lg mb-10" style={{ color: '#74c69d' }}>
-          Food &nbsp;·&nbsp; Fitness &nbsp;·&nbsp; Valorant &nbsp;·&nbsp; Trading
+          Food &nbsp;·&nbsp; Fitness
         </p>
 
         <Link
@@ -61,10 +61,8 @@ export default function WelcomePage() {
 
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-10">
           {[
-            { href: '/food',     label: '🥗 Food',     cls: 'btn-glass-green' },
-            { href: '/workout',  label: '💪 Workout',  cls: 'btn-glass-brown' },
-            { href: '/valorant', label: '🎮 Valorant', cls: 'btn-glass-red'   },
-            { href: '/trading',  label: '📈 Trading',  cls: 'btn-glass-gold'  },
+            { href: '/food',    label: '🥗 Food',    cls: 'btn-glass-green' },
+            { href: '/workout', label: '💪 Workout', cls: 'btn-glass-brown' },
           ].map(item => (
             <Link key={item.href} href={item.href}
               className={`btn-glass ${item.cls} px-4 py-2.5 rounded-xl text-sm font-medium`}>

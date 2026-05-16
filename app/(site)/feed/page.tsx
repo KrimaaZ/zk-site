@@ -45,15 +45,13 @@ export default function FeedPage() {
           {t.welcomeBack}
         </h1>
         <p className="text-base sm:text-lg" style={{ color: '#8b5e3c' }}>
-          Food &middot; Fitness &middot; Valorant &middot; Trading
+          Food &middot; Fitness
         </p>
 
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
           {[
-            { href: '/food',     label: t.foodPlan, emoji: '🥗', color: '#2d6a4f' },
-            { href: '/workout',  label: t.workout,  emoji: '💪', color: '#6b4226' },
-            { href: '/valorant', label: 'Valorant',  emoji: '🎮', color: '#c0303e' },
-            { href: '/trading',  label: 'Trading',   emoji: '📈', color: '#b8860b' },
+            { href: '/food',    label: t.foodPlan, emoji: '🥗', color: '#2d6a4f' },
+            { href: '/workout', label: t.workout,  emoji: '💪', color: '#6b4226' },
           ].map(item => (
             <Link key={item.href} href={item.href}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-white text-sm shadow-sm transition-transform hover:scale-105"
