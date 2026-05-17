@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useLang } from '@/lib/lang'
+import BottomBar from '@/components/BottomBar'
 
 type FeedItem = {
   id: number
@@ -172,6 +173,7 @@ export default function FeedPage() {
           })}
         </div>
       )}
+      <BottomBar />
     </div>
   )
 }
