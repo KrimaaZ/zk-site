@@ -11,6 +11,7 @@ const links = [
   { href: '/diet',                  label: 'Diet',     emoji: '🥩', match: (p: string, _q: string) => p.startsWith('/diet') },
   { href: '/workout',               label: 'Workout',  emoji: '💪', match: (p: string, q: string)  => p.startsWith('/workout') && q !== 'progress' },
   { href: '/workout?view=progress', label: 'Tracking', emoji: '📈', match: (p: string, q: string)  => p.startsWith('/workout') && q === 'progress' },
+  { href: '/pomodoro',              label: 'Pomodoro', emoji: '🍅', match: (p: string, _q: string) => p.startsWith('/pomodoro') },
 ]
 
 function NavInner() {
