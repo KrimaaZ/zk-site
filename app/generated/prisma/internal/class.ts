@@ -34,6 +34,10 @@ const config: runtime.GetPrismaClientConfig = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -47,6 +51,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -55,8 +60,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Recipe {\n  id           Int      @id @default(autoincrement())\n  title        String\n  description  String\n  ingredients  String\n  instructions String\n  prepTime     Int\n  cookTime     Int\n  servings     Int\n  category     String\n  imageUrl     String?\n  createdAt    DateTime @default(now())\n}\n\nmodel MealPlan {\n  id        Int    @id @default(autoincrement())\n  date      String @unique\n  breakfast Int?\n  lunch     Int?\n  dinner    Int?\n}\n\nmodel WorkoutSession {\n  id        Int      @id @default(autoincrement())\n  type      String\n  title     String\n  date      String\n  exercises String\n  notes     String?\n  createdAt DateTime @default(now())\n}\n\nmodel Goal {\n  id        String   @id @default(cuid())\n  tab       String\n  text      String\n  done      Boolean  @default(false)\n  position  Int      @default(0)\n  createdAt DateTime @default(now())\n}\n\nmodel HabitEntry {\n  id       Int     @id @default(autoincrement())\n  date     String\n  habitKey String\n  done     Boolean @default(true)\n\n  @@unique([date, habitKey])\n}\n\nmodel WorkoutSet {\n  id       Int      @id @default(autoincrement())\n  logKey   String\n  reps     Int\n  kg       Float\n  loggedAt DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "f11e705b62375d4c0df53f8c47b2e86ce1a891c3215f3529cf391409ae6cdb87",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client\"\n  output        = \"../app/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Recipe {\n  id           Int      @id @default(autoincrement())\n  title        String\n  description  String\n  ingredients  String\n  instructions String\n  prepTime     Int\n  cookTime     Int\n  servings     Int\n  category     String\n  imageUrl     String?\n  createdAt    DateTime @default(now())\n}\n\nmodel MealPlan {\n  id        Int    @id @default(autoincrement())\n  date      String @unique\n  breakfast Int?\n  lunch     Int?\n  dinner    Int?\n}\n\nmodel WorkoutSession {\n  id        Int      @id @default(autoincrement())\n  type      String\n  title     String\n  date      String\n  exercises String\n  notes     String?\n  createdAt DateTime @default(now())\n}\n\nmodel Goal {\n  id        String   @id @default(cuid())\n  tab       String\n  text      String\n  done      Boolean  @default(false)\n  position  Int      @default(0)\n  createdAt DateTime @default(now())\n}\n\nmodel HabitEntry {\n  id       Int     @id @default(autoincrement())\n  date     String\n  habitKey String\n  done     Boolean @default(true)\n\n  @@unique([date, habitKey])\n}\n\nmodel WorkoutSet {\n  id       Int      @id @default(autoincrement())\n  logKey   String\n  reps     Int\n  kg       Float\n  loggedAt DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "851956edd7cdc76ee7d042ec23f8c740e3186b727c057cd346b3476789fa80ed",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
