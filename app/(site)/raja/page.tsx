@@ -96,11 +96,39 @@ const GALLERY = [
   },
 ]
 
-const STATS = [
-  { icon: '🏆', value: '12 Titres',    label: 'Championnat Maroc' },
-  { icon: '⚽', value: '1949',         label: 'Année de Fondation' },
-  { icon: '🦅', value: 'Raja Forever', label: 'Notre Devise' },
-  { icon: '🟢', value: 'Vert & Blanc', label: 'Nos Couleurs' },
+const PALMARES = [
+  {
+    category: '🇲🇦 Maroc',
+    icon: '🏆',
+    items: [
+      { title: 'Championnat du Maroc (Botola)', count: '13 titres', years: '1988, 1996, 1997, 1998, 1999, 2000, 2001, 2004, 2009, 2011, 2013, 2020, 2024' },
+      { title: 'Coupe du Trône', count: '9 titres', years: '1974, 1977, 1982, 1996, 2002, 2005, 2012, 2017, 2023' },
+    ],
+  },
+  {
+    category: '🌍 Afrique',
+    icon: '🌍',
+    items: [
+      { title: 'Ligue des Champions CAF', count: '3 titres', years: '1989, 1997, 1999' },
+      { title: 'Coupe de la Confédération CAF', count: '3 titres', years: '2003, 2018, 2021' },
+      { title: 'Supercoupe de la CAF', count: '2 titres', years: '2000, 2019' },
+      { title: 'Coupe Afro-Asiatique', count: '1 titre', years: '1998' },
+    ],
+  },
+  {
+    category: '🌐 Monde Arabe',
+    icon: '🌙',
+    items: [
+      { title: 'Ligue des Champions Arabes', count: '2 titres', years: '2006, 2020' },
+    ],
+  },
+  {
+    category: '🌎 Monde',
+    icon: '🌎',
+    items: [
+      { title: 'Coupe du Monde des Clubs FIFA', count: 'Finaliste 2013', years: 'Performance historique' },
+    ],
+  },
 ]
 
 export default function RajaPage() {
@@ -129,27 +157,11 @@ export default function RajaPage() {
           border-color: #1D9E75;
           box-shadow: 0 0 24px rgba(29,158,117,0.35);
         }
-        .stat-item {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 24px 12px;
-          text-align: center;
-          border-right: 1px solid rgba(29,158,117,0.2);
-        }
-        .stat-item:last-child { border-right: none; }
-        @media (max-width: 640px) {
-          .stat-item { border-right: none; border-bottom: 1px solid rgba(29,158,117,0.2); }
-          .stat-item:last-child { border-bottom: none; }
-        }
         @media (max-width: 768px) {
           .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 480px) {
           .gallery-grid { grid-template-columns: 1fr !important; }
-          .stats-row { flex-direction: column !important; }
         }
       `}</style>
 
@@ -276,29 +288,106 @@ export default function RajaPage() {
         </div>
       </section>
 
-      {/* ── STATS BAR ────────────────────────────────────────── */}
+      {/* ── PALMARES ─────────────────────────────────────────── */}
       <section style={{
-        margin: '0 clamp(16px, 5vw, 60px)',
-        borderRadius: 16,
-        overflow: 'hidden',
-        border: '1px solid rgba(29,158,117,0.2)',
-        borderTop: '2px solid #1D9E75',
-        backgroundColor: '#050505',
-        marginBottom: 60,
+        padding: '0 clamp(16px, 5vw, 60px) 60px',
         maxWidth: 1100,
         marginLeft: 'auto',
         marginRight: 'auto',
+        width: '100%',
+        boxSizing: 'border-box',
       }}>
-        <div className="stats-row" style={{ display: 'flex' }}>
-          {STATS.map((s, i) => (
-            <div key={i} className="stat-item">
-              <span style={{ fontSize: 22, marginBottom: 6 }}>{s.icon}</span>
-              <span style={{ fontSize: 'clamp(18px, 3vw, 28px)', fontWeight: 800, color: '#fff', lineHeight: 1 }}>
-                {s.value}
-              </span>
-              <span style={{ fontSize: 12, color: '#1D9E75', marginTop: 5, letterSpacing: '0.05em' }}>
-                {s.label}
-              </span>
+
+        {/* Section header */}
+        <div style={{ textAlign: 'center', marginBottom: 36 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10,
+            backgroundColor: 'rgba(29,158,117,0.08)', border: '1px solid rgba(29,158,117,0.25)',
+            borderRadius: 100, padding: '6px 20px', marginBottom: 14 }}>
+            <span style={{ fontSize: 16 }}>🏆</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#1D9E75', letterSpacing: '0.12em', textTransform: 'uppercase' as const }}>
+              Palmarès Complet
+            </span>
+          </div>
+          <h2 style={{ fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 900, color: '#fff', margin: 0 }}>
+            Une Histoire de Gloire
+          </h2>
+          <div style={{ width: 60, height: 2, background: 'linear-gradient(90deg, transparent, #1D9E75, transparent)', margin: '14px auto 0' }} />
+        </div>
+
+        {/* Palmares grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {PALMARES.map((group, gi) => (
+            <div key={gi} style={{
+              backgroundColor: '#0a0a0a',
+              border: '1px solid rgba(29,158,117,0.25)',
+              borderRadius: 16,
+              overflow: 'hidden',
+            }}>
+              {/* Group header */}
+              <div style={{
+                padding: '14px 18px',
+                background: 'linear-gradient(135deg, rgba(29,158,117,0.12) 0%, transparent 100%)',
+                borderBottom: '1px solid rgba(29,158,117,0.15)',
+                display: 'flex', alignItems: 'center', gap: 8,
+              }}>
+                <span style={{ fontSize: 18 }}>{group.icon}</span>
+                <span style={{ fontSize: 13, fontWeight: 800, color: '#1D9E75', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
+                  {group.category}
+                </span>
+              </div>
+
+              {/* Items */}
+              <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {group.items.map((item, ii) => (
+                  <div key={ii} style={{
+                    padding: '12px 14px',
+                    backgroundColor: 'rgba(29,158,117,0.04)',
+                    border: '1px solid rgba(29,158,117,0.12)',
+                    borderRadius: 10,
+                  }}>
+                    {/* Title + count */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 6 }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#F0F0F0', lineHeight: 1.3, flex: 1 }}>
+                        {item.title}
+                      </span>
+                      <span style={{
+                        fontSize: 11, fontWeight: 800, color: '#000',
+                        backgroundColor: '#1D9E75', borderRadius: 6, padding: '2px 8px',
+                        whiteSpace: 'nowrap' as const, flexShrink: 0,
+                      }}>
+                        {item.count}
+                      </span>
+                    </div>
+                    {/* Years */}
+                    <p style={{ margin: 0, fontSize: 11, color: '#555', lineHeight: 1.5 }}>
+                      {item.years}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Total counter */}
+        <div style={{
+          marginTop: 24,
+          display: 'flex', justifyContent: 'center', gap: 32,
+          flexWrap: 'wrap' as const,
+        }}>
+          {[
+            { n: '22', label: 'Titres Nationaux' },
+            { n: '9',  label: 'Titres Africains' },
+            { n: '2',  label: 'Titres Arabes' },
+            { n: '33+', label: 'Total Trophées' },
+          ].map((t, i) => (
+            <div key={i} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: 900, color: '#1D9E75', lineHeight: 1 }}>
+                {t.n}
+              </div>
+              <div style={{ fontSize: 11, color: '#666', marginTop: 4, letterSpacing: '0.06em', textTransform: 'uppercase' as const }}>
+                {t.label}
+              </div>
             </div>
           ))}
         </div>
