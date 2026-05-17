@@ -4,6 +4,24 @@ import Link from 'next/link'
 
 const SECTIONS = [
   {
+    href:    '/workout',
+    emoji:   '💪',
+    title:   'Workout',
+    desc:    'Programme d\'entraînement Push / Pull / Legs avec tracking sets & reps.',
+    color:   '#D4AF37',
+    bg:      'rgba(212,175,55,0.08)',
+    border:  'rgba(212,175,55,0.25)',
+  },
+  {
+    href:    '/diet',
+    emoji:   '🥩',
+    title:   'Diet',
+    desc:    'Plan alimentaire hypertrophie — 4 repas détaillés avec macros.',
+    color:   '#1D9E75',
+    bg:      'rgba(29,158,117,0.08)',
+    border:  'rgba(29,158,117,0.25)',
+  },
+  {
     href:    '/goals',
     emoji:   '🎯',
     title:   'Objectifs',
@@ -35,9 +53,9 @@ const SECTIONS = [
     emoji:   '📈',
     title:   'Tracking',
     desc:    'Suivi quotidien de tes habitudes — Diet, Training, Study, Water…',
-    color:   '#1D9E75',
-    bg:      'rgba(29,158,117,0.08)',
-    border:  'rgba(29,158,117,0.25)',
+    color:   '#52b788',
+    bg:      'rgba(82,183,136,0.08)',
+    border:  'rgba(82,183,136,0.25)',
   },
 ]
 
