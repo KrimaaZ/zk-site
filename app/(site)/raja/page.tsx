@@ -147,10 +147,20 @@ const GALLERY = [
     },
   },
   {
-    title: 'Nuit Verte à Casa',
-    sub: 'Célébration du Titre · Casablanca',
+    title: 'Une Piqûre Verte Pour La Vie',
+    sub: 'Mon Histoire avec le Raja · Personnel',
     gradient: 'linear-gradient(135deg, #0a1a12 0%, #000 60%)',
-    story: null,
+    story: {
+      badge: '💚 Histoire Personnelle · Rajaoui Pour Toujours',
+      headline: 'Une Piqûre Verte Pour La Vie',
+      body: `Petit, je supportais le Wydad. C'était le club de mes amis, une appartenance par défaut plus que par conviction. Puis quelque chose a changé. En grandissant, en commençant à vraiment comprendre le football, j'ai commencé à observer différemment. J'ai vu comment les supporters du Raja aimaient leur club — pas juste un résultat, pas juste un titre — mais une relation humaine, viscérale, inconditionnelle.\n\nJ'ai vu des hommes pleurer de joie, des familles entières unies par le vert, une Curva Sud qui vibrait comme un seul cœur. Ce n'était pas du supportérisme, c'était une religion.\n\nCe jour-là, une piqûre verte m'a envahi. Silencieuse, profonde, définitive. Je n'ai pas choisi le Raja — le Raja m'a choisi. Et depuis ce jour, je n'ai sauté aucun match. Chaque rencontre, chaque derby, chaque nuit africaine — j'étais là. Pas parce que je le dois, mais parce que je ne peux pas faire autrement. Le vert coule dans mes veines maintenant, et il n'existe aucun antidote.\n\nRajaoui. Pour toujours.`,
+      stats: [
+        { value: '💚',      label: 'Vert dans le Sang' },
+        { value: '0',       label: 'Matchs Ratés' },
+        { value: '∞',       label: 'Pour Toujours' },
+        { value: 'MAK',     label: 'Rajaoui' },
+      ],
+    },
   },
 ]
 
