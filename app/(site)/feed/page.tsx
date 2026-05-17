@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useLang } from '@/lib/lang'
-import Goals from '@/components/Goals'
 
 type FeedItem = {
   id: number
@@ -138,9 +137,6 @@ export default function FeedPage() {
           </div>
         </div>
       </div>
-
-      {/* Goals */}
-      <Goals />
 
       {/* Feed */}
       {loading ? (
