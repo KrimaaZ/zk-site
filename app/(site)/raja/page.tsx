@@ -102,7 +102,17 @@ const GALLERY = [
     title: 'CAF Champions League',
     sub: 'Campagne Africaine · Phase de Groupes',
     gradient: 'linear-gradient(135deg, #0a1a15 0%, #000 60%)',
-    story: null,
+    story: {
+      badge: '🌍 3 Titres Africains · 1989, 1997, 1999',
+      headline: 'Les Aigles Verts, Rois d\'Afrique',
+      body: `La campagne de Ligue des Champions africaine du Raja Club Athletic reste l'un des chapitres les plus glorieux de l'histoire du football marocain. Le Raja s'est imposé comme un géant du continent grâce à ses sacres de 1989, 1997 et 1999, marqués par un football spectaculaire, une immense personnalité et une ambiance unique au Complexe Mohammed V.\n\nL'édition de 1997 est particulièrement mythique, avec une équipe légendaire menée par des joueurs emblématiques comme Mustapha Chadili, Abdelmajid Dolmy ou Salaheddine Bassir, capable de dominer l'Afrique avec maîtrise et caractère. Deux ans plus tard, en 1999, le Raja confirmait sa grandeur en remportant une troisième Ligue des Champions dans une période où le club régnait sur le football marocain et africain.\n\nCes campagnes étaient spéciales parce qu'elles ont construit l'identité continentale du Raja : un club respecté partout en Afrique, porté par des supporters passionnés, des soirées européennes à l'africaine au Casa, et une culture de la gagne qui a fait des Aigles Verts une référence historique du football africain.`,
+      stats: [
+        { value: '3',    label: 'Titres CAF' },
+        { value: '1989', label: '1er Sacre' },
+        { value: '1997', label: 'Édition Mythique' },
+        { value: '1999', label: 'Triplé Confirmé' },
+      ],
+    },
   },
   {
     title: 'Les Ultras Eagles',
