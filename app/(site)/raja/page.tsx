@@ -131,10 +131,20 @@ const GALLERY = [
     },
   },
   {
-    title: 'Triplé Historique',
-    sub: 'Saison Mémorable · Raja Forever',
+    title: 'Les 6 Botolas Consécutives',
+    sub: '1996 → 2001 · Dynastie Légendaire',
     gradient: 'linear-gradient(135deg, #0d1a10 0%, #000 60%)',
-    story: null,
+    story: {
+      badge: '🏆 6 Titres d\'affilée · 1996 — 2001',
+      headline: 'L\'Âge d\'Or — La Dynastie Invincible',
+      body: `Les six Botola remportées consécutivement par le Raja Club Athletic entre 1996 et 2001 représentent l'une des plus grandes dynasties de l'histoire du football marocain. Durant cette période légendaire, le Raja a totalement dominé le championnat grâce à une génération exceptionnelle de joueurs, un collectif spectaculaire et une mentalité de gagnants qui ont transformé le club en machine à titres.\n\nSaison après saison, les Verts imposaient leur style de jeu offensif, leur expérience et leur force mentale face à tous leurs adversaires, tout en brillant également sur la scène africaine avec des sacres en Ligue des Champions. Cette combinaison unique de domination nationale et continentale n'a jamais été égalée dans l'histoire du football marocain.\n\nCette série historique de six championnats d'affilée reste un record mythique au Maroc et symbolise l'âge d'or du Raja, une époque où le club régnait sur le football national et faisait trembler toute l'Afrique. Pour les supporters, ces années représentent encore aujourd'hui la définition même de la grandeur du Raja et de son identité de club conquérant.`,
+      stats: [
+        { value: '6',    label: 'Titres Consécutifs' },
+        { value: '1996', label: 'Début de Série' },
+        { value: '2001', label: 'Fin de Série' },
+        { value: '🔝',   label: 'Record Maroc' },
+      ],
+    },
   },
   {
     title: 'Nuit Verte à Casa',
