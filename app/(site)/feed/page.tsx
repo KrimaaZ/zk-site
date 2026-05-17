@@ -79,11 +79,16 @@ export default function FeedPage() {
         <h1 className="text-3xl sm:text-5xl font-bold mb-3" style={{ color: '#F0F0F0' }}>
           {t.welcomeBack}
         </h1>
-        <div className="mt-6 sm:mt-8">
+        <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/personal"
             className="inline-flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105 border"
             style={{ backgroundColor: 'rgba(212,175,55,0.12)', borderColor: 'rgba(212,175,55,0.4)', color: '#D4AF37' }}>
             <span>👤</span> Personal Life
+          </Link>
+          <Link href="/raja"
+            className="inline-flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105 border"
+            style={{ backgroundColor: 'rgba(29,158,117,0.12)', borderColor: 'rgba(29,158,117,0.4)', color: '#1D9E75' }}>
+            <span>🦅</span> Raja
           </Link>
         </div>
       </div>
