@@ -57,6 +57,15 @@ const SECTIONS = [
     bg:      'rgba(82,183,136,0.08)',
     border:  'rgba(82,183,136,0.25)',
   },
+  {
+    href:    '/aesthetic',
+    emoji:   '🖤',
+    title:   'Aesthetic',
+    desc:    'Outfits, photos, proches & physique — espace visuel personnel.',
+    color:   '#C0C0C0',
+    bg:      'rgba(192,192,192,0.06)',
+    border:  'rgba(192,192,192,0.2)',
+  },
 ]
 
 export default function PersonalPage() {
