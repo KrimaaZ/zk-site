@@ -21,9 +21,13 @@ export default function GoalsPage() {
 
   useEffect(() => {
     fetch('/api/goals')
-      .then(r => { if (!r.ok) throw new Error('DB error'); return r.json() })
+      .then(async r => {
+        const data = await r.json()
+        if (!r.ok) throw new Error(data?.error || `HTTP ${r.status}`)
+        return data
+      })
       .then(d => { setGoals(Array.isArray(d) ? d : []); setLoading(false) })
-      .catch(() => { setError('Impossible de charger les objectifs.'); setLoading(false) })
+      .catch(e => { setError(String(e)); setLoading(false) })
   }, [])
 
   const active    = TABS.find(t => t.key === tab)!
