@@ -205,7 +205,7 @@ export default function RajaPage() {
             fontStyle: 'italic',
             letterSpacing: '0.06em',
           }}>
-            Winou Raja Ghadi Yji
+            RASSI MERFOU3 DAKHEL LEL 7OUMA
           </p>
 
           {/* Divider */}
