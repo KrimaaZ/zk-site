@@ -1,27 +1,40 @@
+import { neon } from '@neondatabase/serverless'
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
-// GET /api/workout-sets — all sets (optionally filter by logKey)
+const sql = neon(process.env.DATABASE_URL!)
+
 export async function GET(req: NextRequest) {
-  const logKey = req.nextUrl.searchParams.get('logKey')
-  const sets = await prisma.workoutSet.findMany({
-    where: logKey ? { logKey } : undefined,
-    orderBy: { loggedAt: 'asc' },
-  })
-  return NextResponse.json(sets)
+  try {
+    const logKey = req.nextUrl.searchParams.get('logKey')
+    const rows = logKey
+      ? await sql`SELECT * FROM "WorkoutSet" WHERE "logKey" = ${logKey} ORDER BY "loggedAt" ASC`
+      : await sql`SELECT * FROM "WorkoutSet" ORDER BY "loggedAt" ASC`
+    return NextResponse.json(rows)
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
 }
 
-// POST /api/workout-sets — add a set
 export async function POST(req: NextRequest) {
-  const { logKey, reps, kg } = await req.json()
-  const set = await prisma.workoutSet.create({ data: { logKey, reps, kg } })
-  return NextResponse.json(set)
+  try {
+    const { logKey, reps, kg } = await req.json()
+    const rows = await sql`
+      INSERT INTO "WorkoutSet" ("logKey", reps, kg, "loggedAt")
+      VALUES (${logKey}, ${reps}, ${kg}, NOW())
+      RETURNING *`
+    return NextResponse.json(rows[0])
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
 }
 
-// DELETE /api/workout-sets?id=123
 export async function DELETE(req: NextRequest) {
-  const id = req.nextUrl.searchParams.get('id')
-  if (!id) return NextResponse.json({ ok: false })
-  await prisma.workoutSet.delete({ where: { id: parseInt(id) } })
-  return NextResponse.json({ ok: true })
+  try {
+    const id = req.nextUrl.searchParams.get('id')
+    if (!id) return NextResponse.json({ ok: false })
+    await sql`DELETE FROM "WorkoutSet" WHERE id = ${parseInt(id)}`
+    return NextResponse.json({ ok: true })
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
 }

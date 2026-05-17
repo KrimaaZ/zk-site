@@ -1,32 +1,42 @@
+import { neon } from '@neondatabase/serverless'
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
-// GET /api/habits?date=YYYY-MM-DD
+const sql = neon(process.env.DATABASE_URL!)
+
 export async function GET(req: NextRequest) {
-  const date = req.nextUrl.searchParams.get('date')
-  if (!date) return NextResponse.json({})
-  const entries = await prisma.habitEntry.findMany({ where: { date } })
-  // Return as { habitKey: boolean }
-  const result: Record<string, boolean> = {}
-  for (const e of entries) result[e.habitKey] = e.done
-  return NextResponse.json(result)
+  try {
+    const date = req.nextUrl.searchParams.get('date')
+    if (!date) return NextResponse.json({})
+    const rows = await sql`SELECT "habitKey", done FROM "HabitEntry" WHERE date = ${date}`
+    const result: Record<string, boolean> = {}
+    for (const r of rows) result[r.habitKey] = r.done
+    return NextResponse.json(result)
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
 }
 
-// POST /api/habits — upsert a habit entry
 export async function POST(req: NextRequest) {
-  const { date, habitKey, done } = await req.json()
-  const entry = await prisma.habitEntry.upsert({
-    where:  { date_habitKey: { date, habitKey } },
-    update: { done },
-    create: { date, habitKey, done },
-  })
-  return NextResponse.json(entry)
+  try {
+    const { date, habitKey, done } = await req.json()
+    const rows = await sql`
+      INSERT INTO "HabitEntry" (date, "habitKey", done)
+      VALUES (${date}, ${habitKey}, ${done})
+      ON CONFLICT (date, "habitKey") DO UPDATE SET done = ${done}
+      RETURNING *`
+    return NextResponse.json(rows[0])
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
 }
 
-// DELETE /api/habits — clear all habits for a date (reset)
 export async function DELETE(req: NextRequest) {
-  const date = req.nextUrl.searchParams.get('date')
-  if (!date) return NextResponse.json({ ok: false })
-  await prisma.habitEntry.deleteMany({ where: { date } })
-  return NextResponse.json({ ok: true })
+  try {
+    const date = req.nextUrl.searchParams.get('date')
+    if (!date) return NextResponse.json({ ok: false })
+    await sql`DELETE FROM "HabitEntry" WHERE date = ${date}`
+    return NextResponse.json({ ok: true })
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
 }

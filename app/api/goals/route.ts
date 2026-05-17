@@ -1,10 +1,11 @@
+import { neon } from '@neondatabase/serverless'
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
-// GET /api/goals — fetch all goals
+const sql = neon(process.env.DATABASE_URL!)
+
 export async function GET() {
   try {
-    const goals = await prisma.goal.findMany({ orderBy: [{ tab: 'asc' }, { position: 'asc' }, { createdAt: 'asc' }] })
+    const goals = await sql`SELECT * FROM "Goal" ORDER BY tab ASC, position ASC, "createdAt" ASC`
     return NextResponse.json(goals)
   } catch (e) {
     console.error('[GET /api/goals]', e)
@@ -12,12 +13,15 @@ export async function GET() {
   }
 }
 
-// POST /api/goals — create a goal
 export async function POST(req: NextRequest) {
   try {
     const { tab, text, position } = await req.json()
-    const goal = await prisma.goal.create({ data: { tab, text, position: position ?? 0 } })
-    return NextResponse.json(goal)
+    const id = crypto.randomUUID()
+    const rows = await sql`
+      INSERT INTO "Goal" (id, tab, text, done, position, "createdAt")
+      VALUES (${id}, ${tab}, ${text}, false, ${position ?? 0}, NOW())
+      RETURNING *`
+    return NextResponse.json(rows[0])
   } catch (e) {
     console.error('[POST /api/goals]', e)
     return NextResponse.json({ error: String(e) }, { status: 500 })
