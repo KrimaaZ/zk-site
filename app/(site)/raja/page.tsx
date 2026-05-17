@@ -86,7 +86,17 @@ const GALLERY = [
     title: 'Raja vs Wydad — Le Derby',
     sub: 'Derby de Casablanca · Stade Mohammed V',
     gradient: 'linear-gradient(135deg, #0d1a0d 0%, #000 60%)',
-    story: null,
+    story: {
+      badge: '⚽ 23 Novembre 2019 · Coupe Mohammed VI',
+      headline: 'La Remontada Légendaire — 4-4',
+      body: `Le derby 4-4 entre le Raja et le Wydad, disputé le 23 novembre 2019 en Coupe Mohammed VI, est considéré comme l'un des matchs les plus légendaires de l'histoire du football marocain et africain. Ce soir-là, le Raja semblait condamné après avoir été mené 4-1 par son éternel rival dans un Complexe Mohammed V en fusion, au milieu de tifos gigantesques, de fumigènes et d'une ambiance irréelle.\n\nMais les Verts ont réalisé une remontada historique portée par l'orgueil, le mental et la magie du derby casaoui. Avec des buts de Hamid Ahaddad, Mohsine Moutouali puis Ben Malango à la 94e minute, le Raja est revenu à 4-4 et s'est qualifié dans une explosion d'émotions devenue mythique.\n\nCe match reste spécial parce qu'il symbolise l'âme du Raja : ne jamais abandonner, même dans les moments impossibles. Pour beaucoup de supporters, cette nuit-là représentait plus qu'un simple derby : c'était une démonstration de passion, de folie et de grandeur du football marocain.`,
+      stats: [
+        { value: '4-1',  label: 'Score à la mi-temps' },
+        { value: '4-4',  label: 'Score final' },
+        { value: '94\'', label: 'But de Ben Malango' },
+        { value: '🔥',   label: 'Remontada' },
+      ],
+    },
   },
   {
     title: 'CAF Champions League',
