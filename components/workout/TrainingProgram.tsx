@@ -1,20 +1,20 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
-// ─── Color tokens ──────────────────────────────────────────────────────────
-const G = { c: '#1D9E75', bg: '#ebf7f3', border: '#1D9E75', tc: '#0d6b49' }  // chest / back
-const B = { c: '#378ADD', bg: '#eaf2fc', border: '#378ADD', tc: '#1e5a9e' }  // shoulder / delt
-const P = { c: '#7F77DD', bg: '#f0effc', border: '#7F77DD', tc: '#4a45a0' }  // triceps
-const A = { c: '#BA7517', bg: '#fbf3e4', border: '#BA7517', tc: '#7a4c0f' }  // calves / legs
-const R = { c: '#E05252', bg: '#fdeaea', border: '#E05252', tc: '#9e2020' }  // lower
-const V = { c: '#9B6FE0', bg: '#f5f0fd', border: '#9B6FE0', tc: '#6030a0' }  // biceps / arms
+// ─── Color tokens (dark theme) ────────────────────────────────────────────────
+const G = { c: '#1D9E75', bg: 'rgba(29,158,117,0.10)', border: '#1D9E75', tc: '#4DC99A' }
+const B = { c: '#378ADD', bg: 'rgba(55,138,221,0.10)', border: '#378ADD', tc: '#7BBFED' }
+const P = { c: '#7F77DD', bg: 'rgba(127,119,221,0.10)', border: '#7F77DD', tc: '#B0ABEE' }
+const A = { c: '#BA7517', bg: 'rgba(186,117,23,0.10)', border: '#BA7517', tc: '#DDA44B' }
+const R = { c: '#E05252', bg: 'rgba(224,82,82,0.10)', border: '#E05252', tc: '#EE8A8A' }
+const V = { c: '#9B6FE0', bg: 'rgba(155,111,224,0.10)', border: '#9B6FE0', tc: '#C4A9EE' }
 
 type Token = typeof G
-type Ex = { num: number; tok: Token; name: string; detail: string; tip?: string; tipTok?: Token; sets: string; label: string }
-type SSEx = { letter: string; tok: Token; name: string; detail: string; tip?: string; tipTok?: Token; sets: string; label: string }
-type SS = { header: string; a: SSEx; b: SSEx }
-type Pill = { label: string; tok: Token }
-type Day = {
+type Ex    = { num: number; tok: Token; name: string; detail: string; tip?: string; tipTok?: Token; sets: string; label: string }
+type SSEx  = { letter: string; tok: Token; name: string; detail: string; tip?: string; tipTok?: Token; sets: string; label: string }
+type SS    = { header: string; a: SSEx; b: SSEx }
+type Pill  = { label: string; tok: Token }
+type Day   = {
   tab: { day: string; name: string; sub: string }
   badge: string; headerBg: string
   title: string; subtitle: string; pills: Pill[]
@@ -24,11 +24,145 @@ type Day = {
   coachTip: string
 }
 
-// ─── Program data ──────────────────────────────────────────────────────────
+// ─── Tracking storage ─────────────────────────────────────────────────────────
+const TP_KEY = 'tp_log'
+type SetEntry = { reps: number; kg: number }
+type LogData  = Record<string, SetEntry[]>
+
+function useLog() {
+  const [log, setLog] = useState<LogData>({})
+
+  useEffect(() => {
+    try { const r = localStorage.getItem(TP_KEY); if (r) setLog(JSON.parse(r)) } catch {}
+  }, [])
+
+  const persist = (next: LogData) => {
+    try { localStorage.setItem(TP_KEY, JSON.stringify(next)) } catch {}
+    setLog(next)
+  }
+
+  const addSet = useCallback((key: string, entry: SetEntry) => {
+    setLog(prev => {
+      const next = { ...prev, [key]: [...(prev[key] || []), entry] }
+      persist(next); return next
+    })
+  }, [])
+
+  const removeSet = useCallback((key: string, idx: number) => {
+    setLog(prev => {
+      const next = { ...prev, [key]: (prev[key] || []).filter((_, i) => i !== idx) }
+      persist(next); return next
+    })
+  }, [])
+
+  return { log, addSet, removeSet }
+}
+
+// ─── Tracking section ─────────────────────────────────────────────────────────
+function TrackRow({
+  logKey, log, addSet, removeSet, color,
+}: {
+  logKey: string; log: LogData
+  addSet: (k: string, e: SetEntry) => void
+  removeSet: (k: string, i: number) => void
+  color: string
+}) {
+  const [open, setOpen]   = useState(false)
+  const [reps, setReps]   = useState('')
+  const [kg,   setKg]     = useState('')
+  const sets = log[logKey] || []
+
+  const confirm = () => {
+    const r = parseInt(reps), k = parseFloat(kg)
+    if (!r || isNaN(k) || k < 0) return
+    addSet(logKey, { reps: r, kg: k })
+    setReps(''); setKg('')
+    setOpen(false)
+  }
+
+  const inp: React.CSSProperties = {
+    width: 64, padding: '5px 8px', borderRadius: 8,
+    border: '1px solid #2a2a2a', backgroundColor: '#0a0a0a',
+    color: '#E8E8E8', fontSize: 12, outline: 'none', textAlign: 'center',
+  }
+
+  return (
+    <div style={{ marginTop: 8, marginBottom: 2 }}>
+      {/* Logged sets table */}
+      {sets.length > 0 && (
+        <div style={{ marginBottom: 7, borderRadius: 8, overflow: 'hidden', border: '1px solid #1a1a1a' }}>
+          {sets.map((s, i) => (
+            <div key={i} style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '5px 10px',
+              backgroundColor: i % 2 === 0 ? '#111111' : '#0f0f0f',
+              borderBottom: i < sets.length - 1 ? '1px solid #1a1a1a' : 'none',
+            }}>
+              <span style={{ fontSize: 10, fontWeight: 700, color: color, minWidth: 54, letterSpacing: '.04em' }}>
+                Série {i + 1}
+              </span>
+              <span style={{ fontSize: 11, color: '#C0C0C0', flex: 1 }}>
+                {s.reps} reps
+              </span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#D4AF37' }}>
+                {s.kg} kg
+              </span>
+              <button
+                onClick={() => removeSet(logKey, i)}
+                style={{ fontSize: 13, color: '#c0303e', background: 'rgba(192,48,62,0.12)', border: 'none', borderRadius: 6, padding: '1px 7px', cursor: 'pointer', lineHeight: 1.5 }}>
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Add row */}
+      {open ? (
+        <div style={{ display: 'flex', gap: 5, alignItems: 'center', flexWrap: 'wrap' }}>
+          <input
+            type="number" value={reps} onChange={e => setReps(e.target.value)}
+            placeholder="Reps" min={1}
+            style={inp}
+            onKeyDown={e => e.key === 'Enter' && confirm()}
+          />
+          <input
+            type="number" value={kg} onChange={e => setKg(e.target.value)}
+            placeholder="Kg" min={0} step={0.5}
+            style={inp}
+            onKeyDown={e => e.key === 'Enter' && confirm()}
+          />
+          <button onClick={confirm}
+            style={{ padding: '5px 12px', borderRadius: 8, backgroundColor: color, color: '#fff', fontSize: 11, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
+            ✓
+          </button>
+          <button onClick={() => { setOpen(false); setReps(''); setKg('') }}
+            style={{ padding: '5px 8px', borderRadius: 8, backgroundColor: '#1a1a1a', color: '#555', fontSize: 13, border: '1px solid #2a2a2a', cursor: 'pointer' }}>
+            ×
+          </button>
+        </div>
+      ) : (
+        <button onClick={() => setOpen(true)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            padding: '4px 11px', borderRadius: 8,
+            backgroundColor: 'rgba(212,175,55,0.06)',
+            border: '1px dashed rgba(212,175,55,0.25)',
+            color: '#D4AF37', fontSize: 10, fontWeight: 600,
+            cursor: 'pointer', letterSpacing: '.04em',
+          }}>
+          + Ajouter une série{sets.length > 0 ? ` · ${sets.length} enregistrée${sets.length > 1 ? 's' : ''}` : ''}
+        </button>
+      )}
+    </div>
+  )
+}
+
+// ─── Program data ──────────────────────────────────────────────────────────────
 const DAYS: Day[] = [
   {
     tab: { day: 'MON', name: 'Push', sub: 'Chest · Delts · Tris' },
-    badge: G.c, headerBg: '#f0faf6',
+    badge: G.c, headerBg: 'rgba(29,158,117,0.06)',
     title: 'Push Day',
     subtitle: 'Chest · Shoulders · Triceps — Building V-taper width and upper chest mass',
     pills: [{ label: 'Upper Chest', tok: G }, { label: 'Mid Chest', tok: G }, { label: 'Front Delt', tok: B }, { label: 'Side Delt', tok: B }, { label: 'Triceps Long Head', tok: P }],
@@ -48,7 +182,7 @@ const DAYS: Day[] = [
   },
   {
     tab: { day: 'TUE', name: 'Pull', sub: 'Back · Rear · Bis' },
-    badge: B.c, headerBg: '#f0f6fd',
+    badge: B.c, headerBg: 'rgba(55,138,221,0.06)',
     title: 'Pull Day',
     subtitle: 'Back · Rear Delt · Biceps — Back width is V-taper width',
     pills: [{ label: 'Lats', tok: G }, { label: 'Upper Back', tok: G }, { label: 'Rhomboids', tok: G }, { label: 'Rear Delt', tok: B }, { label: 'Biceps', tok: P }],
@@ -68,7 +202,7 @@ const DAYS: Day[] = [
   },
   {
     tab: { day: 'WED', name: 'Legs', sub: 'Quads · Hams · Glutes' },
-    badge: A.c, headerBg: '#fdf8f0',
+    badge: A.c, headerBg: 'rgba(186,117,23,0.06)',
     title: 'Leg Day',
     subtitle: 'Quads · Hamstrings · Glutes · Calves — Go deep, go heavy, embrace the burn',
     pills: [{ label: 'Quads', tok: A }, { label: 'Hamstrings', tok: A }, { label: 'Glutes', tok: A }, { label: 'Calves', tok: A }],
@@ -87,7 +221,7 @@ const DAYS: Day[] = [
   },
   {
     tab: { day: 'THU', name: 'Upper', sub: 'Chest · Back · Delts' },
-    badge: P.c, headerBg: '#f5f4fd',
+    badge: P.c, headerBg: 'rgba(127,119,221,0.06)',
     title: 'Upper Day',
     subtitle: 'Chest · Back · Shoulders — Antagonist superset format for maximum volume',
     pills: [{ label: 'Chest', tok: G }, { label: 'Lats', tok: G }, { label: 'Upper Back', tok: G }, { label: 'Side Delt', tok: B }],
@@ -112,7 +246,7 @@ const DAYS: Day[] = [
   },
   {
     tab: { day: 'FRI', name: 'Lower', sub: 'Quads · PC · Glutes' },
-    badge: R.c, headerBg: '#fdf5f5',
+    badge: R.c, headerBg: 'rgba(224,82,82,0.06)',
     title: 'Lower Day',
     subtitle: 'Quad Focus · Posterior Chain — Two leg days is the difference between good and great',
     pills: [{ label: 'Quads', tok: R }, { label: 'Hamstrings', tok: R }, { label: 'Glutes', tok: R }, { label: 'Soleus', tok: A }],
@@ -131,7 +265,7 @@ const DAYS: Day[] = [
   },
   {
     tab: { day: 'SAT', name: 'Arms', sub: 'Bis · Tris · Forearms' },
-    badge: V.c, headerBg: '#f5f4fd',
+    badge: V.c, headerBg: 'rgba(155,111,224,0.06)',
     title: 'Arms Day',
     subtitle: 'Biceps · Triceps · Forearms — Sculpted, not just big',
     pills: [{ label: 'Biceps Long Head', tok: V }, { label: 'Biceps Short Head', tok: V }, { label: 'Triceps Long Head', tok: P }, { label: 'Forearms', tok: P }],
@@ -151,69 +285,95 @@ const DAYS: Day[] = [
   },
 ]
 
-// ─── Sub-components ────────────────────────────────────────────────────────
-function ExerciseRow({ ex }: { ex: Ex }) {
+// ─── Sub-components ────────────────────────────────────────────────────────────
+function ExerciseRow({ ex, dayIdx, log, addSet, removeSet }: {
+  ex: Ex; dayIdx: number
+  log: LogData
+  addSet: (k: string, e: SetEntry) => void
+  removeSet: (k: string, i: number) => void
+}) {
+  const logKey = `${dayIdx}_${ex.name}`
   return (
-    <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '12px 0', borderBottom: '1px solid #f9f5ef' }}>
-      <div style={{ width: 30, height: 30, borderRadius: '50%', background: ex.tok.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#fff', flexShrink: 0, marginTop: 2 }}>
-        {ex.num}
-      </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: '#1a3a1a', marginBottom: 3, lineHeight: 1.3 }}>{ex.name}</div>
-        <div style={{ fontSize: 12, color: '#8b5e3c', marginBottom: ex.tip ? 7 : 0 }}>{ex.detail}</div>
-        {ex.tip && ex.tipTok && (
-          <div style={{ padding: '6px 11px', borderRadius: 7, fontSize: 11, lineHeight: 1.5, background: ex.tipTok.bg, borderLeft: `3px solid ${ex.tipTok.border}`, color: ex.tipTok.tc }}>{ex.tip}</div>
-        )}
-      </div>
-      <div style={{ flexShrink: 0, textAlign: 'center', minWidth: 46, paddingTop: 2 }}>
-        <div style={{ fontSize: 13, fontWeight: 800, color: '#1a3a1a' }}>{ex.sets}</div>
-        <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase' as const, color: '#a07850', marginTop: 1 }}>{ex.label}</div>
+    <div style={{ padding: '12px 0', borderBottom: '1px solid #1a1a1a' }}>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+        <div style={{ width: 30, height: 30, borderRadius: '50%', background: ex.tok.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#fff', flexShrink: 0, marginTop: 2 }}>
+          {ex.num}
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: '#F0F0F0', marginBottom: 3, lineHeight: 1.3 }}>{ex.name}</div>
+          <div style={{ fontSize: 12, color: '#888888', marginBottom: ex.tip ? 7 : 0 }}>{ex.detail}</div>
+          {ex.tip && ex.tipTok && (
+            <div style={{ padding: '6px 11px', borderRadius: 7, fontSize: 11, lineHeight: 1.5, background: ex.tipTok.bg, borderLeft: `3px solid ${ex.tipTok.border}`, color: ex.tipTok.tc }}>
+              {ex.tip}
+            </div>
+          )}
+          <TrackRow logKey={logKey} log={log} addSet={addSet} removeSet={removeSet} color={ex.tok.c} />
+        </div>
+        <div style={{ flexShrink: 0, textAlign: 'center', minWidth: 46, paddingTop: 2 }}>
+          <div style={{ fontSize: 13, fontWeight: 800, color: '#F0F0F0' }}>{ex.sets}</div>
+          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase' as const, color: '#555555', marginTop: 1 }}>{ex.label}</div>
+        </div>
       </div>
     </div>
   )
 }
 
-function SupersetGroup({ ss }: { ss: SS }) {
-  const renderSSEx = (ex: SSEx) => (
-    <div style={{ padding: '11px 14px', display: 'flex', gap: 11, alignItems: 'flex-start', borderBottom: '1px solid #f0e8d8' }}>
-      <div style={{ width: 22, height: 22, borderRadius: 5, background: ex.tok.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff', flexShrink: 0, marginTop: 1 }}>
-        {ex.letter}
+function SupersetGroup({ ss, dayIdx, log, addSet, removeSet }: {
+  ss: SS; dayIdx: number
+  log: LogData
+  addSet: (k: string, e: SetEntry) => void
+  removeSet: (k: string, i: number) => void
+}) {
+  const renderSSEx = (ex: SSEx) => {
+    const logKey = `${dayIdx}_${ex.name}`
+    return (
+      <div style={{ padding: '11px 14px', borderBottom: '1px solid #1a1a1a' }}>
+        <div style={{ display: 'flex', gap: 11, alignItems: 'flex-start' }}>
+          <div style={{ width: 22, height: 22, borderRadius: 5, background: ex.tok.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff', flexShrink: 0, marginTop: 1 }}>
+            {ex.letter}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#F0F0F0', marginBottom: 2 }}>{ex.name}</div>
+            <div style={{ fontSize: 11, color: '#888888', marginBottom: ex.tip ? 5 : 0 }}>{ex.detail}</div>
+            {ex.tip && ex.tipTok && (
+              <div style={{ padding: '5px 9px', borderRadius: 6, fontSize: 11, lineHeight: 1.5, background: ex.tipTok.bg, borderLeft: `3px solid ${ex.tipTok.border}`, color: ex.tipTok.tc }}>
+                {ex.tip}
+              </div>
+            )}
+            <TrackRow logKey={logKey} log={log} addSet={addSet} removeSet={removeSet} color={ex.tok.c} />
+          </div>
+          <div style={{ flexShrink: 0, textAlign: 'center', minWidth: 44 }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: '#F0F0F0' }}>{ex.sets}</div>
+            <div style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase' as const, color: '#555555', letterSpacing: '.05em' }}>{ex.label}</div>
+          </div>
+        </div>
       </div>
-      <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#1a3a1a', marginBottom: 2 }}>{ex.name}</div>
-        <div style={{ fontSize: 11, color: '#8b5e3c', marginBottom: ex.tip ? 5 : 0 }}>{ex.detail}</div>
-        {ex.tip && ex.tipTok && (
-          <div style={{ padding: '5px 9px', borderRadius: 6, fontSize: 11, lineHeight: 1.5, background: ex.tipTok.bg, borderLeft: `3px solid ${ex.tipTok.border}`, color: ex.tipTok.tc }}>{ex.tip}</div>
-        )}
-      </div>
-      <div style={{ flexShrink: 0, textAlign: 'center', minWidth: 44 }}>
-        <div style={{ fontSize: 12, fontWeight: 800, color: '#1a3a1a' }}>{ex.sets}</div>
-        <div style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase' as const, color: '#a07850', letterSpacing: '.05em' }}>{ex.label}</div>
-      </div>
-    </div>
-  )
+    )
+  }
   return (
-    <div style={{ border: '1px solid #e8dcc8', borderRadius: 12, overflow: 'hidden', marginBottom: 10 }}>
-      <div style={{ background: '#f9f5ef', padding: '6px 14px', fontSize: 9, fontWeight: 700, letterSpacing: '.07em', textTransform: 'uppercase' as const, color: '#8b5e3c', borderBottom: '1px solid #e8dcc8', display: 'flex', alignItems: 'center', gap: 6 }}>
+    <div style={{ border: '1px solid #2a2a2a', borderRadius: 12, overflow: 'hidden', marginBottom: 10 }}>
+      <div style={{ background: '#1a1a1a', padding: '6px 14px', fontSize: 9, fontWeight: 700, letterSpacing: '.07em', textTransform: 'uppercase' as const, color: '#888888', borderBottom: '1px solid #2a2a2a', display: 'flex', alignItems: 'center', gap: 6 }}>
         ↺ {ss.header}
       </div>
       {renderSSEx(ss.a)}
-      <div style={{ borderBottom: 'none' }}>{renderSSEx(ss.b)}</div>
+      <div>{renderSSEx(ss.b)}</div>
     </div>
   )
 }
 
 function SectionHead({ label }: { label: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '14px 0 10px', borderBottom: '1px solid #f0e8d8', marginBottom: 2 }}>
-      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase' as const, color: '#a07850' }}>{label}</span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '14px 0 10px', borderBottom: '1px solid #1a1a1a', marginBottom: 2 }}>
+      <span style={{ width: 3, height: 12, borderRadius: 2, background: '#D4AF37', flexShrink: 0 }} />
+      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase' as const, color: '#888888' }}>{label}</span>
     </div>
   )
 }
 
-// ─── Main component ────────────────────────────────────────────────────────
+// ─── Main component ────────────────────────────────────────────────────────────
 export default function TrainingProgram() {
   const [active, setActive] = useState(0)
+  const { log, addSet, removeSet } = useLog()
   const day = DAYS[active]
 
   return (
@@ -222,24 +382,30 @@ export default function TrainingProgram() {
       <div style={{ display: 'flex', gap: 4, overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: 4, marginBottom: 20 }}>
         {DAYS.map((d, i) => (
           <button key={i} onClick={() => setActive(i)}
-            style={{ flex: 1, minWidth: 72, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '9px 5px', borderRadius: 12, cursor: 'pointer', border: `2px solid ${i === active ? '#1D9E75' : '#e8dcc8'}`, background: i === active ? '#1D9E75' : '#fff', transition: 'all .15s', gap: 1 }}>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.08em', color: i === active ? 'rgba(255,255,255,.7)' : '#a07850' }}>{d.tab.day}</span>
-            <span style={{ fontSize: 13, fontWeight: 800, color: i === active ? '#fff' : '#1a3a1a' }}>{d.tab.name}</span>
-            <span style={{ fontSize: 9, color: i === active ? 'rgba(255,255,255,.8)' : '#8b5e3c', textAlign: 'center', lineHeight: 1.3 }}>{d.tab.sub}</span>
+            style={{
+              flex: 1, minWidth: 72, display: 'flex', flexDirection: 'column', alignItems: 'center',
+              padding: '9px 5px', borderRadius: 12, cursor: 'pointer',
+              border: `1px solid ${i === active ? d.badge : '#2a2a2a'}`,
+              background: i === active ? `${d.badge}20` : '#111111',
+              transition: 'all .15s', gap: 1,
+            }}>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.08em', color: i === active ? d.badge : '#555555' }}>{d.tab.day}</span>
+            <span style={{ fontSize: 13, fontWeight: 800, color: i === active ? d.badge : '#C0C0C0' }}>{d.tab.name}</span>
+            <span style={{ fontSize: 9, color: i === active ? `${d.badge}cc` : '#444444', textAlign: 'center', lineHeight: 1.3 }}>{d.tab.sub}</span>
           </button>
         ))}
       </div>
 
       {/* Day card */}
-      <div style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid #e8dcc8' }}>
+      <div style={{ background: '#111111', borderRadius: 16, overflow: 'hidden', border: '1px solid #2a2a2a' }}>
 
         {/* Header */}
-        <div style={{ padding: '22px 24px 20px', background: day.headerBg }}>
+        <div style={{ padding: '22px 24px 20px', background: day.headerBg, borderBottom: '1px solid #1a1a1a' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 14px', borderRadius: 100, fontSize: 11, fontWeight: 800, letterSpacing: '.08em', textTransform: 'uppercase', background: day.badge, color: '#fff', marginBottom: 10 }}>
             DAY {active + 1}
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#1a3a1a', marginBottom: 3, letterSpacing: '-.3px' }}>{day.title}</div>
-          <div style={{ fontSize: 13, color: '#8b5e3c', marginBottom: 14, lineHeight: 1.5 }}>{day.subtitle}</div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: '#F0F0F0', marginBottom: 3, letterSpacing: '-.3px' }}>{day.title}</div>
+          <div style={{ fontSize: 13, color: '#888888', marginBottom: 14, lineHeight: 1.5 }}>{day.subtitle}</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
             {day.pills.map((p, i) => (
               <span key={i} style={{ padding: '3px 11px', borderRadius: 100, fontSize: 11, fontWeight: 600, background: p.tok.bg, color: p.tok.tc }}>{p.label}</span>
@@ -251,29 +417,27 @@ export default function TrainingProgram() {
         <div style={{ padding: '0 24px 8px' }}>
           <SectionHead label={day.compoundLabel} />
           {day.compound && day.compound.map((ex, i) => (
-            <div key={i} style={{ borderBottom: i < (day.compound!.length - 1) || day.isolation.length > 0 ? '1px solid #f9f5ef' : 'none' }}>
-              <ExerciseRow ex={ex} />
-            </div>
+            <ExerciseRow key={i} ex={ex} dayIdx={active} log={log} addSet={addSet} removeSet={removeSet} />
           ))}
-          {day.supersets && day.supersets.map((ss, i) => <SupersetGroup key={i} ss={ss} />)}
+          {day.supersets && day.supersets.map((ss, i) => (
+            <SupersetGroup key={i} ss={ss} dayIdx={active} log={log} addSet={addSet} removeSet={removeSet} />
+          ))}
         </div>
 
         {/* Isolation */}
         <div style={{ padding: '0 24px 8px' }}>
           <SectionHead label="Isolation & Detail Work" />
           {day.isolation.map((ex, i) => (
-            <div key={i} style={{ borderBottom: i < day.isolation.length - 1 ? '1px solid #f9f5ef' : 'none' }}>
-              <ExerciseRow ex={ex} />
-            </div>
+            <ExerciseRow key={i} ex={ex} dayIdx={active} log={log} addSet={addSet} removeSet={removeSet} />
           ))}
         </div>
 
         {/* Coach tip */}
-        <div style={{ margin: '4px 24px 24px', padding: '14px 16px', borderRadius: 12, background: '#ebf7f3', borderLeft: '4px solid #1D9E75', display: 'flex', gap: 11, alignItems: 'flex-start' }}>
+        <div style={{ margin: '4px 24px 24px', padding: '14px 16px', borderRadius: 12, background: 'rgba(29,158,117,0.08)', borderLeft: '4px solid #1D9E75', display: 'flex', gap: 11, alignItems: 'flex-start' }}>
           <span style={{ fontSize: 18, flexShrink: 0, marginTop: 1 }}>💬</span>
           <div>
             <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: '#1D9E75', marginBottom: 3 }}>Coach's Note</div>
-            <div style={{ fontSize: 13, lineHeight: 1.6, color: '#1a3a1a' }}>{day.coachTip}</div>
+            <div style={{ fontSize: 13, lineHeight: 1.6, color: '#C0C0C0' }}>{day.coachTip}</div>
           </div>
         </div>
       </div>
