@@ -393,9 +393,9 @@ export const ModelName = {
   Recipe: 'Recipe',
   MealPlan: 'MealPlan',
   WorkoutSession: 'WorkoutSession',
-  ValorantTip: 'ValorantTip',
-  Trade: 'Trade',
-  BacktestStrategy: 'BacktestStrategy'
+  Goal: 'Goal',
+  HabitEntry: 'HabitEntry',
+  WorkoutSet: 'WorkoutSet'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -411,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "recipe" | "mealPlan" | "workoutSession" | "valorantTip" | "trade" | "backtestStrategy"
+    modelProps: "recipe" | "mealPlan" | "workoutSession" | "goal" | "habitEntry" | "workoutSet"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -637,225 +637,225 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    ValorantTip: {
-      payload: Prisma.$ValorantTipPayload<ExtArgs>
-      fields: Prisma.ValorantTipFieldRefs
+    Goal: {
+      payload: Prisma.$GoalPayload<ExtArgs>
+      fields: Prisma.GoalFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.ValorantTipFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload> | null
+          args: Prisma.GoalFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.ValorantTipFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>
+          args: Prisma.GoalFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>
         }
         findFirst: {
-          args: Prisma.ValorantTipFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload> | null
+          args: Prisma.GoalFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.ValorantTipFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>
+          args: Prisma.GoalFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>
         }
         findMany: {
-          args: Prisma.ValorantTipFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>[]
+          args: Prisma.GoalFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>[]
         }
         create: {
-          args: Prisma.ValorantTipCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>
+          args: Prisma.GoalCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>
         }
         createMany: {
-          args: Prisma.ValorantTipCreateManyArgs<ExtArgs>
+          args: Prisma.GoalCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.ValorantTipCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>[]
+          args: Prisma.GoalCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>[]
         }
         delete: {
-          args: Prisma.ValorantTipDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>
+          args: Prisma.GoalDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>
         }
         update: {
-          args: Prisma.ValorantTipUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>
+          args: Prisma.GoalUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>
         }
         deleteMany: {
-          args: Prisma.ValorantTipDeleteManyArgs<ExtArgs>
+          args: Prisma.GoalDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.ValorantTipUpdateManyArgs<ExtArgs>
+          args: Prisma.GoalUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.ValorantTipUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>[]
+          args: Prisma.GoalUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>[]
         }
         upsert: {
-          args: Prisma.ValorantTipUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValorantTipPayload>
+          args: Prisma.GoalUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GoalPayload>
         }
         aggregate: {
-          args: Prisma.ValorantTipAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateValorantTip>
+          args: Prisma.GoalAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGoal>
         }
         groupBy: {
-          args: Prisma.ValorantTipGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ValorantTipGroupByOutputType>[]
+          args: Prisma.GoalGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GoalGroupByOutputType>[]
         }
         count: {
-          args: Prisma.ValorantTipCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ValorantTipCountAggregateOutputType> | number
+          args: Prisma.GoalCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GoalCountAggregateOutputType> | number
         }
       }
     }
-    Trade: {
-      payload: Prisma.$TradePayload<ExtArgs>
-      fields: Prisma.TradeFieldRefs
+    HabitEntry: {
+      payload: Prisma.$HabitEntryPayload<ExtArgs>
+      fields: Prisma.HabitEntryFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.TradeFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload> | null
+          args: Prisma.HabitEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.TradeFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
+          args: Prisma.HabitEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>
         }
         findFirst: {
-          args: Prisma.TradeFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload> | null
+          args: Prisma.HabitEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.TradeFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
+          args: Prisma.HabitEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>
         }
         findMany: {
-          args: Prisma.TradeFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>[]
+          args: Prisma.HabitEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>[]
         }
         create: {
-          args: Prisma.TradeCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
+          args: Prisma.HabitEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>
         }
         createMany: {
-          args: Prisma.TradeCreateManyArgs<ExtArgs>
+          args: Prisma.HabitEntryCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.TradeCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>[]
+          args: Prisma.HabitEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>[]
         }
         delete: {
-          args: Prisma.TradeDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
+          args: Prisma.HabitEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>
         }
         update: {
-          args: Prisma.TradeUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
+          args: Prisma.HabitEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>
         }
         deleteMany: {
-          args: Prisma.TradeDeleteManyArgs<ExtArgs>
+          args: Prisma.HabitEntryDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.TradeUpdateManyArgs<ExtArgs>
+          args: Prisma.HabitEntryUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.TradeUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>[]
+          args: Prisma.HabitEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>[]
         }
         upsert: {
-          args: Prisma.TradeUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
+          args: Prisma.HabitEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HabitEntryPayload>
         }
         aggregate: {
-          args: Prisma.TradeAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTrade>
+          args: Prisma.HabitEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHabitEntry>
         }
         groupBy: {
-          args: Prisma.TradeGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TradeGroupByOutputType>[]
+          args: Prisma.HabitEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HabitEntryGroupByOutputType>[]
         }
         count: {
-          args: Prisma.TradeCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TradeCountAggregateOutputType> | number
+          args: Prisma.HabitEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HabitEntryCountAggregateOutputType> | number
         }
       }
     }
-    BacktestStrategy: {
-      payload: Prisma.$BacktestStrategyPayload<ExtArgs>
-      fields: Prisma.BacktestStrategyFieldRefs
+    WorkoutSet: {
+      payload: Prisma.$WorkoutSetPayload<ExtArgs>
+      fields: Prisma.WorkoutSetFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.BacktestStrategyFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload> | null
+          args: Prisma.WorkoutSetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.BacktestStrategyFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>
+          args: Prisma.WorkoutSetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>
         }
         findFirst: {
-          args: Prisma.BacktestStrategyFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload> | null
+          args: Prisma.WorkoutSetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.BacktestStrategyFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>
+          args: Prisma.WorkoutSetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>
         }
         findMany: {
-          args: Prisma.BacktestStrategyFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>[]
+          args: Prisma.WorkoutSetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>[]
         }
         create: {
-          args: Prisma.BacktestStrategyCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>
+          args: Prisma.WorkoutSetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>
         }
         createMany: {
-          args: Prisma.BacktestStrategyCreateManyArgs<ExtArgs>
+          args: Prisma.WorkoutSetCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.BacktestStrategyCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>[]
+          args: Prisma.WorkoutSetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>[]
         }
         delete: {
-          args: Prisma.BacktestStrategyDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>
+          args: Prisma.WorkoutSetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>
         }
         update: {
-          args: Prisma.BacktestStrategyUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>
+          args: Prisma.WorkoutSetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>
         }
         deleteMany: {
-          args: Prisma.BacktestStrategyDeleteManyArgs<ExtArgs>
+          args: Prisma.WorkoutSetDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.BacktestStrategyUpdateManyArgs<ExtArgs>
+          args: Prisma.WorkoutSetUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.BacktestStrategyUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>[]
+          args: Prisma.WorkoutSetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>[]
         }
         upsert: {
-          args: Prisma.BacktestStrategyUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestStrategyPayload>
+          args: Prisma.WorkoutSetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSetPayload>
         }
         aggregate: {
-          args: Prisma.BacktestStrategyAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateBacktestStrategy>
+          args: Prisma.WorkoutSetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWorkoutSet>
         }
         groupBy: {
-          args: Prisma.BacktestStrategyGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.BacktestStrategyGroupByOutputType>[]
+          args: Prisma.WorkoutSetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WorkoutSetGroupByOutputType>[]
         }
         count: {
-          args: Prisma.BacktestStrategyCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.BacktestStrategyCountAggregateOutputType> | number
+          args: Prisma.WorkoutSetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WorkoutSetCountAggregateOutputType> | number
         }
       }
     }
@@ -939,49 +939,37 @@ export const WorkoutSessionScalarFieldEnum = {
 export type WorkoutSessionScalarFieldEnum = (typeof WorkoutSessionScalarFieldEnum)[keyof typeof WorkoutSessionScalarFieldEnum]
 
 
-export const ValorantTipScalarFieldEnum = {
+export const GoalScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  content: 'content',
-  category: 'category',
-  agent: 'agent',
-  drill: 'drill',
+  tab: 'tab',
+  text: 'text',
+  done: 'done',
+  position: 'position',
   createdAt: 'createdAt'
 } as const
 
-export type ValorantTipScalarFieldEnum = (typeof ValorantTipScalarFieldEnum)[keyof typeof ValorantTipScalarFieldEnum]
+export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
 
 
-export const TradeScalarFieldEnum = {
+export const HabitEntryScalarFieldEnum = {
   id: 'id',
   date: 'date',
-  instrument: 'instrument',
-  type: 'type',
-  entry: 'entry',
-  exit: 'exit',
-  size: 'size',
-  pnl: 'pnl',
-  notes: 'notes',
-  status: 'status',
-  createdAt: 'createdAt'
+  habitKey: 'habitKey',
+  done: 'done'
 } as const
 
-export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]
+export type HabitEntryScalarFieldEnum = (typeof HabitEntryScalarFieldEnum)[keyof typeof HabitEntryScalarFieldEnum]
 
 
-export const BacktestStrategyScalarFieldEnum = {
+export const WorkoutSetScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  description: 'description',
-  rules: 'rules',
-  timeframe: 'timeframe',
-  winRate: 'winRate',
-  riskReward: 'riskReward',
-  notes: 'notes',
-  createdAt: 'createdAt'
+  logKey: 'logKey',
+  reps: 'reps',
+  kg: 'kg',
+  loggedAt: 'loggedAt'
 } as const
 
-export type BacktestStrategyScalarFieldEnum = (typeof BacktestStrategyScalarFieldEnum)[keyof typeof BacktestStrategyScalarFieldEnum]
+export type WorkoutSetScalarFieldEnum = (typeof WorkoutSetScalarFieldEnum)[keyof typeof WorkoutSetScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1053,6 +1041,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1159,9 +1154,9 @@ export type GlobalOmitConfig = {
   recipe?: Prisma.RecipeOmit
   mealPlan?: Prisma.MealPlanOmit
   workoutSession?: Prisma.WorkoutSessionOmit
-  valorantTip?: Prisma.ValorantTipOmit
-  trade?: Prisma.TradeOmit
-  backtestStrategy?: Prisma.BacktestStrategyOmit
+  goal?: Prisma.GoalOmit
+  habitEntry?: Prisma.HabitEntryOmit
+  workoutSet?: Prisma.WorkoutSetOmit
 }
 
 /* Types for Logging */

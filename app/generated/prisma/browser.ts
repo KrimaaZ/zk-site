@@ -33,17 +33,17 @@ export type MealPlan = Prisma.MealPlanModel
  */
 export type WorkoutSession = Prisma.WorkoutSessionModel
 /**
- * Model ValorantTip
+ * Model Goal
  * 
  */
-export type ValorantTip = Prisma.ValorantTipModel
+export type Goal = Prisma.GoalModel
 /**
- * Model Trade
+ * Model HabitEntry
  * 
  */
-export type Trade = Prisma.TradeModel
+export type HabitEntry = Prisma.HabitEntryModel
 /**
- * Model BacktestStrategy
+ * Model WorkoutSet
  * 
  */
-export type BacktestStrategy = Prisma.BacktestStrategyModel
+export type WorkoutSet = Prisma.WorkoutSetModel

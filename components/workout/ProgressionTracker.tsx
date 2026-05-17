@@ -12,50 +12,42 @@ const HABITS = [
   { key: 'MEDITATION',      label: 'Meditation',     emoji: '🧘' },
 ]
 
-type HabitsData = Record<string, Record<string, boolean>>
-
-const STORAGE_KEY = 'habits_data'
-
 function todayKey() {
   const d = new Date()
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
 }
-function loadHabits(): HabitsData {
-  if (typeof window === 'undefined') return {}
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') } catch { return {} }
-}
-function saveHabits(d: HabitsData) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)) }
 function formatToday() {
   return new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
 }
 
 export default function ProgressionTracker() {
   const today = todayKey()
-  const [data, setData]     = useState<HabitsData>({})
   const [habits, setHabits] = useState<Record<string, boolean>>({})
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const d = loadHabits()
-    setData(d)
-    setHabits(d[today] || {})
+    fetch(`/api/habits?date=${today}`)
+      .then(r => r.json())
+      .then(d => { setHabits(d); setLoading(false) })
+      .catch(() => setLoading(false))
   }, [today])
 
   const completedCount = HABITS.filter(h => habits[h.key]).length
 
-  const toggleHabit = (key: string) => {
-    const next = { ...habits, [key]: !habits[key] }
-    setHabits(next)
-    const updated = { ...data, [today]: next }
-    setData(updated)
-    saveHabits(updated)
+  const toggleHabit = async (key: string) => {
+    const next = !habits[key]
+    setHabits(prev => ({ ...prev, [key]: next }))
+    await fetch('/api/habits', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ date: today, habitKey: key, done: next }),
+    })
   }
 
-  const resetHabits = () => {
+  const resetHabits = async () => {
     if (!confirm('Décocher toutes les tâches ?')) return
     setHabits({})
-    const updated = { ...data, [today]: {} }
-    setData(updated)
-    saveHabits(updated)
+    await fetch(`/api/habits?date=${today}`, { method: 'DELETE' })
   }
 
   return (
@@ -95,7 +87,11 @@ export default function ProgressionTracker() {
 
       {/* Habit rows */}
       <div style={{ display:'flex', flexDirection:'column', gap:7, marginBottom:18 }}>
-        {HABITS.map(h => {
+        {loading ? (
+          [...Array(HABITS.length)].map((_, i) => (
+            <div key={i} style={{ height:46, borderRadius:12, background:'#1a1a1a', animation:'pulse 1.5s ease infinite' }} />
+          ))
+        ) : HABITS.map(h => {
           const checked = !!habits[h.key]
           return (
             <div key={h.key} onClick={() => toggleHabit(h.key)}

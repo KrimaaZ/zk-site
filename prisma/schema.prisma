@@ -40,38 +40,28 @@ model WorkoutSession {
   createdAt DateTime @default(now())
 }
 
-model ValorantTip {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  category  String
-  agent     String?
-  drill     String?
+model Goal {
+  id        String   @id @default(cuid())
+  tab       String
+  text      String
+  done      Boolean  @default(false)
+  position  Int      @default(0)
   createdAt DateTime @default(now())
 }
 
-model Trade {
-  id         Int      @id @default(autoincrement())
-  date       String
-  instrument String
-  type       String
-  entry      Float
-  exit       Float?
-  size       Float
-  pnl        Float?
-  notes      String?
-  status     String   @default("OPEN")
-  createdAt  DateTime @default(now())
+model HabitEntry {
+  id       Int     @id @default(autoincrement())
+  date     String
+  habitKey String
+  done     Boolean @default(true)
+
+  @@unique([date, habitKey])
 }
 
-model BacktestStrategy {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  rules       String
-  timeframe   String
-  winRate     Float?
-  riskReward  Float?
-  notes       String?
-  createdAt   DateTime @default(now())
+model WorkoutSet {
+  id       Int      @id @default(autoincrement())
+  logKey   String
+  reps     Int
+  kg       Float
+  loggedAt DateTime @default(now())
 }

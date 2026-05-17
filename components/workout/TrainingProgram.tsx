@@ -24,38 +24,46 @@ type Day   = {
   coachTip: string
 }
 
-// ─── Tracking storage ─────────────────────────────────────────────────────────
-const TP_KEY = 'tp_log'
-type SetEntry = { reps: number; kg: number }
+// ─── Tracking storage (DB-backed) ────────────────────────────────────────────
+type SetEntry = { id: number; reps: number; kg: number }
 type LogData  = Record<string, SetEntry[]>
 
 function useLog() {
-  const [log, setLog] = useState<LogData>({})
+  const [log, setLog]       = useState<LogData>({})
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    try { const r = localStorage.getItem(TP_KEY); if (r) setLog(JSON.parse(r)) } catch {}
+    fetch('/api/workout-sets')
+      .then(r => r.json())
+      .then((sets: SetEntry[] & { logKey: string }[]) => {
+        const map: LogData = {}
+        for (const s of sets) {
+          const k = (s as unknown as { logKey: string }).logKey
+          if (!map[k]) map[k] = []
+          map[k].push({ id: s.id, reps: s.reps, kg: s.kg })
+        }
+        setLog(map)
+        setLoaded(true)
+      })
+      .catch(() => setLoaded(true))
   }, [])
 
-  const persist = (next: LogData) => {
-    try { localStorage.setItem(TP_KEY, JSON.stringify(next)) } catch {}
-    setLog(next)
-  }
-
-  const addSet = useCallback((key: string, entry: SetEntry) => {
-    setLog(prev => {
-      const next = { ...prev, [key]: [...(prev[key] || []), entry] }
-      persist(next); return next
+  const addSet = useCallback(async (key: string, entry: Omit<SetEntry, 'id'>) => {
+    const res = await fetch('/api/workout-sets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ logKey: key, reps: entry.reps, kg: entry.kg }),
     })
+    const saved: SetEntry & { logKey: string } = await res.json()
+    setLog(prev => ({ ...prev, [key]: [...(prev[key] || []), { id: saved.id, reps: saved.reps, kg: saved.kg }] }))
   }, [])
 
-  const removeSet = useCallback((key: string, idx: number) => {
-    setLog(prev => {
-      const next = { ...prev, [key]: (prev[key] || []).filter((_, i) => i !== idx) }
-      persist(next); return next
-    })
+  const removeSet = useCallback(async (key: string, id: number) => {
+    setLog(prev => ({ ...prev, [key]: (prev[key] || []).filter(s => s.id !== id) }))
+    await fetch(`/api/workout-sets?id=${id}`, { method: 'DELETE' })
   }, [])
 
-  return { log, addSet, removeSet }
+  return { log, addSet, removeSet, loaded }
 }
 
 // ─── Tracking section ─────────────────────────────────────────────────────────
@@ -63,8 +71,8 @@ function TrackRow({
   logKey, log, addSet, removeSet, color,
 }: {
   logKey: string; log: LogData
-  addSet: (k: string, e: SetEntry) => void
-  removeSet: (k: string, i: number) => void
+  addSet: (k: string, e: Omit<SetEntry, 'id'>) => void
+  removeSet: (k: string, id: number) => void
   color: string
 }) {
   const [open, setOpen]   = useState(false)
@@ -108,7 +116,7 @@ function TrackRow({
                 {s.kg} kg
               </span>
               <button
-                onClick={() => removeSet(logKey, i)}
+                onClick={() => removeSet(logKey, s.id)}
                 style={{ fontSize: 13, color: '#c0303e', background: 'rgba(192,48,62,0.12)', border: 'none', borderRadius: 6, padding: '1px 7px', cursor: 'pointer', lineHeight: 1.5 }}>
                 ×
               </button>
@@ -289,8 +297,8 @@ const DAYS: Day[] = [
 function ExerciseRow({ ex, dayIdx, log, addSet, removeSet }: {
   ex: Ex; dayIdx: number
   log: LogData
-  addSet: (k: string, e: SetEntry) => void
-  removeSet: (k: string, i: number) => void
+  addSet: (k: string, e: Omit<SetEntry, 'id'>) => void
+  removeSet: (k: string, id: number) => void
 }) {
   const logKey = `${dayIdx}_${ex.name}`
   return (
@@ -321,8 +329,8 @@ function ExerciseRow({ ex, dayIdx, log, addSet, removeSet }: {
 function SupersetGroup({ ss, dayIdx, log, addSet, removeSet }: {
   ss: SS; dayIdx: number
   log: LogData
-  addSet: (k: string, e: SetEntry) => void
-  removeSet: (k: string, i: number) => void
+  addSet: (k: string, e: Omit<SetEntry, 'id'>) => void
+  removeSet: (k: string, id: number) => void
 }) {
   const renderSSEx = (ex: SSEx) => {
     const logKey = `${dayIdx}_${ex.name}`

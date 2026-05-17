@@ -52,9 +52,9 @@ export const ModelName = {
   Recipe: 'Recipe',
   MealPlan: 'MealPlan',
   WorkoutSession: 'WorkoutSession',
-  ValorantTip: 'ValorantTip',
-  Trade: 'Trade',
-  BacktestStrategy: 'BacktestStrategy'
+  Goal: 'Goal',
+  HabitEntry: 'HabitEntry',
+  WorkoutSet: 'WorkoutSet'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -114,49 +114,37 @@ export const WorkoutSessionScalarFieldEnum = {
 export type WorkoutSessionScalarFieldEnum = (typeof WorkoutSessionScalarFieldEnum)[keyof typeof WorkoutSessionScalarFieldEnum]
 
 
-export const ValorantTipScalarFieldEnum = {
+export const GoalScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  content: 'content',
-  category: 'category',
-  agent: 'agent',
-  drill: 'drill',
+  tab: 'tab',
+  text: 'text',
+  done: 'done',
+  position: 'position',
   createdAt: 'createdAt'
 } as const
 
-export type ValorantTipScalarFieldEnum = (typeof ValorantTipScalarFieldEnum)[keyof typeof ValorantTipScalarFieldEnum]
+export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
 
 
-export const TradeScalarFieldEnum = {
+export const HabitEntryScalarFieldEnum = {
   id: 'id',
   date: 'date',
-  instrument: 'instrument',
-  type: 'type',
-  entry: 'entry',
-  exit: 'exit',
-  size: 'size',
-  pnl: 'pnl',
-  notes: 'notes',
-  status: 'status',
-  createdAt: 'createdAt'
+  habitKey: 'habitKey',
+  done: 'done'
 } as const
 
-export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]
+export type HabitEntryScalarFieldEnum = (typeof HabitEntryScalarFieldEnum)[keyof typeof HabitEntryScalarFieldEnum]
 
 
-export const BacktestStrategyScalarFieldEnum = {
+export const WorkoutSetScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  description: 'description',
-  rules: 'rules',
-  timeframe: 'timeframe',
-  winRate: 'winRate',
-  riskReward: 'riskReward',
-  notes: 'notes',
-  createdAt: 'createdAt'
+  logKey: 'logKey',
+  reps: 'reps',
+  kg: 'kg',
+  loggedAt: 'loggedAt'
 } as const
 
-export type BacktestStrategyScalarFieldEnum = (typeof BacktestStrategyScalarFieldEnum)[keyof typeof BacktestStrategyScalarFieldEnum]
+export type WorkoutSetScalarFieldEnum = (typeof WorkoutSetScalarFieldEnum)[keyof typeof WorkoutSetScalarFieldEnum]
 
 
 export const SortOrder = {

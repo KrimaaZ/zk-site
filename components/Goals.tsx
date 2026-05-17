@@ -2,11 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
-const STORAGE_KEY = 'goals_data'
-
-type Goal    = { id: string; text: string; done: boolean }
+type Goal    = { id: string; text: string; done: boolean; tab: string }
 type GoalTab = 'daily' | 'monthly' | 'annual'
-type GoalsData = Record<GoalTab, Goal[]>
 
 const TABS: { key: GoalTab; label: string; emoji: string; color: string }[] = [
   { key: 'daily',   label: 'Quotidien', emoji: '📅', color: '#1D9E75' },
@@ -14,47 +11,65 @@ const TABS: { key: GoalTab; label: string; emoji: string; color: string }[] = [
   { key: 'annual',  label: 'Annuel',    emoji: '🎯', color: '#9B6FE0' },
 ]
 
-const empty: GoalsData = { daily: [], monthly: [], annual: [] }
-
-function load(): GoalsData {
-  if (typeof window === 'undefined') return empty
-  try { return { ...empty, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') } } catch { return empty }
-}
-function save(d: GoalsData) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)) } catch {}
-}
-
 export default function Goals() {
-  const [data, setData]   = useState<GoalsData>(empty)
-  const [tab, setTab]     = useState<GoalTab>('daily')
+  const [goals, setGoals] = useState<Goal[]>([])
+  const [tab,   setTab]   = useState<GoalTab>('daily')
   const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  useEffect(() => { setData(load()) }, [])
+  useEffect(() => {
+    fetch('/api/goals')
+      .then(r => r.json())
+      .then(d => { setGoals(d); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
 
-  const update = (next: GoalsData) => { setData(next); save(next) }
+  const tabGoals = goals.filter(g => g.tab === tab)
+  const done     = tabGoals.filter(g => g.done).length
+  const allDone  = tabGoals.length > 0 && done === tabGoals.length
+  const active   = TABS.find(t => t.key === tab)!
 
-  const addGoal = () => {
+  const addGoal = async () => {
     const text = input.trim()
     if (!text) return
-    const goal: Goal = { id: `${Date.now()}-${Math.random()}`, text, done: false }
-    update({ ...data, [tab]: [...data[tab], goal] })
+    const res  = await fetch('/api/goals', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tab, text, position: tabGoals.length }),
+    })
+    const goal = await res.json()
+    setGoals(prev => [...prev, goal])
     setInput('')
   }
 
-  const toggle = (id: string) =>
-    update({ ...data, [tab]: data[tab].map(g => g.id === id ? { ...g, done: !g.done } : g) })
+  const toggle = async (id: string) => {
+    const goal = goals.find(g => g.id === id)!
+    const updated = { ...goal, done: !goal.done }
+    setGoals(prev => prev.map(g => g.id === id ? updated : g))
+    await fetch(`/api/goals/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ done: updated.done }),
+    })
+  }
 
-  const remove = (id: string) =>
-    update({ ...data, [tab]: data[tab].filter(g => g.id !== id) })
+  const remove = async (id: string) => {
+    setGoals(prev => prev.filter(g => g.id !== id))
+    await fetch(`/api/goals/${id}`, { method: 'DELETE' })
+  }
 
-  // Reset = uncheck all (keep goals, set done: false)
-  const reset = () =>
-    update({ ...data, [tab]: data[tab].map(g => ({ ...g, done: false })) })
-
-  const active  = TABS.find(t => t.key === tab)!
-  const goals   = data[tab]
-  const done    = goals.filter(g => g.done).length
-  const allDone = goals.length > 0 && done === goals.length
+  // Reset = uncheck all in current tab
+  const reset = async () => {
+    const toReset = tabGoals.filter(g => g.done)
+    setGoals(prev => prev.map(g => g.tab === tab ? { ...g, done: false } : g))
+    await Promise.all(toReset.map(g =>
+      fetch(`/api/goals/${g.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ done: false }),
+      })
+    ))
+  }
 
   return (
     <div style={{ borderRadius:16, border:'1px solid #1a1a1a', overflow:'hidden', marginBottom:32 }}>
@@ -95,15 +110,14 @@ export default function Goals() {
       <div style={{ background:'#111111', padding:'16px 20px' }}>
 
         {/* Progress + reset */}
-        {goals.length > 0 && (
+        {tabGoals.length > 0 && (
           <div style={{ marginBottom:14 }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:5 }}>
               <span style={{ fontSize:11, color:'#555555' }}>Progression</span>
               <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-                <span style={{ fontSize:11, fontWeight:700, color: allDone ? active.color : active.color }}>
-                  {done}/{goals.length}
+                <span style={{ fontSize:11, fontWeight:700, color: active.color }}>
+                  {done}/{tabGoals.length}
                 </span>
-                {/* Reset button — only when all done */}
                 {allDone && (
                   <button onClick={reset}
                     style={{
@@ -124,14 +138,13 @@ export default function Goals() {
             <div style={{ height:4, background:'#1a1a1a', borderRadius:100, overflow:'hidden' }}>
               <div style={{
                 height:'100%', borderRadius:100,
-                width:`${goals.length ? (done/goals.length)*100 : 0}%`,
+                width:`${tabGoals.length ? (done/tabGoals.length)*100 : 0}%`,
                 background: allDone
                   ? `linear-gradient(90deg, ${active.color}, #D4AF37)`
                   : active.color,
                 transition:'width .3s ease',
               }} />
             </div>
-            {/* All done banner */}
             {allDone && (
               <div style={{
                 marginTop:10, padding:'8px 14px', borderRadius:9,
@@ -150,12 +163,16 @@ export default function Goals() {
 
         {/* Goal list */}
         <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:14 }}>
-          {goals.length === 0 ? (
+          {loading ? (
+            <div style={{ padding:'24px 0', textAlign:'center', color:'#333333', fontSize:13 }}>
+              Chargement…
+            </div>
+          ) : tabGoals.length === 0 ? (
             <div style={{ padding:'24px 0', textAlign:'center', color:'#333333', fontSize:13 }}>
               Aucun objectif — ajoute le premier ci-dessous ↓
             </div>
           ) : (
-            goals.map(g => (
+            tabGoals.map(g => (
               <div key={g.id}
                 style={{
                   display:'flex', alignItems:'center', gap:10,
@@ -187,7 +204,7 @@ export default function Goals() {
                   {g.text}
                 </span>
 
-                {/* Delete button — always visible */}
+                {/* Delete */}
                 <button onClick={() => remove(g.id)}
                   style={{
                     display:'flex', alignItems:'center', gap:4,
@@ -197,14 +214,8 @@ export default function Goals() {
                     color:'#c0303e', fontSize:11, fontWeight:600,
                     cursor:'pointer', transition:'all .15s',
                   }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(192,48,62,0.2)'
-                    e.currentTarget.style.borderColor = '#c0303e'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.background = 'rgba(192,48,62,0.08)'
-                    e.currentTarget.style.borderColor = 'rgba(192,48,62,0.2)'
-                  }}>
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(192,48,62,0.2)'; e.currentTarget.style.borderColor = '#c0303e' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(192,48,62,0.08)'; e.currentTarget.style.borderColor = 'rgba(192,48,62,0.2)' }}>
                   🗑 Supprimer
                 </button>
               </div>
