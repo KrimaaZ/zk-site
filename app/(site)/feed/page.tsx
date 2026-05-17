@@ -14,16 +14,38 @@ type FeedItem = {
 }
 
 const CAT_STYLE: Record<string, { badge: string; border: string }> = {
-  food:     { badge: '#2d6a4f', border: '#b7e4c7' },
-  workout:  { badge: '#6b4226', border: '#d4c5a9' },
-  valorant: { badge: '#c0303e', border: '#fde8ec' },
-  trading:  { badge: '#b8860b', border: '#fef9e7' },
-  backtest: { badge: '#40916c', border: '#d8f3dc' },
+  food:    { badge: '#2d6a4f', border: '#b7e4c7' },
+  workout: { badge: '#6b4226', border: '#d4c5a9' },
 }
+
+const QUOTES = [
+  { text: "La discipline, c'est choisir entre ce que tu veux maintenant et ce que tu veux le plus.", author: "Abraham Lincoln" },
+  { text: "Un homme se construit dans le silence, pas dans le bruit.", author: "" },
+  { text: "La douleur que tu ressens aujourd'hui sera la force que tu ressentiras demain.", author: "" },
+  { text: "Le corps atteint ce que l'esprit croit.", author: "Napoleon Hill" },
+  { text: "Sois le même homme à 3h du matin qu'à midi.", author: "" },
+  { text: "Les champions ne naissent pas, ils se fabriquent dans les moments où ils ne veulent plus continuer.", author: "" },
+  { text: "Personne ne se souvient de l'homme qui a abandonné.", author: "" },
+  { text: "Ce que tu manges en privé se voit en public.", author: "" },
+  { text: "Le succès n'est pas donné à ceux qui rêvent, mais à ceux qui se lèvent.", author: "" },
+  { text: "Un lion ne se soucie pas de l'opinion des moutons.", author: "" },
+  { text: "Si tu ne sacrifies pas ce que tu es, tu ne deviendras jamais ce que tu veux être.", author: "" },
+  { text: "La vraie force, c'est de continuer quand tout en toi veut s'arrêter.", author: "" },
+  { text: "Ton corps peut supporter presque n'importe quoi. C'est ton esprit que tu dois convaincre.", author: "" },
+  { text: "Travaille en silence. Laisse ton succès faire du bruit.", author: "" },
+  { text: "La médiocrité est confortable. L'excellence est douloureuse. Choisis.", author: "" },
+  { text: "Un homme sans discipline est un homme sans destin.", author: "" },
+  { text: "Chaque rep compte. Chaque repas compte. Chaque nuit de sommeil compte.", author: "" },
+  { text: "Ne t'explique pas. Tes résultats parleront.", author: "" },
+  { text: "La vie récompense ceux qui agissent, pas ceux qui planifient indéfiniment.", author: "" },
+  { text: "Ce que tu fais quand personne ne regarde définit qui tu es vraiment.", author: "" },
+]
 
 export default function FeedPage() {
   const [feed, setFeed] = useState<FeedItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [quoteIndex, setQuoteIndex] = useState(0)
+  const [fadeIn, setFadeIn] = useState(true)
   const { t } = useLang()
 
   useEffect(() => {
@@ -32,6 +54,19 @@ export default function FeedPage() {
       .then(d => { setFeed(d); setLoading(false) })
       .catch(() => setLoading(false))
   }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFadeIn(false)
+      setTimeout(() => {
+        setQuoteIndex(i => (i + 1) % QUOTES.length)
+        setFadeIn(true)
+      }, 400)
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const quote = QUOTES[quoteIndex]
 
   return (
     <div>
@@ -62,12 +97,48 @@ export default function FeedPage() {
         </div>
       </div>
 
-      {/* Feed */}
-      <div className="flex items-center gap-3 mb-6">
-        <h2 className="text-xl font-semibold" style={{ color: '#1a3a1a' }}>{t.latestActivity}</h2>
-        <div className="flex-1 h-px" style={{ backgroundColor: '#e8dcc8' }} />
+      {/* Quote */}
+      <div className="mb-10 mx-auto max-w-2xl">
+        <div className="rounded-2xl px-6 py-7 relative overflow-hidden"
+          style={{ backgroundColor: '#1a3a1a' }}>
+          <span className="absolute top-3 left-5 text-5xl font-serif leading-none select-none"
+            style={{ color: '#2d6a4f', opacity: 0.5 }}>"</span>
+          <div
+            style={{
+              transition: 'opacity 0.4s ease, transform 0.4s ease',
+              opacity: fadeIn ? 1 : 0,
+              transform: fadeIn ? 'translateY(0)' : 'translateY(6px)',
+            }}>
+            <p className="text-base sm:text-lg font-medium leading-relaxed text-center pt-3"
+              style={{ color: '#d8f3dc' }}>
+              {quote.text}
+            </p>
+            {quote.author && (
+              <p className="text-xs text-center mt-3 font-semibold uppercase tracking-widest"
+                style={{ color: '#40916c' }}>
+                — {quote.author}
+              </p>
+            )}
+          </div>
+          <span className="absolute bottom-3 right-5 text-5xl font-serif leading-none select-none"
+            style={{ color: '#2d6a4f', opacity: 0.5 }}>"</span>
+
+          {/* Progress dots */}
+          <div className="flex justify-center gap-1.5 mt-5">
+            {QUOTES.map((_, i) => (
+              <button key={i} onClick={() => { setFadeIn(false); setTimeout(() => { setQuoteIndex(i); setFadeIn(true) }, 400) }}
+                className="rounded-full transition-all"
+                style={{
+                  width: i === quoteIndex ? '20px' : '6px',
+                  height: '6px',
+                  backgroundColor: i === quoteIndex ? '#40916c' : '#2d6a4f',
+                }} />
+            ))}
+          </div>
+        </div>
       </div>
 
+      {/* Feed */}
       {loading ? (
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
           {[...Array(6)].map((_, i) => (
