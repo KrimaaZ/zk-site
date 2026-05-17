@@ -31,11 +31,12 @@ export default function BottomBar() {
         <span className="font-medium" style={{ fontSize: '10px', letterSpacing: '0.05em' }}>Music</span>
       </Link>
 
-      <button disabled
-        className="flex-1 flex flex-col items-center justify-center py-3 gap-1 opacity-30 cursor-not-allowed">
+      <Link href="/summer"
+        className="flex-1 flex flex-col items-center justify-center py-3 gap-1 transition-colors"
+        style={{ color: pathname.startsWith('/summer') ? '#FF6B35' : '#C0C0C0' }}>
         <span className="text-xl">☀️</span>
-        <span className="font-medium" style={{ fontSize: '10px', letterSpacing: '0.05em', color: '#555' }}>Summer</span>
-      </button>
+        <span className="font-medium" style={{ fontSize: '10px', letterSpacing: '0.05em' }}>Summer</span>
+      </Link>
 
     </div>
   )
