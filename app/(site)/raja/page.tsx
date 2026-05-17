@@ -118,7 +118,17 @@ const GALLERY = [
     title: 'Les Ultras Eagles',
     sub: 'Virage Nord · Ambiance Légendaire',
     gradient: 'linear-gradient(135deg, #0a1a0e 0%, #000 60%)',
-    story: null,
+    story: {
+      badge: '🟢 Fondés en 2006 · Virage Nord · Casa',
+      headline: 'Ultras Eagles — Une Légende Vivante',
+      body: `Les Ultras Eagles ont marqué l'histoire du mouvement ultra marocain par plusieurs exploits qui ont fait d'eux une référence nationale et continentale. Fondés en 2006, ils ont été parmi les premiers groupes marocains à professionnaliser l'organisation des tifos géants et des déplacements massifs à travers l'Afrique du Nord.\n\nLes Eagles sont notamment connus pour avoir réalisé l'un des premiers grands déplacements ultras marocains en Tunisie lors des compétitions africaines du Raja, affirmant la présence des supporters marocains à l'extérieur et ouvrant la voie à une nouvelle culture du déplacement continental. Ils ont également popularisé au Maroc les bâches ultras ("bacher"), les grandes animations coordonnées et les tribunes organisées selon les standards des groupes européens et sud-américains.\n\nAu fil des années, leurs tifos dans le derby casablancais ou en Ligue des Champions africaine ont été classés parmi les meilleurs du continent, attirant l'attention des médias internationaux et des pages ultras du monde entier. Leur rivalité légendaire avec les Ultras Winners (Wydad) a produit certaines des plus belles chorégraphies de l'histoire du football africain, chaque derby devenant un duel de passion et de créativité dans les tribunes.\n\nIls ont aussi développé une identité musicale forte, avec des chants originaux repris dans tout le Maroc, et une organisation interne rigoureuse inspirée des grands groupes italiens et argentins. Leur influence dépasse le Raja, car beaucoup de groupes marocains se sont inspirés de leur organisation, de leurs chants et de leur créativité. Grâce à cette constance et à leur mentalité "supporters avant tout", les Ultras Eagles ont participé à faire du Maroc l'un des pays les plus respectés de la culture ultra en Afrique et dans le monde arabe.`,
+      stats: [
+        { value: '2006',  label: 'Année de Fondation' },
+        { value: 'Nord',  label: 'Virage Historique' },
+        { value: '🎭',    label: 'Tifos Légendaires' },
+        { value: '🌍',    label: 'Référence Africaine' },
+      ],
+    },
   },
   {
     title: 'Triplé Historique',
