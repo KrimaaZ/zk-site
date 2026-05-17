@@ -27,8 +27,18 @@ const NIGHT_BLUE  = '#5B8DD9'  // soft blue
 const STORAGE_KEY = 'routines_data'
 
 function todayKey() {
-  const d = new Date()
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+  // Always based on Morocco time (UTC+1)
+  // The "day" starts at 05:00 Morocco time — before 5h, still counts as the previous day
+  const now = new Date()
+  const utcMs    = now.getTime() + now.getTimezoneOffset() * 60_000
+  const morocco  = new Date(utcMs + 1 * 60 * 60_000) // UTC+1
+  if (morocco.getHours() < 5) {
+    morocco.setDate(morocco.getDate() - 1) // before 5h → still yesterday
+  }
+  const y = morocco.getFullYear()
+  const m = String(morocco.getMonth() + 1).padStart(2, '0')
+  const d = String(morocco.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
 }
 
 type RoutineData = {
