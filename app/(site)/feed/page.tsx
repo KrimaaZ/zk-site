@@ -79,21 +79,12 @@ export default function FeedPage() {
         <h1 className="text-3xl sm:text-5xl font-bold mb-3" style={{ color: '#F0F0F0' }}>
           {t.welcomeBack}
         </h1>
-        <p className="text-base sm:text-lg" style={{ color: '#555555' }}>
-          Food &middot; Fitness
-        </p>
-
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
-          {[
-            { href: '/food',    label: t.foodPlan, emoji: '🥗', bg: '#1D9E75',  border: 'rgba(29,158,117,0.4)' },
-            { href: '/workout', label: t.workout,  emoji: '💪', bg: '#B8960C',  border: 'rgba(184,150,12,0.4)' },
-          ].map(item => (
-            <Link key={item.href} href={item.href}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-white text-sm transition-transform hover:scale-105 border"
-              style={{ backgroundColor: item.bg, borderColor: item.border }}>
-              <span>{item.emoji}</span> {item.label}
-            </Link>
-          ))}
+        <div className="mt-6 sm:mt-8">
+          <Link href="/personal"
+            className="inline-flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105 border"
+            style={{ backgroundColor: 'rgba(212,175,55,0.12)', borderColor: 'rgba(212,175,55,0.4)', color: '#D4AF37' }}>
+            <span>👤</span> Personal Life
+          </Link>
         </div>
       </div>
 
