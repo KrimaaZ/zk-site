@@ -14,8 +14,8 @@ type FeedItem = {
 }
 
 const CAT_STYLE: Record<string, { badge: string; border: string }> = {
-  food:    { badge: '#2d6a4f', border: '#b7e4c7' },
-  workout: { badge: '#6b4226', border: '#d4c5a9' },
+  food:    { badge: '#1D9E75', border: '#0d2e1f' },
+  workout: { badge: '#B8960C', border: '#2a2000' },
 }
 
 const QUOTES = [
@@ -72,25 +72,25 @@ export default function FeedPage() {
     <div>
       {/* Hero */}
       <div className="text-center py-8 sm:py-14 mb-6 sm:mb-10">
-        <div className="inline-block px-4 py-1 rounded-full text-sm font-medium mb-3"
-          style={{ backgroundColor: '#d8f3dc', color: '#2d6a4f' }}>
+        <div className="inline-block px-4 py-1 rounded-full text-xs font-bold mb-3 uppercase tracking-widest"
+          style={{ backgroundColor: 'rgba(212,175,55,0.1)', color: '#D4AF37', border: '1px solid rgba(212,175,55,0.2)' }}>
           {t.tagline}
         </div>
-        <h1 className="text-3xl sm:text-5xl font-bold mb-3" style={{ color: '#1a3a1a' }}>
+        <h1 className="text-3xl sm:text-5xl font-bold mb-3" style={{ color: '#F0F0F0' }}>
           {t.welcomeBack}
         </h1>
-        <p className="text-base sm:text-lg" style={{ color: '#8b5e3c' }}>
+        <p className="text-base sm:text-lg" style={{ color: '#555555' }}>
           Food &middot; Fitness
         </p>
 
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
           {[
-            { href: '/food',    label: t.foodPlan, emoji: '🥗', color: '#2d6a4f' },
-            { href: '/workout', label: t.workout,  emoji: '💪', color: '#6b4226' },
+            { href: '/food',    label: t.foodPlan, emoji: '🥗', bg: '#1D9E75',  border: 'rgba(29,158,117,0.4)' },
+            { href: '/workout', label: t.workout,  emoji: '💪', bg: '#B8960C',  border: 'rgba(184,150,12,0.4)' },
           ].map(item => (
             <Link key={item.href} href={item.href}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-white text-sm shadow-sm transition-transform hover:scale-105"
-              style={{ backgroundColor: item.color }}>
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-white text-sm transition-transform hover:scale-105 border"
+              style={{ backgroundColor: item.bg, borderColor: item.border }}>
               <span>{item.emoji}</span> {item.label}
             </Link>
           ))}
@@ -99,39 +99,39 @@ export default function FeedPage() {
 
       {/* Quote */}
       <div className="mb-10 mx-auto max-w-2xl">
-        <div className="rounded-2xl px-6 py-7 relative overflow-hidden"
-          style={{ backgroundColor: '#1a3a1a' }}>
+        <div className="rounded-2xl px-6 py-7 relative overflow-hidden border"
+          style={{ backgroundColor: '#111111', borderColor: 'rgba(212,175,55,0.15)' }}>
           <span className="absolute top-3 left-5 text-5xl font-serif leading-none select-none"
-            style={{ color: '#2d6a4f', opacity: 0.5 }}>"</span>
-          <div
-            style={{
-              transition: 'opacity 0.4s ease, transform 0.4s ease',
-              opacity: fadeIn ? 1 : 0,
-              transform: fadeIn ? 'translateY(0)' : 'translateY(6px)',
-            }}>
+            style={{ color: '#D4AF37', opacity: 0.3 }}>"</span>
+          <div style={{
+            transition: 'opacity 0.4s ease, transform 0.4s ease',
+            opacity: fadeIn ? 1 : 0,
+            transform: fadeIn ? 'translateY(0)' : 'translateY(6px)',
+          }}>
             <p className="text-base sm:text-lg font-medium leading-relaxed text-center pt-3"
-              style={{ color: '#d8f3dc' }}>
+              style={{ color: '#E8E8E8' }}>
               {quote.text}
             </p>
             {quote.author && (
               <p className="text-xs text-center mt-3 font-semibold uppercase tracking-widest"
-                style={{ color: '#40916c' }}>
+                style={{ color: '#D4AF37' }}>
                 — {quote.author}
               </p>
             )}
           </div>
           <span className="absolute bottom-3 right-5 text-5xl font-serif leading-none select-none"
-            style={{ color: '#2d6a4f', opacity: 0.5 }}>"</span>
+            style={{ color: '#D4AF37', opacity: 0.3 }}>"</span>
 
           {/* Progress dots */}
           <div className="flex justify-center gap-1.5 mt-5">
             {QUOTES.map((_, i) => (
-              <button key={i} onClick={() => { setFadeIn(false); setTimeout(() => { setQuoteIndex(i); setFadeIn(true) }, 400) }}
+              <button key={i}
+                onClick={() => { setFadeIn(false); setTimeout(() => { setQuoteIndex(i); setFadeIn(true) }, 400) }}
                 className="rounded-full transition-all"
                 style={{
                   width: i === quoteIndex ? '20px' : '6px',
                   height: '6px',
-                  backgroundColor: i === quoteIndex ? '#40916c' : '#2d6a4f',
+                  backgroundColor: i === quoteIndex ? '#D4AF37' : '#2a2a2a',
                 }} />
             ))}
           </div>
@@ -143,13 +143,13 @@ export default function FeedPage() {
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="break-inside-avoid mb-4 rounded-2xl h-40 animate-pulse"
-              style={{ backgroundColor: '#e8dcc8' }} />
+              style={{ backgroundColor: '#1a1a1a' }} />
           ))}
         </div>
       ) : feed.length === 0 ? (
-        <div className="text-center py-24 rounded-2xl" style={{ backgroundColor: '#f9f5ef', color: '#a07850' }}>
+        <div className="text-center py-24 rounded-2xl border" style={{ backgroundColor: '#111111', borderColor: '#1a1a1a', color: '#555555' }}>
           <p className="text-5xl mb-4">🌱</p>
-          <p className="text-xl font-medium mb-1">{t.nothingYet}</p>
+          <p className="text-xl font-medium mb-1" style={{ color: '#888888' }}>{t.nothingYet}</p>
           <p className="text-sm">{t.nothingYetSub}</p>
         </div>
       ) : (
@@ -158,17 +158,19 @@ export default function FeedPage() {
             const s = CAT_STYLE[item.category] || CAT_STYLE.food
             return (
               <Link key={`${item.category}-${item.id}`} href={item.href}
-                className="block break-inside-avoid mb-4 rounded-2xl p-5 border-2 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
-                style={{ backgroundColor: '#ffffff', borderColor: s.border }}>
+                className="block break-inside-avoid mb-4 rounded-2xl p-5 border transition-all duration-200 hover:-translate-y-0.5"
+                style={{ backgroundColor: '#111111', borderColor: '#2a2a2a' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,175,55,0.3)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#2a2a2a' }}>
                 <span className="inline-block text-xs font-bold px-3 py-1 rounded-full text-white uppercase tracking-wide mb-3"
                   style={{ backgroundColor: s.badge }}>
                   {item.category}
                 </span>
-                <h3 className="font-semibold text-lg leading-snug mb-2" style={{ color: '#1a3a1a' }}>
+                <h3 className="font-semibold text-lg leading-snug mb-2" style={{ color: '#F0F0F0' }}>
                   {item.title}
                 </h3>
-                <p className="text-sm line-clamp-3" style={{ color: '#8b5e3c' }}>{item.excerpt}</p>
-                <p className="text-xs mt-3" style={{ color: '#c4a882' }}>{item.date}</p>
+                <p className="text-sm line-clamp-3" style={{ color: '#888888' }}>{item.excerpt}</p>
+                <p className="text-xs mt-3" style={{ color: '#3a3a3a' }}>{item.date}</p>
               </Link>
             )
           })}

@@ -24,9 +24,9 @@ function NavInner() {
   return (
     <>
       {/* ── Top bar ── */}
-      <nav style={{ backgroundColor: '#1a3a1a' }} className="shadow-lg sticky top-0 z-50">
+      <nav style={{ backgroundColor: '#0a0a0a', borderBottom: '1px solid #1a1a1a' }} className="sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link href="/" className="font-bold text-xl tracking-widest" style={{ color: '#74c69d' }}>
+          <Link href="/" className="font-bold text-xl tracking-widest" style={{ color: '#D4AF37' }}>
             MAK
           </Link>
 
@@ -37,10 +37,14 @@ function NavInner() {
                 const active = link.match(pathname, view)
                 return (
                   <Link key={link.href} href={link.href}
-                    className="px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5"
-                    style={{ backgroundColor: active ? '#40916c' : 'transparent', color: active ? '#fff' : '#95d5b2' }}
-                    onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.backgroundColor = '#2d6a4f' }}
-                    onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent' }}>
+                    className="px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5"
+                    style={{
+                      backgroundColor: active ? 'rgba(212,175,55,0.15)' : 'transparent',
+                      color: active ? '#D4AF37' : '#888888',
+                      border: active ? '1px solid rgba(212,175,55,0.3)' : '1px solid transparent',
+                    }}
+                    onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.05)'; (e.currentTarget as HTMLElement).style.color = '#C0C0C0' } }}
+                    onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#888888' } }}>
                     <span>{link.emoji}</span>
                     <span>{link.label}</span>
                   </Link>
@@ -51,10 +55,10 @@ function NavInner() {
             {/* Language toggle */}
             <button
               onClick={toggle}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
-              style={{ backgroundColor: '#40916c', color: '#fff' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#2d6a4f' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#40916c' }}>
+              className="text-xs font-bold px-3 py-1.5 rounded-lg transition-colors border"
+              style={{ borderColor: 'rgba(212,175,55,0.3)', color: '#D4AF37', backgroundColor: 'rgba(212,175,55,0.08)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(212,175,55,0.18)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(212,175,55,0.08)' }}>
               {lang === 'en' ? 'FR' : 'EN'}
             </button>
           </div>
@@ -63,13 +67,13 @@ function NavInner() {
 
       {/* ── Bottom nav (mobile only) ── */}
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 flex border-t"
-        style={{ backgroundColor: '#1a3a1a', borderColor: '#2d6a4f' }}>
+        style={{ backgroundColor: '#0a0a0a', borderColor: '#1a1a1a' }}>
         {links.map(link => {
           const active = link.match(pathname, view)
           return (
             <Link key={link.href} href={link.href}
               className="flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-colors text-xs"
-              style={{ color: active ? '#74c69d' : '#52b788', backgroundColor: active ? '#0d2010' : 'transparent' }}>
+              style={{ color: active ? '#D4AF37' : '#555555', backgroundColor: active ? 'rgba(212,175,55,0.08)' : 'transparent' }}>
               <span className="text-xl leading-none">{link.emoji}</span>
               <span className="font-medium" style={{ fontSize: '10px' }}>{link.label}</span>
             </Link>

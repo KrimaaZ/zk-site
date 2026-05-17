@@ -20,7 +20,7 @@ interface Meal {
 
 const MEALS: Meal[] = [
   {
-    emoji: '☀️', label: 'Repas 1', time: '7h00', color: G, colorLight: '#e6f7f1',
+    emoji: '☀️', label: 'Repas 1', time: '7h00', color: G, colorLight: 'rgba(29,158,117,0.08)',
     kcal: 530, prot: 50, gluc: 62, lip: 18,
     title: 'Porridge whey + oeufs brouillés',
     subtitle: 'Prêt en 10 min · La whey passe ici — seule dose de la journée',
@@ -40,7 +40,7 @@ const MEALS: Meal[] = [
     tip: "La whey est ici au repas 1 — c'est stratégique. Le matin tu sors du jeûne nocturne, tes muscles sont en mode catabolisme. La whey à digestion rapide + les oeufs stoppent ça immédiatement.",
   },
   {
-    emoji: '💪', label: 'Repas 2', time: '12h30', color: BLUE, colorLight: '#eff6ff',
+    emoji: '💪', label: 'Repas 2', time: '12h30', color: BLUE, colorLight: 'rgba(59,130,246,0.08)',
     kcal: 590, prot: 60, gluc: 55, lip: 8,
     title: 'Double blanc de poulet + pommes de terre + ketchup',
     subtitle: 'Repas principal · Maximum protéines animales complètes',
@@ -60,7 +60,7 @@ const MEALS: Meal[] = [
     tip: "Meal prep — Cuis 750g de blanc de poulet le dimanche soir pour 3 jours. Frigo en boîte hermétique. Réchauffe 2 min micro-ondes avec un fond d'eau pour éviter que ça sèche. Économise 15 min par repas.",
   },
   {
-    emoji: '⚡', label: 'Repas 3', time: '16h00', color: AMBER, colorLight: '#fffbeb',
+    emoji: '⚡', label: 'Repas 3', time: '16h00', color: AMBER, colorLight: 'rgba(245,158,11,0.08)',
     kcal: 490, prot: 42, gluc: 43, lip: 13,
     title: 'Bowl flocons PB confiture (pré) + poulet post-workout',
     subtitle: 'Glucides avant séance · Protéines solides après · Pas de whey ici',
@@ -80,7 +80,7 @@ const MEALS: Meal[] = [
     tip: "Sans whey post-workout — le poulet + oeufs remplacent efficacement. Mange dans les 30 min, mastique bien. L'essentiel c'est d'avoir des acides aminés dans le sang rapidement.",
   },
   {
-    emoji: '🌙', label: 'Repas 4', time: '20h00', color: PURPLE, colorLight: '#f5f3ff',
+    emoji: '🌙', label: 'Repas 4', time: '20h00', color: PURPLE, colorLight: 'rgba(139,92,246,0.08)',
     kcal: 400, prot: 30, gluc: 30, lip: 12,
     title: 'Blanc de poulet + oeufs durs + pain + PB confiture',
     subtitle: 'Dernier repas · Protéines lentes pour nuit anabolique',
@@ -112,14 +112,14 @@ function MacroPill({ label, value, color }: { label: string; value: string; colo
 
 function IngredientRow({ item, color }: { item: Ingredient; color: string }) {
   return (
-    <div className="flex items-center gap-3 py-2.5 border-b" style={{ borderColor: '#f0f0f0' }}>
+    <div className="flex items-center gap-3 py-2.5 border-b" style={{ borderColor: '#1a1a1a' }}>
       <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium" style={{ color: '#111' }}>{item.name}</p>
-        {item.note && <p className="text-xs mt-0.5" style={{ color: '#888' }}>{item.note}</p>}
+        <p className="text-sm font-medium" style={{ color: '#F0F0F0' }}>{item.name}</p>
+        {item.note && <p className="text-xs mt-0.5" style={{ color: '#555555' }}>{item.note}</p>}
       </div>
       <span className="text-xs font-semibold px-2.5 py-1 rounded-full shrink-0"
-        style={{ backgroundColor: '#f3f4f6', color: '#555' }}>
+        style={{ backgroundColor: '#1a1a1a', color: '#C0C0C0' }}>
         {item.weight}
       </span>
     </div>
@@ -134,7 +134,7 @@ function StepRow({ step, index, color }: { step: Step; index: number; color: str
         {index + 1}
       </span>
       <div className="flex-1">
-        <p className="text-sm leading-relaxed" style={{ color: '#333' }}>{step.text}</p>
+        <p className="text-sm leading-relaxed" style={{ color: '#C0C0C0' }}>{step.text}</p>
         {step.time && (
           <p className="text-xs font-medium mt-1" style={{ color: color }}>⏱ {step.time}</p>
         )}
@@ -158,7 +158,7 @@ function MealCard({ meal }: { meal: Meal }) {
   let lastSection = ''
 
   return (
-    <div className="rounded-xl border overflow-hidden" style={{ borderColor: '#e5e7eb', borderWidth: '0.5px' }}>
+    <div className="rounded-xl border overflow-hidden" style={{ borderColor: '#2a2a2a', borderWidth: '0.5px' }}>
       {/* Header */}
       <div className="px-4 py-3 flex items-center justify-between"
         style={{ backgroundColor: meal.colorLight, borderBottom: `2px solid ${meal.color}` }}>
@@ -167,13 +167,13 @@ function MealCard({ meal }: { meal: Meal }) {
             style={{ backgroundColor: meal.color }}>
             {meal.emoji} {meal.label} · {meal.time}
           </span>
-          <h2 className="text-base font-bold" style={{ color: '#111' }}>{meal.title}</h2>
-          <p className="text-xs mt-0.5" style={{ color: '#666' }}>{meal.subtitle}</p>
+          <h2 className="text-base font-bold" style={{ color: '#F0F0F0' }}>{meal.title}</h2>
+          <p className="text-xs mt-0.5" style={{ color: '#555555' }}>{meal.subtitle}</p>
         </div>
       </div>
 
       {/* Macro pills */}
-      <div className="px-4 py-3 flex flex-wrap gap-2" style={{ borderBottom: '0.5px solid #f0f0f0' }}>
+      <div className="px-4 py-3 flex flex-wrap gap-2" style={{ borderBottom: '0.5px solid #1a1a1a' }}>
         <MacroPill label="kcal" value={`${meal.kcal}`} color={meal.color} />
         <MacroPill label="prot" value={`${meal.prot}g`} color={G} />
         <MacroPill label="gluc" value={`${meal.gluc}g`} color={BLUE} />
@@ -206,18 +206,18 @@ function MealCard({ meal }: { meal: Meal }) {
 
         {/* Coach tip */}
         <div className="mt-4 mb-3 p-3 rounded-lg"
-          style={{ backgroundColor: '#f9fafb', borderLeft: `3px solid ${G}` }}>
+          style={{ backgroundColor: '#0a0a0a', borderLeft: `3px solid ${G}` }}>
           <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: G }}>
             Coach tip
           </p>
-          <p className="text-xs italic leading-relaxed" style={{ color: '#444' }}>{meal.tip}</p>
+          <p className="text-xs italic leading-relaxed" style={{ color: '#AAAAAA' }}>{meal.tip}</p>
         </div>
       </div>
 
       {/* Total bar */}
       <div className="px-4 py-2.5 flex items-center justify-between"
-        style={{ backgroundColor: '#f9fafb', borderTop: '0.5px solid #e5e7eb' }}>
-        <span className="text-xs font-medium" style={{ color: '#888' }}>Total repas</span>
+        style={{ backgroundColor: '#0a0a0a', borderTop: '0.5px solid #1a1a1a' }}>
+        <span className="text-xs font-medium" style={{ color: '#555555' }}>Total repas</span>
         <span className="text-sm font-bold" style={{ color: meal.color }}>
           {meal.kcal} kcal · {meal.prot}g prot
         </span>
@@ -233,8 +233,8 @@ export default function DietPage() {
     <div>
       {/* Header */}
       <div className="mb-5">
-        <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#111' }}>🥩 Diet</h1>
-        <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#666' }}>
+        <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#F0F0F0' }}>🥩 Diet</h1>
+        <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#555555' }}>
           Plan alimentaire journalier · 2010 kcal
         </p>
       </div>
@@ -248,11 +248,11 @@ export default function DietPage() {
           { label: 'Lipides', value: '48', unit: 'g', color: AMBER },
         ].map(m => (
           <div key={m.label} className="rounded-xl p-3 text-center border"
-            style={{ backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: '0.5px' }}>
+            style={{ backgroundColor: '#111111', borderColor: '#2a2a2a', borderWidth: '0.5px' }}>
             <p className="text-2xl font-bold" style={{ color: m.color }}>
               {m.value}<span className="text-base">{m.unit}</span>
             </p>
-            <p className="text-xs mt-0.5 font-medium" style={{ color: '#888' }}>{m.label}</p>
+            <p className="text-xs mt-0.5 font-medium" style={{ color: '#555555' }}>{m.label}</p>
           </div>
         ))}
       </div>
@@ -263,9 +263,9 @@ export default function DietPage() {
           <button key={i} onClick={() => setActive(i)}
             className="px-3 py-2 rounded-xl text-sm font-medium whitespace-nowrap flex items-center gap-1.5 transition-all border"
             style={{
-              backgroundColor: active === i ? m.color : '#fff',
-              color: active === i ? '#fff' : '#555',
-              borderColor: active === i ? m.color : '#e5e7eb',
+              backgroundColor: active === i ? m.color : '#111111',
+              color: active === i ? '#0a0a0a' : '#888888',
+              borderColor: active === i ? m.color : '#2a2a2a',
               borderWidth: '0.5px',
             }}>
             <span>{m.emoji}</span>
