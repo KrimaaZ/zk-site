@@ -16,12 +16,13 @@ export default function Goals() {
   const [tab,   setTab]   = useState<GoalTab>('daily')
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(true)
+  const [error, setError]     = useState(false)
 
   useEffect(() => {
     fetch('/api/goals')
-      .then(r => r.json())
-      .then(d => { setGoals(d); setLoading(false) })
-      .catch(() => setLoading(false))
+      .then(r => { if (!r.ok) throw new Error(); return r.json() })
+      .then(d => { setGoals(Array.isArray(d) ? d : []); setLoading(false) })
+      .catch(() => { setError(true); setLoading(false) })
   }, [])
 
   const tabGoals = goals.filter(g => g.tab === tab)
@@ -32,14 +33,15 @@ export default function Goals() {
   const addGoal = async () => {
     const text = input.trim()
     if (!text) return
+    setInput('')
     const res  = await fetch('/api/goals', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tab, text, position: tabGoals.length }),
     })
+    if (!res.ok) return
     const goal = await res.json()
-    setGoals(prev => [...prev, goal])
-    setInput('')
+    if (goal?.id) setGoals(prev => [...prev, goal])
   }
 
   const toggle = async (id: string) => {
@@ -166,6 +168,10 @@ export default function Goals() {
           {loading ? (
             <div style={{ padding:'24px 0', textAlign:'center', color:'#333333', fontSize:13 }}>
               Chargement…
+            </div>
+          ) : error ? (
+            <div style={{ padding:'16px', borderRadius:10, background:'rgba(192,48,62,0.08)', border:'1px solid rgba(192,48,62,0.2)', fontSize:12, color:'#c0303e', textAlign:'center' }}>
+              ⚠️ Base de données non connectée — ajoute <code style={{ background:'rgba(255,255,255,0.05)', padding:'1px 5px', borderRadius:4 }}>DATABASE_URL</code> dans les variables d&apos;environnement Vercel.
             </div>
           ) : tabGoals.length === 0 ? (
             <div style={{ padding:'24px 0', textAlign:'center', color:'#333333', fontSize:13 }}>
