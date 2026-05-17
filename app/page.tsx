@@ -45,30 +45,12 @@ export default function WelcomePage() {
         <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3" style={{ color: '#F0F0F0' }}>
           {t.tagline}
         </h1>
-        <p className="text-base sm:text-lg mb-10" style={{ color: '#888888' }}>
-          Food &nbsp;·&nbsp; Fitness
-        </p>
-
         <Link
           href="/feed"
-          className="btn-glass btn-glass-gold px-10 py-4 rounded-2xl text-base sm:text-lg font-semibold mb-10"
+          className="btn-glass btn-glass-gold px-10 py-4 rounded-2xl text-base sm:text-lg font-semibold"
         >
           {t.enter}
         </Link>
-
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
-          {[
-            { href: '/food',                  label: '🥗 Food',     cls: 'btn-glass-green' },
-            { href: '/diet',                  label: '🥩 Diet',     cls: 'btn-glass-gold'  },
-            { href: '/workout',               label: '💪 Workout',  cls: 'btn-glass-silver'},
-            { href: '/workout?view=progress', label: '📈 Tracking', cls: 'btn-glass-silver'},
-          ].map(item => (
-            <Link key={item.href} href={item.href}
-              className={`btn-glass ${item.cls} px-4 py-2.5 rounded-xl text-sm font-medium`}>
-              {item.label}
-            </Link>
-          ))}
-        </div>
       </div>
 
       {/* Bottom bar */}
