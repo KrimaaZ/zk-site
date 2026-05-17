@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 const EagleSVG = ({ size = 400, opacity = 1, color = '#1D9E75' }: { size?: number; opacity?: number; color?: string }) => (
   <svg
     width={size}
@@ -68,31 +70,47 @@ const GALLERY = [
     title: 'Championnat du Maroc 2023-24',
     sub: 'Titre de Champion · Botola Pro',
     gradient: 'linear-gradient(135deg, #0a1a12 0%, #000 60%)',
+    story: {
+      badge: '🏆 13ème Titre · Botola Pro',
+      headline: 'La Saison de l\'Invincibilité',
+      body: `La Botola 2023-2024 du Raja Club Athletic restera comme l'une des saisons les plus mythiques de l'histoire du club. Sous la direction de l'entraîneur allemand Josef Zinnbauer, le Raja a réalisé un exploit exceptionnel en remportant le championnat sans la moindre défaite, avec une équipe disciplinée, solide mentalement et portée par une incroyable ferveur populaire.\n\nArrivé dans un contexte compliqué en 2023, Zinnbauer a transformé le groupe en une machine collective capable de renverser la pression jusqu'à la dernière journée. Les Aigles Verts ont terminé champions avec 21 victoires et 9 matchs nuls, décrochant ainsi la 13e Botola du club dans une ambiance historique à Casablanca et dans tout le Maroc.\n\nCette saison était spéciale parce qu'elle a réuni le beau jeu, le caractère, l'invincibilité et une connexion unique entre l'équipe et les supporters, faisant de ce Raja l'un des plus marquants du football marocain moderne.`,
+      stats: [
+        { value: '21', label: 'Victoires' },
+        { value: '9',  label: 'Nuls' },
+        { value: '0',  label: 'Défaites' },
+        { value: '13ème', label: 'Titre Botola' },
+      ],
+    },
   },
   {
     title: 'Raja vs Wydad — Le Derby',
     sub: 'Derby de Casablanca · Stade Mohammed V',
     gradient: 'linear-gradient(135deg, #0d1a0d 0%, #000 60%)',
+    story: null,
   },
   {
     title: 'CAF Champions League',
     sub: 'Campagne Africaine · Phase de Groupes',
     gradient: 'linear-gradient(135deg, #0a1a15 0%, #000 60%)',
+    story: null,
   },
   {
     title: 'Les Ultras Eagles',
     sub: 'Virage Nord · Ambiance Légendaire',
     gradient: 'linear-gradient(135deg, #0a1a0e 0%, #000 60%)',
+    story: null,
   },
   {
     title: 'Triplé Historique',
     sub: 'Saison Mémorable · Raja Forever',
     gradient: 'linear-gradient(135deg, #0d1a10 0%, #000 60%)',
+    story: null,
   },
   {
     title: 'Nuit Verte à Casa',
     sub: 'Célébration du Titre · Casablanca',
     gradient: 'linear-gradient(135deg, #0a1a12 0%, #000 60%)',
+    story: null,
   },
 ]
 
@@ -131,9 +149,122 @@ const PALMARES = [
   },
 ]
 
+type Story = NonNullable<typeof GALLERY[0]['story']>
+
 export default function RajaPage() {
+  const [modal, setModal] = useState<Story | null>(null)
+
   return (
     <div style={{ backgroundColor: '#000000', minHeight: '100vh', color: '#fff', fontFamily: 'inherit' }}>
+
+      {/* ── MODAL ────────────────────────────────────────────── */}
+      {modal && (
+        <div
+          onClick={() => setModal(null)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 1000,
+            backgroundColor: 'rgba(0,0,0,0.88)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '20px',
+            animation: 'fadeUp 0.2s ease forwards',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              backgroundColor: '#0a0a0a',
+              border: '1px solid rgba(29,158,117,0.4)',
+              borderTop: '3px solid #1D9E75',
+              borderRadius: 20,
+              maxWidth: 640,
+              width: '100%',
+              maxHeight: '85vh',
+              overflowY: 'auto',
+              padding: 'clamp(24px, 5vw, 44px)',
+              position: 'relative',
+            }}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setModal(null)}
+              style={{
+                position: 'absolute', top: 16, right: 16,
+                background: 'rgba(29,158,117,0.1)',
+                border: '1px solid rgba(29,158,117,0.3)',
+                borderRadius: 8, color: '#1D9E75',
+                fontSize: 18, width: 36, height: 36,
+                cursor: 'pointer', display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+                lineHeight: 1,
+              }}
+            >✕</button>
+
+            {/* Badge */}
+            <div style={{
+              display: 'inline-block',
+              backgroundColor: 'rgba(29,158,117,0.12)',
+              border: '1px solid rgba(29,158,117,0.3)',
+              borderRadius: 100, padding: '4px 14px',
+              fontSize: 11, fontWeight: 700, color: '#1D9E75',
+              letterSpacing: '0.08em', textTransform: 'uppercase' as const,
+              marginBottom: 16,
+            }}>
+              {modal.badge}
+            </div>
+
+            {/* Headline */}
+            <h2 style={{
+              fontSize: 'clamp(20px, 4vw, 28px)',
+              fontWeight: 900, color: '#fff',
+              margin: '0 0 20px', lineHeight: 1.2,
+            }}>
+              {modal.headline}
+            </h2>
+
+            {/* Mini stats */}
+            <div style={{
+              display: 'flex', gap: 12, flexWrap: 'wrap' as const,
+              marginBottom: 24,
+            }}>
+              {modal.stats.map((s, i) => (
+                <div key={i} style={{
+                  flex: '1 1 60px', textAlign: 'center',
+                  backgroundColor: 'rgba(29,158,117,0.06)',
+                  border: '1px solid rgba(29,158,117,0.2)',
+                  borderRadius: 10, padding: '10px 8px',
+                }}>
+                  <div style={{ fontSize: 'clamp(18px, 3vw, 24px)', fontWeight: 900, color: '#1D9E75', lineHeight: 1 }}>
+                    {s.value}
+                  </div>
+                  <div style={{ fontSize: 10, color: '#666', marginTop: 4, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div style={{ height: 1, background: 'rgba(29,158,117,0.15)', marginBottom: 24 }} />
+
+            {/* Body text */}
+            {modal.body.split('\n\n').map((para, i) => (
+              <p key={i} style={{
+                fontSize: 15, color: '#C8C8C8',
+                lineHeight: 1.85, margin: i === 0 ? 0 : '16px 0 0',
+              }}>
+                {para}
+              </p>
+            ))}
+
+            {/* Eagle watermark bottom right */}
+            <div style={{ marginTop: 32, display: 'flex', justifyContent: 'flex-end', opacity: 0.15 }}>
+              <EagleSVG size={60} opacity={1} />
+            </div>
+          </div>
+        </div>
+      )}
+
 
       <style>{`
         @keyframes breathe {
@@ -242,8 +373,12 @@ export default function RajaPage() {
             gap: 16,
           }}>
             {GALLERY.map((card, i) => (
-              <div key={i} className="gallery-card">
-
+              <div
+                key={i}
+                className="gallery-card"
+                onClick={() => card.story && setModal(card.story)}
+                style={{ cursor: card.story ? 'pointer' : 'default' }}
+              >
                 {/* Image placeholder */}
                 <div style={{
                   position: 'relative',
@@ -258,6 +393,19 @@ export default function RajaPage() {
                   <div style={{ opacity: 0.18 }}>
                     <EagleSVG size={80} opacity={1} />
                   </div>
+
+                  {/* "Lire" badge for cards with story */}
+                  {card.story && (
+                    <div style={{
+                      position: 'absolute', top: 10, right: 10,
+                      backgroundColor: '#1D9E75',
+                      borderRadius: 6, padding: '3px 10px',
+                      fontSize: 10, fontWeight: 800, color: '#000',
+                      letterSpacing: '0.06em', textTransform: 'uppercase' as const,
+                    }}>
+                      Lire →
+                    </div>
+                  )}
 
                   {/* Scan lines effect */}
                   <div style={{
