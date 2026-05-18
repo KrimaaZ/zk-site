@@ -53,10 +53,11 @@ function ConfettiBurst({ active }: { active: boolean }) {
 
 // ─── Item row ─────────────────────────────────────────────────────────────────
 
-function ItemRow({ item, onToggle, onDelete, justDone }: {
-  item: Item; onToggle: () => void; onDelete: () => void; justDone: boolean
+function ItemRow({ item, onToggle, onDelete, justDone, confirmingDelete }: {
+  item: Item; onToggle: () => void; onDelete: () => void; justDone: boolean; confirmingDelete: boolean
 }) {
   const [hov, setHov] = useState(false)
+  const [delHov, setDelHov] = useState(false)
   return (
     <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
@@ -94,15 +95,41 @@ function ItemRow({ item, onToggle, onDelete, justDone }: {
       </div>
 
       {/* Right side */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
         {item.done
           ? <span style={{ fontSize: 11, color: GREEN, fontWeight: 600 }}>✅ Accompli</span>
           : <span style={{ fontSize: 13, lineHeight: 1 }} title={PRIORITY_LABEL[item.priority]}>{STARS[item.priority]}</span>
         }
-        {hov && (
-          <button onClick={e => { e.stopPropagation(); onDelete() }}
-            style={{ background: 'transparent', border: 'none', color: '#ef4444', fontSize: 15, cursor: 'pointer', padding: '2px 4px', borderRadius: 4, lineHeight: 1 }}>
-            🗑
+        {/* Delete button — always visible */}
+        {confirmingDelete ? (
+          <button
+            onClick={e => { e.stopPropagation(); onDelete() }}
+            title="Confirmer la suppression"
+            style={{
+              background: 'rgba(239,68,68,0.18)',
+              border: '1px solid #ef4444',
+              color: '#ef4444',
+              fontSize: 11, fontWeight: 700, cursor: 'pointer',
+              padding: '3px 8px', borderRadius: 6, lineHeight: 1,
+              whiteSpace: 'nowrap', animation: 'none',
+            }}>
+            Confirmer ?
+          </button>
+        ) : (
+          <button
+            onClick={e => { e.stopPropagation(); onDelete() }}
+            onMouseEnter={() => setDelHov(true)}
+            onMouseLeave={() => setDelHov(false)}
+            title="Supprimer ce rêve"
+            style={{
+              background: delHov ? 'rgba(239,68,68,0.12)' : 'transparent',
+              border: delHov ? '1px solid rgba(239,68,68,0.35)' : '1px solid transparent',
+              color: delHov ? '#ef4444' : '#3a3a3a',
+              fontSize: 14, cursor: 'pointer', padding: '3px 6px',
+              borderRadius: 6, lineHeight: 1,
+              transition: 'all .18s',
+            }}>
+            ✕
           </button>
         )}
       </div>
@@ -112,9 +139,9 @@ function ItemRow({ item, onToggle, onDelete, justDone }: {
 
 // ─── Category accordion ───────────────────────────────────────────────────────
 
-function CategoryBlock({ cat, items, openCats, toggleCat, onToggle, onDelete, justDoneId }: {
+function CategoryBlock({ cat, items, openCats, toggleCat, onToggle, onDelete, justDoneId, confirmDeleteId }: {
   cat: string; items: Item[]; openCats: Set<string>; toggleCat: (c: string) => void
-  onToggle: (id: string) => void; onDelete: (id: string) => void; justDoneId: string | null
+  onToggle: (id: string) => void; onDelete: (id: string) => void; justDoneId: string | null; confirmDeleteId: string | null
 }) {
   const open = openCats.has(cat)
   const done = items.filter(i => i.done).length
@@ -145,6 +172,7 @@ function CategoryBlock({ cat, items, openCats, toggleCat, onToggle, onDelete, ju
               onToggle={() => onToggle(item.id)}
               onDelete={() => onDelete(item.id)}
               justDone={justDoneId === item.id}
+              confirmingDelete={confirmDeleteId === item.id}
             />
           ))}
         </div>
@@ -214,10 +242,22 @@ export default function BucketListPage() {
     }
   }
 
-  const deleteItem = async (id: string) => {
-    if (!confirm('Supprimer ce rêve ?')) return
-    await fetch(`/api/bucketlist/${id}`, { method: 'DELETE' })
-    setItems(p => p.filter(i => i.id !== id))
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
+  const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const deleteItem = (id: string) => {
+    if (confirmDeleteId === id) {
+      // Second tap → confirm delete
+      if (confirmTimer.current) clearTimeout(confirmTimer.current)
+      setConfirmDeleteId(null)
+      fetch(`/api/bucketlist/${id}`, { method: 'DELETE' })
+      setItems(p => p.filter(i => i.id !== id))
+    } else {
+      // First tap → ask confirmation (auto-cancel after 3s)
+      setConfirmDeleteId(id)
+      if (confirmTimer.current) clearTimeout(confirmTimer.current)
+      confirmTimer.current = setTimeout(() => setConfirmDeleteId(null), 3000)
+    }
   }
 
   const addItem = async () => {
@@ -374,7 +414,7 @@ export default function BucketListPage() {
                 items={catItems}
                 openCats={openCats} toggleCat={toggleCat}
                 onToggle={toggleItem} onDelete={deleteItem}
-                justDoneId={justDoneId}
+                justDoneId={justDoneId} confirmDeleteId={confirmDeleteId}
               />
             )
           })}
@@ -396,7 +436,7 @@ export default function BucketListPage() {
                       <div key={cat} style={{ padding: '4px 12px' }}>
                         <div style={{ fontSize: 11, color: '#555', letterSpacing: '0.08em', padding: '8px 4px 2px', textTransform: 'uppercase' }}>{cat}</div>
                         {catDone.map(item => (
-                          <ItemRow key={item.id} item={item} onToggle={() => toggleItem(item.id)} onDelete={() => deleteItem(item.id)} justDone={false} />
+                          <ItemRow key={item.id} item={item} onToggle={() => toggleItem(item.id)} onDelete={() => deleteItem(item.id)} justDone={false} confirmingDelete={confirmDeleteId === item.id} />
                         ))}
                       </div>
                     )
