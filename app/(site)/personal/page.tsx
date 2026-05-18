@@ -75,6 +75,15 @@ const SECTIONS = [
     bg:      'rgba(245,197,24,0.08)',
     border:  'rgba(245,197,24,0.25)',
   },
+  {
+    href:    '/progression',
+    emoji:   '📊',
+    title:   'Progression',
+    desc:    '10 habitudes quotidiennes + calendrier mensuel vert/rouge — sauvegardé en DB.',
+    color:   '#1D9E75',
+    bg:      'rgba(29,158,117,0.08)',
+    border:  'rgba(29,158,117,0.25)',
+  },
 ]
 
 export default function PersonalPage() {
