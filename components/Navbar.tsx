@@ -10,7 +10,7 @@ const links = [
   { href: '/personal', label: 'Personal Life', emoji: '👤', match: (p: string, _q: string) =>
       p.startsWith('/personal') || p.startsWith('/goals') || p.startsWith('/routines') ||
       p.startsWith('/pomodoro')  || p.startsWith('/workout') || p.startsWith('/diet') ||
-      p.startsWith('/aesthetic') },
+      p.startsWith('/aesthetic') || p.startsWith('/bucketlist') },
   { href: '/raja',     label: 'Raja',          emoji: '🦅', match: (p: string, _q: string) => p.startsWith('/raja') },
 ]
 

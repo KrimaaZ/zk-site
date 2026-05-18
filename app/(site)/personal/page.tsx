@@ -66,6 +66,15 @@ const SECTIONS = [
     bg:      'rgba(192,192,192,0.06)',
     border:  'rgba(192,192,192,0.2)',
   },
+  {
+    href:    '/bucketlist',
+    emoji:   '🪣',
+    title:   'Bucket List',
+    desc:    'Tes rêves et objectifs de vie — suivi, priorités et accomplissements.',
+    color:   '#F5C518',
+    bg:      'rgba(245,197,24,0.08)',
+    border:  'rgba(245,197,24,0.25)',
+  },
 ]
 
 export default function PersonalPage() {
