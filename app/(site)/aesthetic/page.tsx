@@ -53,6 +53,23 @@ function EmptyState({ icon, text }: { icon: string; text: string }) {
   )
 }
 
+// ─── Save row ─────────────────────────────────────────────────────────────────
+
+function SaveRow({ onCancel, onSave, saving }: { onCancel: () => void; onSave: () => void; saving: boolean }) {
+  return (
+    <div style={{ display: 'flex', gap: 10 }}>
+      <button onClick={onCancel} disabled={saving}
+        style={{ flex: 1, background: 'transparent', border: '1px solid #333', color: '#888', borderRadius: 4, padding: 10, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13 }}>
+        Annuler
+      </button>
+      <button onClick={onSave} disabled={saving}
+        style={{ flex: 2, background: saving ? '#444' : '#fff', border: 'none', color: saving ? '#aaa' : '#000', borderRadius: 4, padding: 10, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 700, transition: 'all .2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+        {saving ? <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid #888', borderTop: '2px solid transparent', borderRadius: '50%', animation: 'aeSpin .7s linear infinite' }} /> Sauvegarde…</> : 'Ajouter'}
+      </button>
+    </div>
+  )
+}
+
 // ─── Modal wrapper ────────────────────────────────────────────────────────────
 
 function Modal({ onClose, title, children }: { onClose: () => void; title: string; children: React.ReactNode }) {
@@ -67,20 +84,54 @@ function Modal({ onClose, title, children }: { onClose: () => void; title: strin
   )
 }
 
+// ─── Image compression (canvas) ──────────────────────────────────────────────
+
+function compressImage(file: File, maxPx = 1200, quality = 0.78): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file)
+    const img = new window.Image()
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      let { width, height } = img
+      if (width > maxPx || height > maxPx) {
+        if (width > height) { height = Math.round(height * maxPx / width); width = maxPx }
+        else { width = Math.round(width * maxPx / height); height = maxPx }
+      }
+      const canvas = document.createElement('canvas')
+      canvas.width = width; canvas.height = height
+      const ctx = canvas.getContext('2d')!
+      ctx.drawImage(img, 0, 0, width, height)
+      resolve(canvas.toDataURL('image/jpeg', quality))
+    }
+    img.onerror = reject
+    img.src = url
+  })
+}
+
 // ─── Upload drop zone ─────────────────────────────────────────────────────────
 
 function DropZone({ img, setImg }: { img: string; setImg: (v: string) => void }) {
   const [drag, setDrag] = useState(false)
+  const [loading, setLoading] = useState(false)
   const ref = useRef<HTMLInputElement>(null)
-  const read = (f: File) => { const r = new FileReader(); r.onload = e => setImg(e.target!.result as string); r.readAsDataURL(f) }
+
+  const read = async (f: File) => {
+    setLoading(true)
+    try { setImg(await compressImage(f)) } catch { /* fallback to raw */ const r = new FileReader(); r.onload = e => setImg(e.target!.result as string); r.readAsDataURL(f) }
+    setLoading(false)
+  }
+
   return (
     <div onDragOver={e => { e.preventDefault(); setDrag(true) }} onDragLeave={() => setDrag(false)}
       onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f?.type.startsWith('image/')) read(f) }}
-      onClick={() => ref.current?.click()}
-      style={{ border: `1px dashed ${drag ? '#fff' : '#333'}`, borderRadius: 4, padding: img ? 0 : '28px 0', cursor: 'pointer', overflow: 'hidden', marginBottom: 14, textAlign: 'center', background: drag ? 'rgba(255,255,255,0.04)' : '#0a0a0a', transition: 'all .2s' }}>
-      {img
-        ? <img src={img} alt="" style={{ width: '100%', maxHeight: 220, objectFit: 'cover', display: 'block' }} />
-        : <><div style={{ fontSize: 28, opacity: 0.4 }}>📷</div><div style={{ fontSize: 12, color: '#555', marginTop: 6 }}>Glisse ou clique pour uploader</div></>}
+      onClick={() => !loading && ref.current?.click()}
+      style={{ border: `1px dashed ${drag ? '#fff' : '#333'}`, borderRadius: 4, padding: img ? 0 : '28px 0', cursor: loading ? 'wait' : 'pointer', overflow: 'hidden', marginBottom: 14, textAlign: 'center', background: drag ? 'rgba(255,255,255,0.04)' : '#0a0a0a', transition: 'all .2s', minHeight: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {loading
+        ? <div style={{ fontSize: 12, color: '#666' }}>Compression…</div>
+        : img
+          ? <img src={img} alt="" style={{ width: '100%', maxHeight: 220, objectFit: 'cover', display: 'block' }} />
+          : <div><div style={{ fontSize: 28, opacity: 0.4 }}>📷</div><div style={{ fontSize: 12, color: '#555', marginTop: 6 }}>Glisse ou clique pour uploader</div></div>
+      }
       <input ref={ref} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) read(f); e.target.value = '' }} />
     </div>
   )
@@ -139,6 +190,8 @@ export default function AestheticPage() {
 
   // Modal
   const [modal, setModal] = useState<Tab | null>(null)
+  const [saving, setSaving] = useState(false)
+  const [saveErr, setSaveErr] = useState('')
 
   // Form fields
   const [fImg, setFImg]         = useState('')
@@ -149,7 +202,7 @@ export default function AestheticPage() {
   const [fDate, setFDate]       = useState('')
   const [fNote, setFNote]       = useState('')
 
-  const resetForm = () => { setFImg(''); setFLabel(''); setFContext(''); setFWho(''); setFMoment(''); setFDate(''); setFNote('') }
+  const resetForm = () => { setFImg(''); setFLabel(''); setFContext(''); setFWho(''); setFMoment(''); setFDate(''); setFNote(''); setSaveErr('') }
   const openModal = (t: Tab) => { resetForm(); setModal(t) }
 
   // Load data
@@ -162,34 +215,28 @@ export default function AestheticPage() {
 
   // ── Add handlers ──────────────────────────────────────────────────────────
 
-  const addOutfit = async () => {
-    if (!fImg) return
-    const res = await fetch('/api/aesthetic/outfits', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: fImg, label: fLabel }) })
-    const item: Outfit = await res.json()
-    setOutfits(p => [item, ...p]); setModal(null); resetForm()
+  const save = async (url: string, body: object, onSuccess: (item: any) => void) => {
+    if (!fImg) { setSaveErr('Sélectionne une photo d\'abord.'); return }
+    setSaving(true); setSaveErr('')
+    try {
+      const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.error || `Erreur ${res.status}`) }
+      const item = await res.json()
+      onSuccess(item); setModal(null); resetForm()
+    } catch (e: any) {
+      setSaveErr(e.message || 'Erreur lors de la sauvegarde.')
+    } finally {
+      setSaving(false)
+    }
   }
 
-  const addAPhoto = async () => {
-    if (!fImg) return
-    const res = await fetch('/api/aesthetic/photos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: fImg, context: fContext }) })
-    const item: APhoto = await res.json()
-    setAPhotos(p => [item, ...p]); setModal(null); resetForm()
-  }
-
-  const addProche = async () => {
-    if (!fImg) return
+  const addOutfit  = () => save('/api/aesthetic/outfits', { data: fImg, label: fLabel }, (item: Outfit) => setOutfits(p => [item, ...p]))
+  const addAPhoto  = () => save('/api/aesthetic/photos',  { data: fImg, context: fContext }, (item: APhoto) => setAPhotos(p => [item, ...p]))
+  const addProche  = () => {
     const rotation = parseFloat((Math.random() * 8 - 4).toFixed(2))
-    const res = await fetch('/api/aesthetic/proches', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: fImg, who: fWho, moment: fMoment, rotation }) })
-    const item: Proche = await res.json()
-    setProches(p => [item, ...p]); setModal(null); resetForm()
+    save('/api/aesthetic/proches', { data: fImg, who: fWho, moment: fMoment, rotation }, (item: Proche) => setProches(p => [item, ...p]))
   }
-
-  const addPhysique = async () => {
-    if (!fImg) return
-    const res = await fetch('/api/aesthetic/physique', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: fImg, date: fDate, note: fNote }) })
-    const item: Physique = await res.json()
-    setPhysiques(p => [item, ...p].sort((a, b) => (b.date || '').localeCompare(a.date || ''))); setModal(null); resetForm()
-  }
+  const addPhysique = () => save('/api/aesthetic/physique', { data: fImg, date: fDate, note: fNote }, (item: Physique) => setPhysiques(p => [item, ...p].sort((a, b) => (b.date || '').localeCompare(a.date || ''))))
 
   // ── Delete handlers ───────────────────────────────────────────────────────
 
@@ -220,6 +267,7 @@ export default function AestheticPage() {
         .phy-entry:hover .phy-del { opacity: 1 !important; }
         @keyframes aeFadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
         .ae-fade { animation: aeFadeIn .3s ease forwards; }
+        @keyframes aeSpin { to { transform: rotate(360deg) } }
       `}</style>
 
       {/* ── HEADER ─────────────────────────────────────────── */}
@@ -374,48 +422,40 @@ export default function AestheticPage() {
       {/* ── MODALS ─────────────────────────────────────────── */}
 
       {modal === 'outfits' && (
-        <Modal onClose={() => setModal(null)} title="👔 Ajouter un outfit">
+        <Modal onClose={() => !saving && setModal(null)} title="👔 Ajouter un outfit">
           <DropZone img={fImg} setImg={setFImg} />
           <input className="ae-inp" value={fLabel} onChange={e => setFLabel(e.target.value)} placeholder="Style, marques, occasion..." style={{ ...inp, marginBottom: 16 }} />
-          <div style={{ display: 'flex', gap: 10 }}>
-            <button onClick={() => setModal(null)} style={{ flex: 1, background: 'transparent', border: '1px solid #333', color: '#888', borderRadius: 4, padding: 10, cursor: 'pointer', fontSize: 13 }}>Annuler</button>
-            <button onClick={addOutfit} style={{ flex: 2, background: '#fff', border: 'none', color: '#000', borderRadius: 4, padding: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>Ajouter</button>
-          </div>
+          {saveErr && <div style={{ color: '#ef4444', fontSize: 12, marginBottom: 12, padding: '8px 12px', background: 'rgba(239,68,68,0.08)', borderRadius: 4 }}>{saveErr}</div>}
+          <SaveRow onCancel={() => setModal(null)} onSave={addOutfit} saving={saving} />
         </Modal>
       )}
 
       {modal === 'aesthetic' && (
-        <Modal onClose={() => setModal(null)} title="📷 Ajouter une photo">
+        <Modal onClose={() => !saving && setModal(null)} title="📷 Ajouter une photo">
           <DropZone img={fImg} setImg={setFImg} />
           <input className="ae-inp" value={fContext} onChange={e => setFContext(e.target.value)} placeholder="Où, quand, pourquoi..." style={{ ...inp, marginBottom: 16 }} />
-          <div style={{ display: 'flex', gap: 10 }}>
-            <button onClick={() => setModal(null)} style={{ flex: 1, background: 'transparent', border: '1px solid #333', color: '#888', borderRadius: 4, padding: 10, cursor: 'pointer', fontSize: 13 }}>Annuler</button>
-            <button onClick={addAPhoto} style={{ flex: 2, background: '#fff', border: 'none', color: '#000', borderRadius: 4, padding: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>Ajouter</button>
-          </div>
+          {saveErr && <div style={{ color: '#ef4444', fontSize: 12, marginBottom: 12, padding: '8px 12px', background: 'rgba(239,68,68,0.08)', borderRadius: 4 }}>{saveErr}</div>}
+          <SaveRow onCancel={() => setModal(null)} onSave={addAPhoto} saving={saving} />
         </Modal>
       )}
 
       {modal === 'proches' && (
-        <Modal onClose={() => setModal(null)} title="👥 Ajouter un souvenir">
+        <Modal onClose={() => !saving && setModal(null)} title="👥 Ajouter un souvenir">
           <DropZone img={fImg} setImg={setFImg} />
           <input className="ae-inp" value={fWho} onChange={e => setFWho(e.target.value)} placeholder="Famille, amis, nom..." style={{ ...inp, marginBottom: 10 }} />
           <input className="ae-inp" value={fMoment} onChange={e => setFMoment(e.target.value)} placeholder="C'était quand, où..." style={{ ...inp, marginBottom: 16 }} />
-          <div style={{ display: 'flex', gap: 10 }}>
-            <button onClick={() => setModal(null)} style={{ flex: 1, background: 'transparent', border: '1px solid #333', color: '#888', borderRadius: 4, padding: 10, cursor: 'pointer', fontSize: 13 }}>Annuler</button>
-            <button onClick={addProche} style={{ flex: 2, background: '#fff', border: 'none', color: '#000', borderRadius: 4, padding: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>Ajouter</button>
-          </div>
+          {saveErr && <div style={{ color: '#ef4444', fontSize: 12, marginBottom: 12, padding: '8px 12px', background: 'rgba(239,68,68,0.08)', borderRadius: 4 }}>{saveErr}</div>}
+          <SaveRow onCancel={() => setModal(null)} onSave={addProche} saving={saving} />
         </Modal>
       )}
 
       {modal === 'physique' && (
-        <Modal onClose={() => setModal(null)} title="💪 Ajouter une photo">
+        <Modal onClose={() => !saving && setModal(null)} title="💪 Ajouter une photo">
           <DropZone img={fImg} setImg={setFImg} />
           <input className="ae-inp" type="date" value={fDate} onChange={e => setFDate(e.target.value)} style={{ ...inp, marginBottom: 10 }} />
           <textarea className="ae-inp" value={fNote} onChange={e => setFNote(e.target.value)} placeholder="Séance du jour, ressenti..." rows={2} style={{ ...inp, resize: 'none', marginBottom: 16 }} />
-          <div style={{ display: 'flex', gap: 10 }}>
-            <button onClick={() => setModal(null)} style={{ flex: 1, background: 'transparent', border: '1px solid #333', color: '#888', borderRadius: 4, padding: 10, cursor: 'pointer', fontSize: 13 }}>Annuler</button>
-            <button onClick={addPhysique} style={{ flex: 2, background: '#fff', border: 'none', color: '#000', borderRadius: 4, padding: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>Ajouter</button>
-          </div>
+          {saveErr && <div style={{ color: '#ef4444', fontSize: 12, marginBottom: 12, padding: '8px 12px', background: 'rgba(239,68,68,0.08)', borderRadius: 4 }}>{saveErr}</div>}
+          <SaveRow onCancel={() => setModal(null)} onSave={addPhysique} saving={saving} />
         </Modal>
       )}
 
