@@ -18,86 +18,63 @@ interface Meal {
   tip: string
 }
 
+const CHICKEN_RICE: Meal = {
+  emoji: '🍗', label: '', time: '', color: BLUE, colorLight: 'rgba(59,130,246,0.08)',
+  kcal: 400, prot: 50, gluc: 42, lip: 3,
+  title: 'Blanc de poulet + riz',
+  subtitle: '200g poulet cru · 50g riz cru · Repas principal ×3/jour',
+  ingredients: [
+    { name: 'Blanc de poulet', note: 'peser cru — perd ~25% à la cuisson', weight: '200g' },
+    { name: 'Riz', note: 'peser cru — donne ~150g cuit', weight: '50g' },
+    { name: 'Sel · cumin · paprika', note: 'assaisonnement', weight: 'à goût' },
+  ],
+  steps: [
+    { text: "Pèse 50g riz cru. Lave sous eau froide. Cuis dans eau bouillante salée 15-18 min.", time: '18 min' },
+    { text: "Pèse 200g blanc de poulet cru. Assaisonne sel + cumin + paprika. Poêle anti-adhésive sans huile feu moyen, 7 min par face. Coupe le plus épais — zéro rosé.", time: '14 min' },
+    { text: "Dresse: riz + poulet tranché. Mange immédiatement ou stocke en boîte hermétique.", time: '1 min' },
+  ],
+  tip: "Meal prep — Cuis 600g de blanc de poulet + 150g riz cru le dimanche. Divise en 3 portions égales en boîte hermétique. Réchauffe 2 min micro-ondes avec un fond d'eau. Économise 20 min par repas.",
+}
+
 const MEALS: Meal[] = [
   {
     emoji: '☀️', label: 'Repas 1', time: '7h00', color: G, colorLight: 'rgba(29,158,117,0.08)',
-    kcal: 530, prot: 50, gluc: 62, lip: 18,
-    title: 'Porridge whey + oeufs brouillés',
-    subtitle: 'Prêt en 10 min · La whey passe ici — seule dose de la journée',
+    kcal: 600, prot: 37, gluc: 78, lip: 11,
+    title: 'Porridge whey · PB · banane · miel',
+    subtitle: 'Prêt en 5 min · High-protein bowl · 1 seul scoop de whey/jour',
     ingredients: [
-      { name: "Flocons d'avoine", note: 'peser à sec obligatoirement', weight: '80g' },
-      { name: 'Whey protéine', note: '1 seule dose/jour', weight: '30g' },
-      { name: 'Confiture sans sucre', note: 'topping sur porridge tiède', weight: '30g' },
-      { name: 'Oeufs entiers', note: 'calibre moyen 55-60g chacun', weight: '3 oeufs' },
-      { name: 'Eau pour flocons', note: '', weight: '200ml' },
+      { name: "Flocons d'avoine", note: 'peser à sec', weight: '50g' },
+      { name: 'Whey Protéine (1 scoop)', note: 'ajouter hors du feu, jamais en cuisson', weight: '30g' },
+      { name: 'Lait demi-écrémé', note: 'base du porridge à la place de l\'eau', weight: '100ml' },
+      { name: 'Miel', note: 'topping', weight: '10g' },
+      { name: 'Peanut Butter', note: 'topping', weight: '10g' },
+      { name: 'Banane', note: '1 banane moyenne ~120g, tranchée en rondelles', weight: '~120g' },
+      { name: 'Confiture', note: 'topping final', weight: '10g' },
     ],
     steps: [
-      { text: "Pèse 80g flocons à sec. Verse dans casserole avec 200ml eau froide. Feu moyen en remuant 3-4 min jusqu'à texture épaisse.", time: '4 min' },
-      { text: "Retire du feu. Laisse refroidir 2 min. Ajoute 30g whey et mélange énergiquement. Ne jamais ajouter la whey sur feu — amertume et dénaturation garanties.", time: '2 min' },
-      { text: "Pèse 30g confiture sans sucre et dépose en topping. Ne pas mélanger — garde le goût sur chaque cuillère.", time: '30 sec' },
-      { text: "Casse 3 oeufs dans poêle anti-adhésive SANS huile feu doux. Brouille lentement à la spatule. Arrête cuisson quand encore légèrement baveux. Sale légèrement.", time: '3 min' },
+      { text: "Pèse 50g flocons à sec. Verse dans bol avec 100ml lait. Micro-ondes 2 min puissance max. Remue à mi-cuisson.", time: '2 min' },
+      { text: "Laisse tiédir 1-2 min. Ajoute 1 scoop de whey et mélange énergiquement. Ne jamais ajouter la whey sur feu — amertume et dénaturation garanties.", time: '1 min' },
+      { text: "Tranche la banane en rondelles et dispose sur le dessus.", time: '30 sec' },
+      { text: "Dépose en toppings : 10g PB, 10g miel, 10g confiture. Ne pas mélanger — goût distinct à chaque cuillère.", time: '30 sec' },
     ],
-    tip: "La whey est ici au repas 1 — c'est stratégique. Le matin tu sors du jeûne nocturne, tes muscles sont en mode catabolisme. La whey à digestion rapide + les oeufs stoppent ça immédiatement.",
+    tip: "La whey au réveil stoppe le catabolisme nocturne immédiatement — digestion rapide en 30 min vs 3h pour le poulet. La banane + avoine + lait apportent glucides complexes et simples pour alimenter ta journée complète.",
   },
   {
-    emoji: '💪', label: 'Repas 2', time: '12h30', color: BLUE, colorLight: 'rgba(59,130,246,0.08)',
-    kcal: 590, prot: 60, gluc: 55, lip: 8,
-    title: 'Double blanc de poulet + pommes de terre + ketchup',
-    subtitle: 'Repas principal · Maximum protéines animales complètes',
-    ingredients: [
-      { name: 'Blanc de poulet cru', note: 'peser cru · perd 25% à cuisson · donne ~190g cuit', weight: '250g' },
-      { name: 'Pommes de terre crues épluchées', note: 'peser après épluchage', weight: '300g' },
-      { name: 'Ketchup', note: 'sur les pommes de terre chaudes', weight: '30g' },
-      { name: 'Oeufs entiers', note: 'en omelette ou durs à côté', weight: '2 oeufs' },
-      { name: 'Sel · cumin · paprika', note: '', weight: 'à goût' },
-    ],
-    steps: [
-      { text: "Épluche et pèse 300g pommes de terre. Coupe en morceaux égaux 3-4cm. Plonge dans eau froide salée, porte à ébullition, cuis 20 min. Alternative four: 200°C 25 min sur papier cuisson sans huile.", time: '20-25 min' },
-      { text: "Pèse 250g blanc de poulet cru. Assaisonne sel + paprika + cumin. Poêle anti-adhésive sans huile feu moyen — 7 min par face. Coupe le plus épais: zéro rosé à l'intérieur.", time: '14 min' },
-      { text: "Dans la même poêle après le poulet, casse 2 oeufs. Omelette simple feu doux ou oeufs au plat sans huile supplémentaire.", time: '3 min' },
-      { text: "Dresse: pommes de terre + poulet tranché + omelette. Pèse 30g ketchup sur les pommes de terre. Mange tout ensemble.", time: '2 min' },
-    ],
-    tip: "Meal prep — Cuis 750g de blanc de poulet le dimanche soir pour 3 jours. Frigo en boîte hermétique. Réchauffe 2 min micro-ondes avec un fond d'eau pour éviter que ça sèche. Économise 15 min par repas.",
+    ...CHICKEN_RICE,
+    label: 'Repas 2', time: '12h00',
+    colorLight: 'rgba(59,130,246,0.08)',
   },
   {
-    emoji: '⚡', label: 'Repas 3', time: '16h00', color: AMBER, colorLight: 'rgba(245,158,11,0.08)',
-    kcal: 490, prot: 42, gluc: 43, lip: 13,
-    title: 'Bowl flocons PB confiture (pré) + poulet post-workout',
-    subtitle: 'Glucides avant séance · Protéines solides après · Pas de whey ici',
-    ingredients: [
-      { name: "Flocons d'avoine", note: 'peser à sec', weight: '50g', section: 'Partie A — Pré-workout (1h avant)' },
-      { name: 'Peanut butter naturel', note: '1 cuillère à soupe pesée', weight: '20g' },
-      { name: 'Confiture sans sucre', note: 'topping après mélange PB', weight: '20g' },
-      { name: 'Eau', note: '', weight: '150ml' },
-      { name: 'Blanc de poulet cru', note: 'préparé à l\'avance · réchauffé micro-ondes', weight: '150g', section: 'Partie B — Post-workout (dans les 30 min)' },
-      { name: 'Oeufs durs', note: 'préparés à l\'avance dans le sac gym', weight: '2 oeufs' },
-    ],
-    steps: [
-      { text: "PRÉ: pèse 50g flocons à sec dans bol. Ajoute 150ml eau. Micro-ondes 2 min puissance max. Laisse 30 sec.", time: '2 min' },
-      { text: "Pèse 20g PB directement dans bol chaud. Mélange — la chaleur le rend crémeux. Pèse 20g confiture en topping. Mange 1h avant ta séance.", time: '1 min' },
-      { text: "POST: emmène dans ton sac gym 150g de blanc de poulet cuit la veille en boîte + 2 oeufs durs déjà écalés dans un sachet. Mange dans les 30 min après ta dernière série.", time: 'Zéro prépa sur place' },
-    ],
-    tip: "Sans whey post-workout — le poulet + oeufs remplacent efficacement. Mange dans les 30 min, mastique bien. L'essentiel c'est d'avoir des acides aminés dans le sang rapidement.",
+    ...CHICKEN_RICE,
+    label: 'Repas 3', time: '15h30',
+    color: AMBER, colorLight: 'rgba(245,158,11,0.08)',
+    emoji: '⚡',
   },
   {
-    emoji: '🌙', label: 'Repas 4', time: '20h00', color: PURPLE, colorLight: 'rgba(139,92,246,0.08)',
-    kcal: 400, prot: 30, gluc: 30, lip: 12,
-    title: 'Blanc de poulet + oeufs durs + pain + PB confiture',
-    subtitle: 'Dernier repas · Protéines lentes pour nuit anabolique',
-    ingredients: [
-      { name: 'Blanc de poulet cru', note: 'grillé ou bouilli · peser cru', weight: '120g' },
-      { name: 'Oeufs entiers durs', note: 'cuits 9 min eau bouillante', weight: '2 oeufs' },
-      { name: 'Pain complet ou khobz', note: 'peser à la balance · khobz dense', weight: '60g' },
-      { name: 'Peanut butter naturel', note: 'sur le pain · tartiner finement', weight: '15g' },
-      { name: 'Confiture sans sucre', note: 'par dessus le PB sur le pain', weight: '20g' },
-    ],
-    steps: [
-      { text: "Oeufs durs: plonge 2 oeufs dans eau bouillante salée. Exactement 9 min. Eau froide immédiatement 2 min pour stopper cuisson. Écale. Coupe en 2.", time: '9 min' },
-      { text: "Pèse 120g blanc de poulet cru. Poêle sans huile 6 min/face. OU si batch préparé: réchauffe micro-ondes 90 sec avec 2 cuillères d'eau dans le fond. Sale + cumin.", time: '5-12 min' },
-      { text: "Pèse 60g pain. Pèse 15g PB et tartine sur le pain. Pèse 20g confiture sans sucre et étale par dessus. Ton dessert de fin de journée.", time: '1 min' },
-      { text: "Mange dans cet ordre: poulet + oeufs d'abord, pain PB confiture en dernier. Les protéines digérées en premier créent un meilleur environnement hormonal pour la nuit.", time: '' },
-    ],
-    tip: "Nuit anabolique — Le jaune d'oeuf contient de la leucine et des acides gras qui favorisent la synthèse protéique pendant le sommeil. Mange les 2 oeufs entiers — ne jette pas le jaune le soir. Le PB apporte des lipides lents qui maintiennent les acides aminés en circulation pendant 6-8h.",
+    ...CHICKEN_RICE,
+    label: 'Repas 4', time: '19h00',
+    color: PURPLE, colorLight: 'rgba(139,92,246,0.08)',
+    emoji: '🌙',
   },
 ]
 
@@ -235,17 +212,17 @@ export default function DietPage() {
       <div className="mb-5">
         <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#F0F0F0' }}>🥩 Diet</h1>
         <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#555555' }}>
-          Plan alimentaire journalier · 2010 kcal
+          Plan alimentaire journalier · 1800 kcal · 4 repas
         </p>
       </div>
 
       {/* Macro summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {[
-          { label: 'Calories', value: '2010', unit: 'kcal', color: G },
-          { label: 'Protéines', value: '182', unit: 'g', color: '#1a6b4a' },
-          { label: 'Glucides', value: '170', unit: 'g', color: BLUE },
-          { label: 'Lipides', value: '48', unit: 'g', color: AMBER },
+          { label: 'Calories', value: '1800', unit: 'kcal', color: G },
+          { label: 'Protéines', value: '187', unit: 'g', color: '#1a6b4a' },
+          { label: 'Glucides', value: '204', unit: 'g', color: BLUE },
+          { label: 'Lipides', value: '20', unit: 'g', color: AMBER },
         ].map(m => (
           <div key={m.label} className="rounded-xl p-3 text-center border"
             style={{ backgroundColor: '#111111', borderColor: '#2a2a2a', borderWidth: '0.5px' }}>
