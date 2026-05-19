@@ -36,4 +36,8 @@ export const NUTRITION_DATA: NutritionItem[] = [
   { name: "Sucre",                    calories: 400, proteins: 0,    carbs: 100, fats: 0,    per: 100 },
   { name: "Blanc d'oeuf (1 unité)",   calories: 17,  proteins: 3.6,  carbs: 0.2, fats: 0.1,  per: 33  },
   { name: "Melon",                    calories: 34,  proteins: 0.8,  carbs: 8,   fats: 0.2,  per: 100 },
+  { name: "Thon en boîte (eau)",      calories: 116, proteins: 26,   carbs: 0,   fats: 1,    per: 100 },
+  { name: "Concombre",                calories: 16,  proteins: 0.7,  carbs: 3.6, fats: 0.1,  per: 100 },
+  { name: "Fraises",                  calories: 32,  proteins: 0.7,  carbs: 7.7, fats: 0.3,  per: 100 },
+  { name: "Kiwi",                     calories: 61,  proteins: 1.1,  carbs: 15,  fats: 0.5,  per: 100 },
 ]
