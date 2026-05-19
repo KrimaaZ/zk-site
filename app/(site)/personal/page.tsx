@@ -84,6 +84,15 @@ const SECTIONS = [
     bg:      'rgba(29,158,117,0.08)',
     border:  'rgba(29,158,117,0.25)',
   },
+  {
+    href:    '/calculator',
+    emoji:   '🧮',
+    title:   'Calculateur',
+    desc:    'Calcule tes macros (calories, protéines, glucides, lipides) via Claude AI.',
+    color:   '#D4AF37',
+    bg:      'rgba(212,175,55,0.08)',
+    border:  'rgba(212,175,55,0.25)',
+  },
 ]
 
 export default function PersonalPage() {
