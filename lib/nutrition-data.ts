@@ -31,4 +31,9 @@ export const NUTRITION_DATA: NutritionItem[] = [
   { name: "Rice Cake",                calories: 387, proteins: 8,    carbs: 81,  fats: 3,    per: 100 },
   { name: "Confiture -30% sucre",     calories: 185, proteins: 0.4,  carbs: 45,  fats: 0.1,  per: 100 },
   { name: "Toast complet",            calories: 247, proteins: 9,    carbs: 41,  fats: 4,    per: 100 },
+  { name: "Miel",                     calories: 304, proteins: 0.3,  carbs: 82,  fats: 0,    per: 100 },
+  { name: "Amlou",                    calories: 550, proteins: 12,   carbs: 18,  fats: 48,   per: 100 },
+  { name: "Sucre",                    calories: 400, proteins: 0,    carbs: 100, fats: 0,    per: 100 },
+  { name: "Blanc d'oeuf (1 unité)",   calories: 17,  proteins: 3.6,  carbs: 0.2, fats: 0.1,  per: 33  },
+  { name: "Melon",                    calories: 34,  proteins: 0.8,  carbs: 8,   fats: 0.2,  per: 100 },
 ]
