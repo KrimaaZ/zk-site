@@ -1,87 +1,113 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useLang } from '@/lib/lang'
+import { usePathname } from 'next/navigation'
 import { Suspense } from 'react'
 
-const links = [
-  { href: '/feed',     label: 'Feed',          emoji: '🏡', match: (p: string, _q: string) => p.startsWith('/feed') },
-  { href: '/personal', label: 'Personal Life', emoji: '👤', match: (p: string, _q: string) =>
-      p.startsWith('/personal') || p.startsWith('/goals') || p.startsWith('/routines') ||
-      p.startsWith('/pomodoro')  || p.startsWith('/workout') || p.startsWith('/diet') ||
-      p.startsWith('/aesthetic') || p.startsWith('/bucketlist') || p.startsWith('/progression') || p.startsWith('/calculator') },
-  { href: '/raja',     label: 'Raja',          emoji: '🦅', match: (p: string, _q: string) => p.startsWith('/raja') },
+const LINKS = [
+  {
+    href:  '/feed',
+    emoji: '🏠',
+    label: 'Feed',
+    color: '#60A5FA',
+    glow:  'rgba(96,165,250,0.35)',
+    bg:    'rgba(59,130,246,0.15)',
+    match: (p: string) => p.startsWith('/feed'),
+  },
+  {
+    href:  '/personal',
+    emoji: '💀',
+    label: 'Personal',
+    color: '#A78BFA',
+    glow:  'rgba(167,139,250,0.35)',
+    bg:    'rgba(139,92,246,0.15)',
+    match: (p: string) =>
+      p.startsWith('/personal') || p.startsWith('/goals')      ||
+      p.startsWith('/routines') || p.startsWith('/pomodoro')   ||
+      p.startsWith('/workout')  || p.startsWith('/diet')       ||
+      p.startsWith('/aesthetic')|| p.startsWith('/bucketlist') ||
+      p.startsWith('/progression') || p.startsWith('/calculator') ||
+      p.startsWith('/music')    || p.startsWith('/summer'),
+  },
+  {
+    href:  '/raja',
+    emoji: '🦅',
+    label: 'Raja',
+    color: '#F472B6',
+    glow:  'rgba(244,114,182,0.35)',
+    bg:    'rgba(236,72,153,0.15)',
+    match: (p: string) => p.startsWith('/raja'),
+  },
 ]
 
 function NavInner() {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const view = searchParams.get('view') ?? ''
-  const { lang, toggle } = useLang()
-
   if (pathname === '/') return null
 
   return (
-    <>
-      {/* ── Top bar ── */}
-      <nav style={{ backgroundColor: '#0a0a0a', borderBottom: '1px solid #1a1a1a' }} className="sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link href="/" className="font-bold text-xl tracking-widest" style={{ color: '#D4AF37' }}>
-            MAK
-          </Link>
-
-          <div className="flex items-center gap-2">
-            {/* Desktop nav */}
-            <div className="hidden sm:flex gap-1 items-center">
-              {links.map(link => {
-                const active = link.match(pathname, view)
-                return (
-                  <Link key={link.href} href={link.href}
-                    className="px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5"
-                    style={{
-                      backgroundColor: active ? 'rgba(212,175,55,0.15)' : 'transparent',
-                      color: active ? '#D4AF37' : '#888888',
-                      border: active ? '1px solid rgba(212,175,55,0.3)' : '1px solid transparent',
-                    }}
-                    onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.05)'; (e.currentTarget as HTMLElement).style.color = '#C0C0C0' } }}
-                    onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#888888' } }}>
-                    <span>{link.emoji}</span>
-                    <span>{link.label}</span>
-                  </Link>
-                )
-              })}
-            </div>
-
-            {/* Language toggle */}
-            <button
-              onClick={toggle}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg transition-colors border"
-              style={{ borderColor: 'rgba(212,175,55,0.3)', color: '#D4AF37', backgroundColor: 'rgba(212,175,55,0.08)' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(212,175,55,0.18)' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(212,175,55,0.08)' }}>
-              {lang === 'en' ? 'FR' : 'EN'}
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* ── Bottom nav (mobile only) ── */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 flex border-t"
-        style={{ backgroundColor: '#0a0a0a', borderColor: '#1a1a1a' }}>
-        {links.map(link => {
-          const active = link.match(pathname, view)
+    <nav
+      style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
+        background: 'rgba(5, 5, 18, 0.88)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        borderTop: '1px solid rgba(139, 92, 246, 0.1)',
+        boxShadow: '0 -8px 40px rgba(0, 0, 0, 0.6)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'stretch', maxWidth: 480, margin: '0 auto' }}>
+        {LINKS.map(link => {
+          const active = link.match(pathname)
           return (
-            <Link key={link.href} href={link.href}
-              className="flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-colors text-xs"
-              style={{ color: active ? '#D4AF37' : '#555555', backgroundColor: active ? 'rgba(212,175,55,0.08)' : 'transparent' }}>
-              <span className="text-xl leading-none">{link.emoji}</span>
-              <span className="font-medium" style={{ fontSize: '10px' }}>{link.label}</span>
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                flex: 1, display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                gap: 4, padding: '10px 8px 12px',
+                textDecoration: 'none', position: 'relative',
+                transition: 'all 0.2s',
+              }}
+            >
+              {/* Active indicator bar on top */}
+              {active && (
+                <div style={{
+                  position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+                  width: 32, height: 2, borderRadius: 99,
+                  background: link.color,
+                  boxShadow: `0 0 8px ${link.glow}`,
+                }} />
+              )}
+
+              {/* Icon container */}
+              <div style={{
+                width: 44, height: 44, borderRadius: 14,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 22,
+                background: active ? link.bg : 'transparent',
+                border: active ? `1px solid ${link.color}30` : '1px solid transparent',
+                boxShadow: active ? `0 4px 16px ${link.glow}` : 'none',
+                transition: 'all 0.25s',
+              }}>
+                {link.emoji}
+              </div>
+
+              {/* Label */}
+              <span style={{
+                fontSize: 10, fontWeight: 700,
+                letterSpacing: '.07em', textTransform: 'uppercase' as const,
+                color: active ? link.color : '#3d3d5c',
+                transition: 'color 0.2s',
+              }}>
+                {link.label}
+              </span>
             </Link>
           )
         })}
       </div>
-    </>
+    </nav>
   )
 }
 
