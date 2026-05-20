@@ -14,8 +14,8 @@ type FeedItem = {
 }
 
 const CAT_STYLE: Record<string, { badge: string; border: string }> = {
-  food:    { badge: '#1D9E75', border: '#0d2e1f' },
-  workout: { badge: '#B8960C', border: '#2a2000' },
+  food:    { badge: '#1D9E75', border: '#0d1a2e' },
+  workout: { badge: '#7C3AED', border: '#1a1030' },
 }
 
 const QUOTES = [
@@ -73,16 +73,16 @@ export default function FeedPage() {
       {/* Hero */}
       <div className="text-center py-8 sm:py-14 mb-6 sm:mb-10">
         <div className="inline-block px-4 py-1 rounded-full text-xs font-bold mb-3 uppercase tracking-widest"
-          style={{ backgroundColor: 'rgba(212,175,55,0.1)', color: '#D4AF37', border: '1px solid rgba(212,175,55,0.2)' }}>
+          style={{ backgroundColor: 'rgba(139,92,246,0.1)', color: '#8B5CF6', border: '1px solid rgba(139,92,246,0.2)' }}>
           {t.tagline}
         </div>
-        <h1 className="text-3xl sm:text-5xl font-bold mb-3" style={{ color: '#F0F0F0' }}>
+        <h1 className="text-3xl sm:text-5xl font-bold mb-3" style={{ color: '#E2E8F0' }}>
           {t.welcomeBack}
         </h1>
         <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/personal"
             className="inline-flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105 border"
-            style={{ backgroundColor: 'rgba(212,175,55,0.12)', borderColor: 'rgba(212,175,55,0.4)', color: '#D4AF37' }}>
+            style={{ backgroundColor: 'rgba(139,92,246,0.12)', borderColor: 'rgba(139,92,246,0.4)', color: '#8B5CF6' }}>
             <span>👤</span> Personal Life
           </Link>
           <Link href="/raja"
@@ -96,27 +96,27 @@ export default function FeedPage() {
       {/* Quote */}
       <div className="mb-10 mx-auto max-w-2xl">
         <div className="rounded-2xl px-6 py-7 relative overflow-hidden border"
-          style={{ backgroundColor: '#111111', borderColor: 'rgba(212,175,55,0.15)' }}>
+          style={{ backgroundColor: '#0d0d1a', borderColor: 'rgba(139,92,246,0.15)' }}>
           <span className="absolute top-3 left-5 text-5xl font-serif leading-none select-none"
-            style={{ color: '#D4AF37', opacity: 0.3 }}>"</span>
+            style={{ color: '#8B5CF6', opacity: 0.3 }}>"</span>
           <div style={{
             transition: 'opacity 0.4s ease, transform 0.4s ease',
             opacity: fadeIn ? 1 : 0,
             transform: fadeIn ? 'translateY(0)' : 'translateY(6px)',
           }}>
             <p className="text-base sm:text-lg font-medium leading-relaxed text-center pt-3"
-              style={{ color: '#E8E8E8' }}>
+              style={{ color: '#CBD5E1' }}>
               {quote.text}
             </p>
             {quote.author && (
               <p className="text-xs text-center mt-3 font-semibold uppercase tracking-widest"
-                style={{ color: '#D4AF37' }}>
+                style={{ color: '#8B5CF6' }}>
                 — {quote.author}
               </p>
             )}
           </div>
           <span className="absolute bottom-3 right-5 text-5xl font-serif leading-none select-none"
-            style={{ color: '#D4AF37', opacity: 0.3 }}>"</span>
+            style={{ color: '#8B5CF6', opacity: 0.3 }}>"</span>
 
           {/* Progress dots */}
           <div className="flex justify-center gap-1.5 mt-5">
@@ -127,7 +127,7 @@ export default function FeedPage() {
                 style={{
                   width: i === quoteIndex ? '20px' : '6px',
                   height: '6px',
-                  backgroundColor: i === quoteIndex ? '#D4AF37' : '#2a2a2a',
+                  backgroundColor: i === quoteIndex ? '#8B5CF6' : '#1e1e2e',
                 }} />
             ))}
           </div>
@@ -139,13 +139,13 @@ export default function FeedPage() {
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="break-inside-avoid mb-4 rounded-2xl h-40 animate-pulse"
-              style={{ backgroundColor: '#1a1a1a' }} />
+              style={{ backgroundColor: '#12121f' }} />
           ))}
         </div>
       ) : feed.length === 0 ? (
-        <div className="text-center py-24 rounded-2xl border" style={{ backgroundColor: '#111111', borderColor: '#1a1a1a', color: '#555555' }}>
+        <div className="text-center py-24 rounded-2xl border" style={{ backgroundColor: '#0d0d1a', borderColor: '#12121f', color: '#475569' }}>
           <p className="text-5xl mb-4">🌱</p>
-          <p className="text-xl font-medium mb-1" style={{ color: '#888888' }}>{t.nothingYet}</p>
+          <p className="text-xl font-medium mb-1" style={{ color: '#64748B' }}>{t.nothingYet}</p>
           <p className="text-sm">{t.nothingYetSub}</p>
         </div>
       ) : (
@@ -155,18 +155,18 @@ export default function FeedPage() {
             return (
               <Link key={`${item.category}-${item.id}`} href={item.href}
                 className="block break-inside-avoid mb-4 rounded-2xl p-5 border transition-all duration-200 hover:-translate-y-0.5"
-                style={{ backgroundColor: '#111111', borderColor: '#2a2a2a' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,175,55,0.3)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#2a2a2a' }}>
+                style={{ backgroundColor: '#0d0d1a', borderColor: '#1e1e2e' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(139,92,246,0.3)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#1e1e2e' }}>
                 <span className="inline-block text-xs font-bold px-3 py-1 rounded-full text-white uppercase tracking-wide mb-3"
                   style={{ backgroundColor: s.badge }}>
                   {item.category}
                 </span>
-                <h3 className="font-semibold text-lg leading-snug mb-2" style={{ color: '#F0F0F0' }}>
+                <h3 className="font-semibold text-lg leading-snug mb-2" style={{ color: '#E2E8F0' }}>
                   {item.title}
                 </h3>
-                <p className="text-sm line-clamp-3" style={{ color: '#888888' }}>{item.excerpt}</p>
-                <p className="text-xs mt-3" style={{ color: '#3a3a3a' }}>{item.date}</p>
+                <p className="text-sm line-clamp-3" style={{ color: '#64748B' }}>{item.excerpt}</p>
+                <p className="text-xs mt-3" style={{ color: '#2a2a40' }}>{item.date}</p>
               </Link>
             )
           })}

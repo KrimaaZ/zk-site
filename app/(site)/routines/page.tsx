@@ -86,7 +86,7 @@ function RoutineCard({
 
   return (
     <div style={{
-      background: '#111111',
+      background: '#0d0d1a',
       borderRadius: 20,
       border: `1px solid ${color}30`,
       overflow: 'hidden',
@@ -113,19 +113,19 @@ function RoutineCard({
             </div>
             <div>
               <div style={{ fontSize: 16, fontWeight: 800, color: color }}>{title}</div>
-              <div style={{ fontSize: 11, color: '#555555', marginTop: 1 }}>{subtitle}</div>
+              <div style={{ fontSize: 11, color: '#475569', marginTop: 1 }}>{subtitle}</div>
             </div>
           </div>
           <div style={{ textAlign:'right' }}>
-            <div style={{ fontSize: 20, fontWeight: 800, color: allDone ? color : '#F0F0F0' }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: allDone ? color : '#E2E8F0' }}>
               {done}/{total}
             </div>
-            <div style={{ fontSize: 10, color: '#555555' }}>complétés</div>
+            <div style={{ fontSize: 10, color: '#475569' }}>complétés</div>
           </div>
         </div>
 
         {/* Progress bar */}
-        <div style={{ height: 4, background: '#1a1a1a', borderRadius: 100, overflow: 'hidden' }}>
+        <div style={{ height: 4, background: '#12121f', borderRadius: 100, overflow: 'hidden' }}>
           <div style={{
             height: '100%',
             width: `${(done / total) * 100}%`,
@@ -147,8 +147,8 @@ function RoutineCard({
               style={{
                 display: 'flex', alignItems: 'center', gap: 12,
                 padding: '12px 16px', borderRadius: 12, cursor: 'pointer',
-                background: checked ? `${color}10` : '#1a1a1a',
-                border: `1px solid ${checked ? color + '50' : '#2a2a2a'}`,
+                background: checked ? `${color}10` : '#12121f',
+                border: `1px solid ${checked ? color + '50' : '#1e1e2e'}`,
                 transition: 'all .2s',
                 userSelect: 'none',
               }}>
@@ -168,7 +168,7 @@ function RoutineCard({
               {/* Checkbox */}
               <div style={{
                 width: 22, height: 22, borderRadius: 7, flexShrink: 0,
-                border: `2px solid ${checked ? color : '#3a3a3a'}`,
+                border: `2px solid ${checked ? color : '#2a2a40'}`,
                 background: checked ? color : 'transparent',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'all .2s',
@@ -227,15 +227,15 @@ export default function RoutinesPage() {
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
         <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
-          <div style={{ width:3, height:20, background:'#D4AF37', borderRadius:2 }} />
-          <span style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase' as const, color:'#888888' }}>
+          <div style={{ width:3, height:20, background:'#8B5CF6', borderRadius:2 }} />
+          <span style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase' as const, color:'#64748B' }}>
             Routines
           </span>
         </div>
-        <h1 style={{ fontSize:26, fontWeight:800, color:'#F0F0F0', margin:0 }}>
+        <h1 style={{ fontSize:26, fontWeight:800, color:'#E2E8F0', margin:0 }}>
           Mes Routines
         </h1>
-        <p style={{ fontSize:13, color:'#555555', marginTop:6, textTransform:'capitalize' as const }}>
+        <p style={{ fontSize:13, color:'#475569', marginTop:6, textTransform:'capitalize' as const }}>
           📅 {dateLabel} — les cases se remettent à zéro chaque jour automatiquement
         </p>
       </div>
@@ -249,7 +249,7 @@ export default function RoutinesPage() {
           items={MORNING}
           checks={data.morning}
           color={SILVER}
-          colorSub="#E8E8E8"
+          colorSub="#CBD5E1"
           glowColor={SILVER}
           onToggle={key => toggle('morning', key)}
         />

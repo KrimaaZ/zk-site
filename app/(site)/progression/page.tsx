@@ -19,7 +19,7 @@ const HABITS = [
 
 const GREEN  = '#1D9E75'
 const RED    = '#ef4444'
-const GOLD   = '#D4AF37'
+const GOLD   = '#8B5CF6'
 const LS_KEY = 'mak_habits_v2'
 
 const DAY_LABELS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
@@ -193,10 +193,10 @@ export default function ProgressionPage() {
 
       {/* ── HEADER ─────────────────────────────────────────── */}
       <div style={{ textAlign: 'center', marginBottom: 40 }}>
-        <div style={{ display: 'inline-block', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: 100, padding: '4px 16px', fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
+        <div style={{ display: 'inline-block', background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 100, padding: '4px 16px', fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
           Progression
         </div>
-        <h1 style={{ fontSize: 'clamp(26px,5vw,40px)', fontWeight: 800, color: '#F0F0F0', margin: '0 0 8px' }}>
+        <h1 style={{ fontSize: 'clamp(26px,5vw,40px)', fontWeight: 800, color: '#E2E8F0', margin: '0 0 8px' }}>
           📊 Suivi des habitudes
         </h1>
         <p style={{ color: '#555', fontSize: 13, margin: 0 }}>
@@ -218,7 +218,7 @@ export default function ProgressionPage() {
         </div>
 
         {/* Progress bar */}
-        <div style={{ height: 7, background: '#1a1a1a', borderRadius: 100, overflow: 'hidden', marginBottom: 28 }}>
+        <div style={{ height: 7, background: '#12121f', borderRadius: 100, overflow: 'hidden', marginBottom: 28 }}>
           <div style={{
             height: '100%', width: `${pct}%`,
             background: count >= 6 ? `linear-gradient(90deg, ${GREEN}, #52e0a8)` : count >= 3 ? `linear-gradient(90deg, ${GOLD}, #FFD700)` : `linear-gradient(90deg, ${RED}, #ff7070)`,
@@ -244,7 +244,7 @@ export default function ProgressionPage() {
                 {/* Checkbox */}
                 <div style={{
                   width: 24, height: 24, borderRadius: 7, flexShrink: 0,
-                  border: `2px solid ${done ? GREEN : '#2a2a2a'}`,
+                  border: `2px solid ${done ? GREEN : '#1e1e2e'}`,
                   background: done ? GREEN : 'transparent',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'all .2s', transform: done ? 'scale(1.05)' : 'scale(1)',
@@ -287,7 +287,7 @@ export default function ProgressionPage() {
             )}
             <button onClick={saveNow} disabled={saving}
               style={{
-                background: saving ? '#1a1a1a' : GOLD, color: saving ? '#555' : '#000',
+                background: saving ? '#12121f' : GOLD, color: saving ? '#555' : '#000',
                 border: 'none', borderRadius: 8, padding: '10px 22px',
                 fontSize: 13, fontWeight: 800, cursor: saving ? 'not-allowed' : 'pointer',
                 transition: 'all .2s',
@@ -304,7 +304,7 @@ export default function ProgressionPage() {
         {/* Calendar header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#F0F0F0', textTransform: 'capitalize' }}>{monthLabel}</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#E2E8F0', textTransform: 'capitalize' }}>{monthLabel}</div>
             <div style={{ fontSize: 12, color: '#444', marginTop: 4 }}>
               {daysLogged} jour{daysLogged !== 1 ? 's' : ''} enregistré{daysLogged !== 1 ? 's' : ''}
             </div>
@@ -352,7 +352,7 @@ export default function ProgressionPage() {
             let border  = 'rgba(255,255,255,0.04)'
             let color   = isFuture ? '#222' : '#555'
 
-            if (isToday)  { bg = 'rgba(212,175,55,0.1)';  border = GOLD;   color = GOLD   }
+            if (isToday)  { bg = 'rgba(139,92,246,0.1)';  border = GOLD;   color = GOLD   }
             if (isGreen)  { bg = 'rgba(29,158,117,0.18)'; border = 'rgba(29,158,117,0.45)'; color = GREEN }
             if (isRed)    { bg = 'rgba(239,68,68,0.14)';  border = 'rgba(239,68,68,0.35)';  color = RED   }
             // Today overrides color even if it has data
@@ -390,7 +390,7 @@ export default function ProgressionPage() {
           {[
             { color: GREEN,  bg: 'rgba(29,158,117,0.2)',  border: 'rgba(29,158,117,0.4)',  label: '≥ 6 habitudes' },
             { color: RED,    bg: 'rgba(239,68,68,0.15)',  border: 'rgba(239,68,68,0.35)',  label: '< 6 habitudes' },
-            { color: GOLD,   bg: 'rgba(212,175,55,0.1)',  border: GOLD,                    label: "Aujourd'hui"   },
+            { color: GOLD,   bg: 'rgba(139,92,246,0.1)',  border: GOLD,                    label: "Aujourd'hui"   },
             { color: '#333', bg: '#111',                  border: 'rgba(255,255,255,0.05)', label: 'Pas encore'   },
           ].map(l => (
             <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: l.color }}>

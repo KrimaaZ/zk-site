@@ -257,7 +257,7 @@ export default function MusicPage() {
         {/* ════════════════════════════════════════════════════
             BLOC 1 — MES CHANSONS
         ════════════════════════════════════════════════════ */}
-        <div style={{ background: '#0a0a0a', border: '1px solid #1a1a1a', borderRadius: 18, overflow: 'hidden' }}>
+        <div style={{ background: '#07070f', border: '1px solid #1a1a1a', borderRadius: 18, overflow: 'hidden' }}>
 
           {/* Header */}
           <div style={{
@@ -357,10 +357,10 @@ export default function MusicPage() {
                         borderLeft: '3px solid #1D9E75',
                       }}
                       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#1D9E75'; (e.currentTarget as HTMLElement).style.background = 'rgba(29,158,117,0.05)' }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#1a1a1a'; (e.currentTarget as HTMLElement).style.background = '#111' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#12121f'; (e.currentTarget as HTMLElement).style.background = '#111' }}
                     >
                       <div>
-                        <div style={{ fontWeight: 700, fontSize: 15, color: '#F0F0F0' }}>{s.title}</div>
+                        <div style={{ fontWeight: 700, fontSize: 15, color: '#E2E8F0' }}>{s.title}</div>
                         <div style={{ fontSize: 11, color: '#555', marginTop: 3 }}>
                           {fmtDate(s.updatedat)} · {lineCount(s.lyrics)} ligne{lineCount(s.lyrics) !== 1 ? 's' : ''}
                         </div>
@@ -377,7 +377,7 @@ export default function MusicPage() {
         {/* ════════════════════════════════════════════════════
             BLOC 2 — MES INSTRUMENTALS
         ════════════════════════════════════════════════════ */}
-        <div style={{ background: '#0a0a0a', border: '1px solid #1a1a1a', borderRadius: 18, overflow: 'hidden' }}>
+        <div style={{ background: '#07070f', border: '1px solid #1a1a1a', borderRadius: 18, overflow: 'hidden' }}>
 
           <div style={{
             padding: '18px 24px', borderBottom: '1px solid #1a1a1a',
@@ -424,7 +424,7 @@ export default function MusicPage() {
                     style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: '#111', border: '1px solid #1a1a1a', borderRadius: 10, borderLeft: '2px solid #1D9E75', transition: 'background .2s' }}>
                     <span style={{ color: '#1D9E75', fontSize: 18, flexShrink: 0 }}>▶</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 700, fontSize: 14, color: '#F0F0F0', marginBottom: 2 }}>{item.name}</div>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: '#E2E8F0', marginBottom: 2 }}>{item.name}</div>
                       <a href={item.url} target="_blank" rel="noopener noreferrer"
                         style={{ fontSize: 12, color: '#1D9E75', textDecoration: 'none', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                         onClick={e => e.stopPropagation()}>
@@ -448,7 +448,7 @@ export default function MusicPage() {
         {/* ════════════════════════════════════════════════════
             BLOC 3 — COVERS & IMAGES
         ════════════════════════════════════════════════════ */}
-        <div style={{ background: '#0a0a0a', border: '1px solid #1a1a1a', borderRadius: 18, overflow: 'hidden' }}>
+        <div style={{ background: '#07070f', border: '1px solid #1a1a1a', borderRadius: 18, overflow: 'hidden' }}>
 
           <div style={{
             padding: '18px 24px', borderBottom: '1px solid #1a1a1a',
@@ -472,7 +472,7 @@ export default function MusicPage() {
               onDrop={handleDrop}
               onClick={() => fileRef.current?.click()}
               style={{
-                border: `2px dashed ${dragOver ? '#1D9E75' : '#2a2a2a'}`,
+                border: `2px dashed ${dragOver ? '#1D9E75' : '#1e1e2e'}`,
                 borderRadius: 12, padding: '32px 20px',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10,
                 cursor: 'pointer', transition: 'all .2s',

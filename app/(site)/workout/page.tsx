@@ -13,9 +13,9 @@ type Session = { id: number; type: string; title: string; date: string; exercise
 const TYPES = ['PULL', 'PUSH', 'ABS_LEGS', 'CARDIO']
 const TYPE_COLORS: Record<string, { emoji: string; color: string }> = {
   PULL:     { emoji: '🔙', color: '#1D9E75' },
-  PUSH:     { emoji: '🔛', color: '#D4AF37' },
+  PUSH:     { emoji: '🔛', color: '#8B5CF6' },
   ABS_LEGS: { emoji: '🦵', color: '#C0C0C0' },
-  CARDIO:   { emoji: '🏃', color: '#888888' },
+  CARDIO:   { emoji: '🏃', color: '#64748B' },
 }
 const emptyForm = { type: 'PULL', title: '', date: new Date().toISOString().split('T')[0], notes: '' }
 const emptyEx: Exercise = { name: '', sets: 3, reps: '8-10', notes: '' }
@@ -36,9 +36,9 @@ function WorkoutInner() {
 
   const TYPE_INFO: Record<string, { label: string; emoji: string; color: string }> = {
     PULL:     { label: t.pullDay,  emoji: '🔙', color: '#1D9E75' },
-    PUSH:     { label: t.pushDay,  emoji: '🔛', color: '#D4AF37' },
+    PUSH:     { label: t.pushDay,  emoji: '🔛', color: '#8B5CF6' },
     ABS_LEGS: { label: t.absLegs,  emoji: '🦵', color: '#C0C0C0' },
-    CARDIO:   { label: t.cardio,   emoji: '🏃', color: '#888888' },
+    CARDIO:   { label: t.cardio,   emoji: '🏃', color: '#64748B' },
   }
 
   const load = (type?: string) =>
@@ -83,8 +83,8 @@ function WorkoutInner() {
       {/* Page header */}
       <div className="flex items-center justify-between gap-3 mb-5">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#F0F0F0' }}>💪 Workout</h1>
-          <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#888888' }}>{t.workoutSubtitle}</p>
+          <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#E2E8F0' }}>💪 Workout</h1>
+          <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#64748B' }}>{t.workoutSubtitle}</p>
         </div>
         {view === 'sessions' && (
           <button onClick={openAdd} className="btn-glass btn-glass-green px-4 py-2.5 rounded-xl text-sm font-medium">{t.logBtn}</button>
@@ -96,7 +96,7 @@ function WorkoutInner() {
         {([['program', '📋 Program'], ['progress', '📈 Progress'], ['sessions', '🗒️ Sessions']] as const).map(([key, label]) => (
           <button key={key} onClick={() => setView(key)}
             className="px-4 py-2 rounded-xl text-sm font-medium transition-all"
-            style={{ backgroundColor: view === key ? '#D4AF37' : '#1a1a1a', color: view === key ? '#0a0a0a' : '#888888', border: `1px solid ${view === key ? '#D4AF37' : '#2a2a2a'}` }}>
+            style={{ backgroundColor: view === key ? '#8B5CF6' : '#12121f', color: view === key ? '#07070f' : '#64748B', border: `1px solid ${view === key ? '#8B5CF6' : '#1e1e2e'}` }}>
             {label}
           </button>
         ))}
@@ -116,7 +116,7 @@ function WorkoutInner() {
           return (
             <button key={tp} onClick={() => setActiveTab(tp)}
               className="px-3 sm:px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap flex items-center gap-1.5 transition-all"
-              style={{ backgroundColor: activeTab === tp ? info.color : '#1a1a1a', color: activeTab === tp ? '#0a0a0a' : '#888888', border: `1px solid ${activeTab === tp ? info.color : '#2a2a2a'}` }}>
+              style={{ backgroundColor: activeTab === tp ? info.color : '#12121f', color: activeTab === tp ? '#07070f' : '#64748B', border: `1px solid ${activeTab === tp ? info.color : '#1e1e2e'}` }}>
               {info.emoji} {info.label}
             </button>
           )
@@ -124,7 +124,7 @@ function WorkoutInner() {
       </div>
 
       {sessions.length === 0 ? (
-        <div className="text-center py-16 rounded-2xl" style={{ backgroundColor: '#111111', color: '#555555' }}>
+        <div className="text-center py-16 rounded-2xl" style={{ backgroundColor: '#0d0d1a', color: '#475569' }}>
           <p className="text-4xl mb-2">{TYPE_INFO[activeTab]?.emoji}</p>
           <p className="font-medium text-sm">{t.noSessions(TYPE_INFO[activeTab]?.label ?? '')}</p>
         </div>
@@ -134,27 +134,27 @@ function WorkoutInner() {
             const exs: Exercise[] = JSON.parse(s.exercises)
             const info = TYPE_INFO[s.type]
             return (
-              <div key={s.id} className="rounded-2xl border-2 p-4 shadow-sm" style={{ backgroundColor: '#111111', borderColor: '#2a2a2a' }}>
+              <div key={s.id} className="rounded-2xl border-2 p-4 shadow-sm" style={{ backgroundColor: '#0d0d1a', borderColor: '#1e1e2e' }}>
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <span className="text-xs font-bold px-2.5 py-1 rounded-full text-white" style={{ backgroundColor: info?.color }}>{info?.emoji} {info?.label}</span>
-                    <h3 className="font-semibold text-base mt-1.5" style={{ color: '#F0F0F0' }}>{s.title}</h3>
-                    <p className="text-xs mt-0.5" style={{ color: '#555555' }}>{s.date}</p>
+                    <h3 className="font-semibold text-base mt-1.5" style={{ color: '#E2E8F0' }}>{s.title}</h3>
+                    <p className="text-xs mt-0.5" style={{ color: '#475569' }}>{s.date}</p>
                   </div>
                   <div className="flex gap-1 shrink-0">
-                    <button onClick={() => openEdit(s)} className="text-xs px-2 py-1 rounded-lg" style={{ color: '#C0C0C0', backgroundColor: '#1a1a1a' }}>{t.edit}</button>
+                    <button onClick={() => openEdit(s)} className="text-xs px-2 py-1 rounded-lg" style={{ color: '#C0C0C0', backgroundColor: '#12121f' }}>{t.edit}</button>
                     <button onClick={() => del(s.id)} className="text-xs px-2 py-1 rounded-lg" style={{ color: '#c0303e', backgroundColor: '#fde8ec' }}>{t.del}</button>
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   {exs.map((ex, i) => (
-                    <div key={i} className="flex items-center gap-2 py-1.5 px-3 rounded-xl" style={{ backgroundColor: '#1a1a1a' }}>
-                      <span className="font-medium text-sm flex-1 truncate" style={{ color: '#E8E8E8' }}>{ex.name}</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full shrink-0" style={{ backgroundColor: 'rgba(212,175,55,0.12)', color: '#D4AF37' }}>{ex.sets}×{ex.reps}</span>
+                    <div key={i} className="flex items-center gap-2 py-1.5 px-3 rounded-xl" style={{ backgroundColor: '#12121f' }}>
+                      <span className="font-medium text-sm flex-1 truncate" style={{ color: '#CBD5E1' }}>{ex.name}</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full shrink-0" style={{ backgroundColor: 'rgba(139,92,246,0.12)', color: '#8B5CF6' }}>{ex.sets}×{ex.reps}</span>
                     </div>
                   ))}
                 </div>
-                {s.notes && <p className="text-xs mt-2 italic" style={{ color: '#555555' }}>{s.notes}</p>}
+                {s.notes && <p className="text-xs mt-2 italic" style={{ color: '#475569' }}>{s.notes}</p>}
               </div>
             )
           })}
@@ -169,20 +169,20 @@ function WorkoutInner() {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="block text-xs font-medium mb-1" style={{ color: '#C0C0C0' }}>{t.type}</label>
-                <select value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))} className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none" style={{ borderColor: '#2a2a2a', backgroundColor: '#111111', color: '#E8E8E8' }}>
+                <select value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))} className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none" style={{ borderColor: '#1e1e2e', backgroundColor: '#0d0d1a', color: '#CBD5E1' }}>
                   {TYPES.map(tp => <option key={tp} value={tp}>{TYPE_INFO[tp].label}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-medium mb-1" style={{ color: '#C0C0C0' }}>{t.date}</label>
-                <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none" style={{ borderColor: '#2a2a2a', backgroundColor: '#111111', color: '#E8E8E8' }} />
+                <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none" style={{ borderColor: '#1e1e2e', backgroundColor: '#0d0d1a', color: '#CBD5E1' }} />
               </div>
             </div>
             <div>
               <label className="block text-xs font-medium mb-1" style={{ color: '#C0C0C0' }}>{t.sessionTitle}</label>
-              <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g. Heavy Push Day" className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none" style={{ borderColor: '#2a2a2a', backgroundColor: '#111111', color: '#E8E8E8' }} />
+              <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g. Heavy Push Day" className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none" style={{ borderColor: '#1e1e2e', backgroundColor: '#0d0d1a', color: '#CBD5E1' }} />
             </div>
-            <button onClick={generateAI} disabled={aiLoading} className="w-full py-2.5 rounded-xl text-sm font-medium disabled:opacity-60" style={{ backgroundColor: '#1a1a1a', color: '#C0C0C0' }}>
+            <button onClick={generateAI} disabled={aiLoading} className="w-full py-2.5 rounded-xl text-sm font-medium disabled:opacity-60" style={{ backgroundColor: '#12121f', color: '#C0C0C0' }}>
               {aiLoading ? t.aiGenerating : t.aiSuggest}
             </button>
             <div>
@@ -192,19 +192,19 @@ function WorkoutInner() {
               </div>
               <div className="space-y-2">
                 {exercises.map((ex, i) => (
-                  <div key={i} className="rounded-xl p-2 space-y-2" style={{ backgroundColor: '#1a1a1a' }}>
+                  <div key={i} className="rounded-xl p-2 space-y-2" style={{ backgroundColor: '#12121f' }}>
                     <div className="flex gap-2">
                       <input value={ex.name} onChange={e => updateEx(i, 'name', e.target.value)} placeholder={t.exerciseName}
-                        className="flex-1 px-2.5 py-2 rounded-lg border text-sm outline-none" style={{ borderColor: '#2a2a2a', backgroundColor: '#0a0a0a', color: '#E8E8E8' }} />
+                        className="flex-1 px-2.5 py-2 rounded-lg border text-sm outline-none" style={{ borderColor: '#1e1e2e', backgroundColor: '#07070f', color: '#CBD5E1' }} />
                       <button onClick={() => removeEx(i)} className="px-2 py-1 rounded-lg text-xs" style={{ color: '#c0303e', backgroundColor: '#fde8ec' }}>×</button>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                       <input type="number" value={ex.sets} onChange={e => updateEx(i, 'sets', Number(e.target.value))} placeholder={t.sets}
-                        className="px-2.5 py-2 rounded-lg border text-sm outline-none text-center" style={{ borderColor: '#2a2a2a', backgroundColor: '#0a0a0a', color: '#E8E8E8' }} />
+                        className="px-2.5 py-2 rounded-lg border text-sm outline-none text-center" style={{ borderColor: '#1e1e2e', backgroundColor: '#07070f', color: '#CBD5E1' }} />
                       <input value={ex.reps} onChange={e => updateEx(i, 'reps', e.target.value)} placeholder={t.reps}
-                        className="px-2.5 py-2 rounded-lg border text-sm outline-none text-center" style={{ borderColor: '#2a2a2a', backgroundColor: '#0a0a0a', color: '#E8E8E8' }} />
+                        className="px-2.5 py-2 rounded-lg border text-sm outline-none text-center" style={{ borderColor: '#1e1e2e', backgroundColor: '#07070f', color: '#CBD5E1' }} />
                       <input value={ex.notes} onChange={e => updateEx(i, 'notes', e.target.value)} placeholder={t.notes}
-                        className="px-2.5 py-2 rounded-lg border text-sm outline-none" style={{ borderColor: '#2a2a2a', backgroundColor: '#0a0a0a', color: '#E8E8E8' }} />
+                        className="px-2.5 py-2 rounded-lg border text-sm outline-none" style={{ borderColor: '#1e1e2e', backgroundColor: '#07070f', color: '#CBD5E1' }} />
                     </div>
                   </div>
                 ))}
@@ -212,7 +212,7 @@ function WorkoutInner() {
             </div>
             <div>
               <label className="block text-xs font-medium mb-1" style={{ color: '#C0C0C0' }}>{t.sessionNotes}</label>
-              <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} rows={2} className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none resize-none" style={{ borderColor: '#2a2a2a', backgroundColor: '#111111', color: '#E8E8E8' }} />
+              <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} rows={2} className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none resize-none" style={{ borderColor: '#1e1e2e', backgroundColor: '#0d0d1a', color: '#CBD5E1' }} />
             </div>
           </div>
           <div className="flex gap-2 mt-5">

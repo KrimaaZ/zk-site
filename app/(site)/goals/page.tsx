@@ -7,7 +7,7 @@ type GoalTab = 'daily' | 'monthly' | 'annual'
 
 const TABS: { key: GoalTab; label: string; emoji: string; color: string; desc: string }[] = [
   { key: 'daily',   label: 'Quotidien', emoji: '📅', color: '#1D9E75', desc: 'Objectifs du jour' },
-  { key: 'monthly', label: 'Mensuel',   emoji: '📆', color: '#D4AF37', desc: 'Objectifs du mois' },
+  { key: 'monthly', label: 'Mensuel',   emoji: '📆', color: '#8B5CF6', desc: 'Objectifs du mois' },
   { key: 'annual',  label: 'Annuel',    emoji: '🎯', color: '#9B6FE0', desc: 'Objectifs de l\'année' },
 ]
 
@@ -73,15 +73,15 @@ export default function GoalsPage() {
       {/* Header */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
-          <div style={{ width:3, height:20, background:'#D4AF37', borderRadius:2 }} />
-          <span style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase' as const, color:'#888888' }}>
+          <div style={{ width:3, height:20, background:'#8B5CF6', borderRadius:2 }} />
+          <span style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase' as const, color:'#64748B' }}>
             Mes Objectifs
           </span>
         </div>
-        <h1 style={{ fontSize:26, fontWeight:800, color:'#F0F0F0', margin:0 }}>
+        <h1 style={{ fontSize:26, fontWeight:800, color:'#E2E8F0', margin:0 }}>
           Objectifs & Buts
         </h1>
-        <p style={{ fontSize:13, color:'#555555', marginTop:6 }}>
+        <p style={{ fontSize:13, color:'#475569', marginTop:6 }}>
           Tes objectifs restent enregistrés jusqu&apos;à ce que tu les supprimes toi-même.
         </p>
       </div>
@@ -95,9 +95,9 @@ export default function GoalsPage() {
             <button key={t.key} onClick={() => setTab(t.key)}
               style={{
                 flex:1, padding:'12px 8px', borderRadius:14,
-                border:`1px solid ${isActive ? t.color : '#2a2a2a'}`,
-                background: isActive ? `${t.color}15` : '#111111',
-                color: isActive ? t.color : '#555555',
+                border:`1px solid ${isActive ? t.color : '#1e1e2e'}`,
+                background: isActive ? `${t.color}15` : '#0d0d1a',
+                color: isActive ? t.color : '#475569',
                 cursor:'pointer', transition:'all .15s',
                 display:'flex', flexDirection:'column', alignItems:'center', gap:4,
               }}>
@@ -106,7 +106,7 @@ export default function GoalsPage() {
               {count > 0 && (
                 <span style={{
                   fontSize:10, fontWeight:700,
-                  background: isActive ? `${t.color}25` : '#1a1a1a',
+                  background: isActive ? `${t.color}25` : '#12121f',
                   color: isActive ? t.color : '#444',
                   borderRadius:999, padding:'1px 8px',
                 }}>
@@ -119,30 +119,30 @@ export default function GoalsPage() {
       </div>
 
       {/* Active tab card */}
-      <div style={{ background:'#111111', borderRadius:18, border:`1px solid ${active.color}30`, overflow:'hidden' }}>
+      <div style={{ background:'#0d0d1a', borderRadius:18, border:`1px solid ${active.color}30`, overflow:'hidden' }}>
 
         {/* Card header */}
         <div style={{ padding:'16px 20px', borderBottom:'1px solid #1a1a1a', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div>
             <div style={{ fontSize:14, fontWeight:700, color: active.color }}>{active.emoji} {active.label}</div>
-            <div style={{ fontSize:11, color:'#555555', marginTop:2 }}>{active.desc}</div>
+            <div style={{ fontSize:11, color:'#475569', marginTop:2 }}>{active.desc}</div>
           </div>
           {tabGoals.length > 0 && (
             <div style={{ textAlign:'right' }}>
               <div style={{ fontSize:18, fontWeight:800, color: active.color }}>{doneCount}/{tabGoals.length}</div>
-              <div style={{ fontSize:10, color:'#555555' }}>complétés</div>
+              <div style={{ fontSize:10, color:'#475569' }}>complétés</div>
             </div>
           )}
         </div>
 
         {/* Progress bar */}
         {tabGoals.length > 0 && (
-          <div style={{ height:3, background:'#1a1a1a' }}>
+          <div style={{ height:3, background:'#12121f' }}>
             <div style={{
               height:'100%',
               width:`${(doneCount / tabGoals.length) * 100}%`,
               background: doneCount === tabGoals.length
-                ? `linear-gradient(90deg, ${active.color}, #D4AF37)`
+                ? `linear-gradient(90deg, ${active.color}, #8B5CF6)`
                 : active.color,
               transition:'width .4s ease',
             }} />
@@ -158,26 +158,26 @@ export default function GoalsPage() {
             </div>
           ) : loading ? (
             [...Array(3)].map((_, i) => (
-              <div key={i} style={{ height:48, borderRadius:12, background:'#1a1a1a', opacity: 1 - i * 0.2 }} />
+              <div key={i} style={{ height:48, borderRadius:12, background:'#12121f', opacity: 1 - i * 0.2 }} />
             ))
           ) : tabGoals.length === 0 ? (
             <div style={{ padding:'28px 0', textAlign:'center', color:'#333333', fontSize:13 }}>
               <div style={{ fontSize:28, marginBottom:8 }}>{active.emoji}</div>
               Aucun objectif {active.label.toLowerCase()} pour l&apos;instant<br />
-              <span style={{ fontSize:11, color:'#2a2a2a' }}>Ajoute-en un ci-dessous ↓</span>
+              <span style={{ fontSize:11, color:'#1e1e2e' }}>Ajoute-en un ci-dessous ↓</span>
             </div>
           ) : tabGoals.map(g => (
             <div key={g.id} style={{
               display:'flex', alignItems:'center', gap:10,
               padding:'11px 14px', borderRadius:12,
-              background: g.done ? 'rgba(255,255,255,0.02)' : '#1a1a1a',
-              border:`1px solid ${g.done ? '#1a1a1a' : '#2a2a2a'}`,
+              background: g.done ? 'rgba(255,255,255,0.02)' : '#12121f',
+              border:`1px solid ${g.done ? '#12121f' : '#1e1e2e'}`,
               transition:'all .2s',
             }}>
               {/* Checkbox */}
               <div onClick={() => toggle(g.id)} style={{
                 width:22, height:22, borderRadius:7, flexShrink:0, cursor:'pointer',
-                border:`2px solid ${g.done ? active.color : '#3a3a3a'}`,
+                border:`2px solid ${g.done ? active.color : '#2a2a40'}`,
                 background: g.done ? active.color : 'transparent',
                 display:'flex', alignItems:'center', justifyContent:'center',
                 transition:'all .2s',
@@ -188,7 +188,7 @@ export default function GoalsPage() {
               {/* Text */}
               <span style={{
                 flex:1, fontSize:14, lineHeight:1.4,
-                color: g.done ? '#3a3a3a' : '#C0C0C0',
+                color: g.done ? '#2a2a40' : '#C0C0C0',
                 textDecoration: g.done ? 'line-through' : 'none',
                 transition:'all .2s',
               }}>
@@ -220,19 +220,19 @@ export default function GoalsPage() {
             disabled={saving}
             style={{
               flex:1, padding:'11px 14px', borderRadius:12,
-              border:`1px solid #2a2a2a`, background:'#0a0a0a',
-              color:'#E8E8E8', fontSize:13, outline:'none',
+              border:`1px solid #2a2a2a`, background:'#07070f',
+              color:'#CBD5E1', fontSize:13, outline:'none',
               transition:'border-color .15s',
               opacity: saving ? 0.6 : 1,
             }}
             onFocus={e => (e.currentTarget.style.borderColor = active.color)}
-            onBlur={e  => (e.currentTarget.style.borderColor = '#2a2a2a')}
+            onBlur={e  => (e.currentTarget.style.borderColor = '#1e1e2e')}
           />
           <button onClick={addGoal} disabled={saving || !input.trim()}
             style={{
               padding:'11px 20px', borderRadius:12, border:'none',
-              background: (!input.trim() || saving) ? '#1a1a1a' : active.color,
-              color: (!input.trim() || saving) ? '#444' : (tab === 'monthly' ? '#0a0a0a' : '#fff'),
+              background: (!input.trim() || saving) ? '#12121f' : active.color,
+              color: (!input.trim() || saving) ? '#444' : (tab === 'monthly' ? '#07070f' : '#fff'),
               fontWeight:700, fontSize:13, cursor: (!input.trim() || saving) ? 'not-allowed' : 'pointer',
               transition:'all .15s', flexShrink:0,
             }}>
@@ -253,7 +253,7 @@ export default function GoalsPage() {
             <div style={{ fontSize:13, fontWeight:800, color: active.color }}>
               Tous les objectifs {active.label.toLowerCase()}s accomplis !
             </div>
-            <div style={{ fontSize:11, color:'#555555', marginTop:2 }}>
+            <div style={{ fontSize:11, color:'#475569', marginTop:2 }}>
               Les objectifs restent ici jusqu&apos;à ce que tu les supprimes.
             </div>
           </div>

@@ -223,7 +223,7 @@ export default function RajaPage() {
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              backgroundColor: '#0a0a0a',
+              backgroundColor: '#07070f',
               border: '1px solid rgba(29,158,117,0.4)',
               borderTop: '3px solid #1D9E75',
               borderRadius: 20,
@@ -326,7 +326,7 @@ export default function RajaPage() {
           to   { opacity: 1; transform: translateY(0); }
         }
         .gallery-card {
-          background: #0a0a0a;
+          background: #07070f;
           border: 1px solid rgba(29,158,117,0.3);
           border-radius: 12px;
           overflow: hidden;
@@ -516,7 +516,7 @@ export default function RajaPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {PALMARES.map((group, gi) => (
             <div key={gi} style={{
-              backgroundColor: '#0a0a0a',
+              backgroundColor: '#07070f',
               border: '1px solid rgba(29,158,117,0.25)',
               borderRadius: 16,
               overflow: 'hidden',
@@ -545,7 +545,7 @@ export default function RajaPage() {
                   }}>
                     {/* Title + count */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 6 }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: '#F0F0F0', lineHeight: 1.3, flex: 1 }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#E2E8F0', lineHeight: 1.3, flex: 1 }}>
                         {item.title}
                       </span>
                       <span style={{
@@ -557,7 +557,7 @@ export default function RajaPage() {
                       </span>
                     </div>
                     {/* Years */}
-                    <p style={{ margin: 0, fontSize: 11, color: '#555', lineHeight: 1.5 }}>
+                    <p style={{ margin: 0, fontSize: 11, color: '#475569', lineHeight: 1.5 }}>
                       {item.years}
                     </p>
                   </div>

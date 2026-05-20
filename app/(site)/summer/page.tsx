@@ -33,13 +33,13 @@ function useCountdown() {
 // ─── Shared styles ────────────────────────────────────────────────────────────
 
 const O = '#FF6B35'
-const inp: React.CSSProperties = { backgroundColor: '#fff', border: '1px solid #ddd', color: '#1a1a1a', borderRadius: 8, padding: '10px 14px', fontSize: 14, outline: 'none', width: '100%', boxSizing: 'border-box' }
+const inp: React.CSSProperties = { backgroundColor: '#fff', border: '1px solid #ddd', color: '#12121f', borderRadius: 8, padding: '10px 14px', fontSize: 14, outline: 'none', width: '100%', boxSizing: 'border-box' }
 const btnO: React.CSSProperties = { backgroundColor: O, color: '#fff', border: 'none', borderRadius: 10, padding: '10px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer', transition: 'opacity .2s' }
 
 function SectionTitle({ emoji, title, sub }: { emoji: string; title: string; sub: string }) {
   return (
     <div style={{ textAlign: 'center', marginBottom: 40 }}>
-      <h2 style={{ fontSize: 'clamp(26px,5vw,38px)', fontWeight: 900, color: '#1a1a1a', margin: 0, fontFamily: 'Georgia, serif' }}>
+      <h2 style={{ fontSize: 'clamp(26px,5vw,38px)', fontWeight: 900, color: '#12121f', margin: 0, fontFamily: 'Georgia, serif' }}>
         {emoji} {title}
       </h2>
       <p style={{ color: '#888', fontStyle: 'italic', marginTop: 8, fontSize: 15 }}>{sub}</p>
@@ -160,7 +160,7 @@ export default function SummerPage() {
   // ─────────────────────────────────────────────────────────────────────────
 
   return (
-    <div style={{ background: 'linear-gradient(180deg, #fff8f0 0%, #fff3e6 50%, #fff8f0 100%)', minHeight: '100vh', color: '#1a1a1a', paddingBottom: 120 }}>
+    <div style={{ background: 'linear-gradient(180deg, #fff8f0 0%, #fff3e6 50%, #fff8f0 100%)', minHeight: '100vh', color: '#12121f', paddingBottom: 120 }}>
 
       <style>{`
         .sum-inp:focus { border-color: #FF6B35 !important; outline: none; }
@@ -208,7 +208,7 @@ export default function SummerPage() {
           {memModal && (
             <div onClick={() => setMemModal(false)} style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
               <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: 20, padding: 28, width: '100%', maxWidth: 480, boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
-                <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 18, color: '#1a1a1a' }}>📸 Nouveau souvenir</div>
+                <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 18, color: '#12121f' }}>📸 Nouveau souvenir</div>
 
                 {/* Drop zone */}
                 <div className="mem-drop" onDragOver={e => { e.preventDefault(); setMemDrag(true) }}
@@ -306,7 +306,7 @@ export default function SummerPage() {
                     <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 14 }}>
                       <input type="color" value={moodColor} onChange={e => setMoodColor(e.target.value)} style={{ width: 64, height: 64, border: 'none', borderRadius: 12, cursor: 'pointer', padding: 0 }} />
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>{moodColor}</div>
+                        <div style={{ fontWeight: 700, fontSize: 16, color: '#12121f' }}>{moodColor}</div>
                         <input className="sum-inp" value={moodColorLabel} onChange={e => setMoodColorLabel(e.target.value)} placeholder="Nom de la couleur..." style={{ ...inp, marginTop: 8 }} />
                       </div>
                     </div>
@@ -374,7 +374,7 @@ export default function SummerPage() {
                   {item.type === 'quote' && (
                     <div style={{ background: '#fffef5', padding: '24px 18px 20px', minHeight: 120, position: 'relative' }}>
                       <span style={{ position: 'absolute', top: -8, left: 12, fontSize: 80, color: O, opacity: 0.15, fontFamily: 'Georgia, serif', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>"</span>
-                      <p style={{ fontFamily: 'Georgia, serif', fontSize: 15, color: '#1a1a1a', lineHeight: 1.6, margin: '0 0 10px', position: 'relative', zIndex: 1 }}>{item.quote}</p>
+                      <p style={{ fontFamily: 'Georgia, serif', fontSize: 15, color: '#12121f', lineHeight: 1.6, margin: '0 0 10px', position: 'relative', zIndex: 1 }}>{item.quote}</p>
                       {item.author && <p style={{ fontSize: 12, color: O, fontStyle: 'italic', margin: 0 }}>— {item.author}</p>}
                     </div>
                   )}
@@ -427,7 +427,7 @@ export default function SummerPage() {
                     ▶
                   </a>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 700, fontSize: 14, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.title}</div>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: '#12121f', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.title}</div>
                     {t.artist && <div style={{ fontSize: 12, color: '#888', marginTop: 1 }}>{t.artist}</div>}
                     {t.note && <div style={{ fontSize: 12, color: '#FF8E53', fontStyle: 'italic', marginTop: 3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>"{t.note}"</div>}
                   </div>

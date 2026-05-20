@@ -89,14 +89,14 @@ function MacroPill({ label, value, color }: { label: string; value: string; colo
 
 function IngredientRow({ item, color }: { item: Ingredient; color: string }) {
   return (
-    <div className="flex items-center gap-3 py-2.5 border-b" style={{ borderColor: '#1a1a1a' }}>
+    <div className="flex items-center gap-3 py-2.5 border-b" style={{ borderColor: '#12121f' }}>
       <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium" style={{ color: '#F0F0F0' }}>{item.name}</p>
-        {item.note && <p className="text-xs mt-0.5" style={{ color: '#555555' }}>{item.note}</p>}
+        <p className="text-sm font-medium" style={{ color: '#E2E8F0' }}>{item.name}</p>
+        {item.note && <p className="text-xs mt-0.5" style={{ color: '#475569' }}>{item.note}</p>}
       </div>
       <span className="text-xs font-semibold px-2.5 py-1 rounded-full shrink-0"
-        style={{ backgroundColor: '#1a1a1a', color: '#C0C0C0' }}>
+        style={{ backgroundColor: '#12121f', color: '#C0C0C0' }}>
         {item.weight}
       </span>
     </div>
@@ -135,7 +135,7 @@ function MealCard({ meal }: { meal: Meal }) {
   let lastSection = ''
 
   return (
-    <div className="rounded-xl border overflow-hidden" style={{ borderColor: '#2a2a2a', borderWidth: '0.5px' }}>
+    <div className="rounded-xl border overflow-hidden" style={{ borderColor: '#1e1e2e', borderWidth: '0.5px' }}>
       {/* Header */}
       <div className="px-4 py-3 flex items-center justify-between"
         style={{ backgroundColor: meal.colorLight, borderBottom: `2px solid ${meal.color}` }}>
@@ -144,8 +144,8 @@ function MealCard({ meal }: { meal: Meal }) {
             style={{ backgroundColor: meal.color }}>
             {meal.emoji} {meal.label} · {meal.time}
           </span>
-          <h2 className="text-base font-bold" style={{ color: '#F0F0F0' }}>{meal.title}</h2>
-          <p className="text-xs mt-0.5" style={{ color: '#555555' }}>{meal.subtitle}</p>
+          <h2 className="text-base font-bold" style={{ color: '#E2E8F0' }}>{meal.title}</h2>
+          <p className="text-xs mt-0.5" style={{ color: '#475569' }}>{meal.subtitle}</p>
         </div>
       </div>
 
@@ -183,7 +183,7 @@ function MealCard({ meal }: { meal: Meal }) {
 
         {/* Coach tip */}
         <div className="mt-4 mb-3 p-3 rounded-lg"
-          style={{ backgroundColor: '#0a0a0a', borderLeft: `3px solid ${G}` }}>
+          style={{ backgroundColor: '#07070f', borderLeft: `3px solid ${G}` }}>
           <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: G }}>
             Coach tip
           </p>
@@ -193,8 +193,8 @@ function MealCard({ meal }: { meal: Meal }) {
 
       {/* Total bar */}
       <div className="px-4 py-2.5 flex items-center justify-between"
-        style={{ backgroundColor: '#0a0a0a', borderTop: '0.5px solid #1a1a1a' }}>
-        <span className="text-xs font-medium" style={{ color: '#555555' }}>Total repas</span>
+        style={{ backgroundColor: '#07070f', borderTop: '0.5px solid #1a1a1a' }}>
+        <span className="text-xs font-medium" style={{ color: '#475569' }}>Total repas</span>
         <span className="text-sm font-bold" style={{ color: meal.color }}>
           {meal.kcal} kcal · {meal.prot}g prot
         </span>
@@ -210,8 +210,8 @@ export default function DietPage() {
     <div>
       {/* Header */}
       <div className="mb-5">
-        <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#F0F0F0' }}>🥩 Diet</h1>
-        <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#555555' }}>
+        <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#E2E8F0' }}>🥩 Diet</h1>
+        <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#475569' }}>
           Plan alimentaire journalier · 1800 kcal · 4 repas
         </p>
       </div>
@@ -225,11 +225,11 @@ export default function DietPage() {
           { label: 'Lipides', value: '20', unit: 'g', color: AMBER },
         ].map(m => (
           <div key={m.label} className="rounded-xl p-3 text-center border"
-            style={{ backgroundColor: '#111111', borderColor: '#2a2a2a', borderWidth: '0.5px' }}>
+            style={{ backgroundColor: '#0d0d1a', borderColor: '#1e1e2e', borderWidth: '0.5px' }}>
             <p className="text-2xl font-bold" style={{ color: m.color }}>
               {m.value}<span className="text-base">{m.unit}</span>
             </p>
-            <p className="text-xs mt-0.5 font-medium" style={{ color: '#555555' }}>{m.label}</p>
+            <p className="text-xs mt-0.5 font-medium" style={{ color: '#475569' }}>{m.label}</p>
           </div>
         ))}
       </div>
@@ -240,9 +240,9 @@ export default function DietPage() {
           <button key={i} onClick={() => setActive(i)}
             className="px-3 py-2 rounded-xl text-sm font-medium whitespace-nowrap flex items-center gap-1.5 transition-all border"
             style={{
-              backgroundColor: active === i ? m.color : '#111111',
-              color: active === i ? '#0a0a0a' : '#888888',
-              borderColor: active === i ? m.color : '#2a2a2a',
+              backgroundColor: active === i ? m.color : '#0d0d1a',
+              color: active === i ? '#07070f' : '#64748B',
+              borderColor: active === i ? m.color : '#1e1e2e',
               borderWidth: '0.5px',
             }}>
             <span>{m.emoji}</span>

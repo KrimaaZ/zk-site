@@ -90,9 +90,9 @@ export default function PomodoroPage() {
   const total = mode === 'work' ? WORK_MIN * 60 : REST_MIN * 60
   const pct   = ((total - seconds) / total) * 100
 
-  const accent = mode === 'work' ? '#1D9E75' : '#D4AF37'
-  const accentBg = mode === 'work' ? 'rgba(29,158,117,0.12)' : 'rgba(212,175,55,0.12)'
-  const accentBorder = mode === 'work' ? 'rgba(29,158,117,0.35)' : 'rgba(212,175,55,0.35)'
+  const accent = mode === 'work' ? '#1D9E75' : '#8B5CF6'
+  const accentBg = mode === 'work' ? 'rgba(29,158,117,0.12)' : 'rgba(139,92,246,0.12)'
+  const accentBorder = mode === 'work' ? 'rgba(29,158,117,0.35)' : 'rgba(139,92,246,0.35)'
 
   // SVG circle progress
   const r  = 110
@@ -108,22 +108,22 @@ export default function PomodoroPage() {
         <div style={{
           display:'inline-flex', alignItems:'center', gap:8,
           padding:'4px 16px', borderRadius:999,
-          background:'rgba(212,175,55,0.08)', border:'1px solid rgba(212,175,55,0.2)',
+          background:'rgba(139,92,246,0.08)', border:'1px solid rgba(139,92,246,0.2)',
           marginBottom:14,
         }}>
           <span style={{ fontSize:14 }}>🍅</span>
-          <span style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#D4AF37' }}>
+          <span style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#8B5CF6' }}>
             Pomodoro
           </span>
         </div>
-        <h1 style={{ fontSize:28, fontWeight:800, color:'#F0F0F0', margin:0 }}>
+        <h1 style={{ fontSize:28, fontWeight:800, color:'#E2E8F0', margin:0 }}>
           Focus Timer
         </h1>
       </div>
 
       {/* Main card */}
       <div style={{
-        background:'#111111', borderRadius:24, border:`1px solid ${accentBorder}`,
+        background:'#0d0d1a', borderRadius:24, border:`1px solid ${accentBorder}`,
         padding:'36px 28px 32px', transition:'border-color .4s',
       }}>
 
@@ -147,7 +147,7 @@ export default function PomodoroPage() {
           <div style={{ position:'relative', width:280, height:280 }}>
             <svg width="280" height="280" style={{ transform:'rotate(-90deg)' }}>
               {/* Track */}
-              <circle cx={cx} cy={cx} r={r} fill="none" stroke="#1a1a1a" strokeWidth="10" />
+              <circle cx={cx} cy={cx} r={r} fill="none" stroke="#12121f" strokeWidth="10" />
               {/* Progress */}
               <circle
                 cx={cx} cy={cx} r={r}
@@ -165,10 +165,10 @@ export default function PomodoroPage() {
               position:'absolute', inset:0,
               display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
             }}>
-              <span style={{ fontSize:52, fontWeight:800, color:'#F0F0F0', letterSpacing:'-2px', lineHeight:1 }}>
+              <span style={{ fontSize:52, fontWeight:800, color:'#E2E8F0', letterSpacing:'-2px', lineHeight:1 }}>
                 {pad(mins)}:{pad(secs)}
               </span>
-              <span style={{ fontSize:12, color:'#555555', marginTop:6, fontWeight:600, letterSpacing:'.06em' }}>
+              <span style={{ fontSize:12, color:'#475569', marginTop:6, fontWeight:600, letterSpacing:'.06em' }}>
                 {mode === 'work' ? `${WORK_MIN} min` : `${REST_MIN} min`}
               </span>
             </div>
@@ -181,7 +181,7 @@ export default function PomodoroPage() {
             <button onClick={start}
               style={{
                 padding:'12px 32px', borderRadius:12, border:'none',
-                background: accent, color: mode === 'work' ? '#fff' : '#0a0a0a',
+                background: accent, color: mode === 'work' ? '#fff' : '#07070f',
                 fontWeight:800, fontSize:14, cursor:'pointer',
                 letterSpacing:'.04em', transition:'opacity .15s',
               }}
@@ -205,8 +205,8 @@ export default function PomodoroPage() {
           <button onClick={reset}
             style={{
               padding:'12px 24px', borderRadius:12,
-              border:'1px solid #2a2a2a', background:'#1a1a1a',
-              color:'#888888', fontWeight:700, fontSize:14, cursor:'pointer',
+              border:'1px solid #2a2a2a', background:'#12121f',
+              color:'#64748B', fontWeight:700, fontSize:14, cursor:'pointer',
               transition:'opacity .15s',
             }}
             onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
@@ -218,13 +218,13 @@ export default function PomodoroPage() {
         {/* Cycles */}
         <div style={{
           display:'flex', alignItems:'center', justifyContent:'center', gap:10,
-          padding:'12px 20px', borderRadius:12, background:'#0f0f0f', border:'1px solid #1a1a1a',
+          padding:'12px 20px', borderRadius:12, background:'#09091a', border:'1px solid #1a1a1a',
         }}>
           <span style={{ fontSize:16 }}>🍅</span>
-          <span style={{ fontSize:13, color:'#888888' }}>Cycles complétés</span>
+          <span style={{ fontSize:13, color:'#64748B' }}>Cycles complétés</span>
           <span style={{
-            fontSize:15, fontWeight:800, color:'#D4AF37',
-            background:'rgba(212,175,55,0.12)', border:'1px solid rgba(212,175,55,0.25)',
+            fontSize:15, fontWeight:800, color:'#8B5CF6',
+            background:'rgba(139,92,246,0.12)', border:'1px solid rgba(139,92,246,0.25)',
             borderRadius:8, padding:'2px 12px',
           }}>{cycles}</span>
         </div>
@@ -234,15 +234,15 @@ export default function PomodoroPage() {
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginTop:16 }}>
         {[
           { emoji:'💪', label:'Travail',  val:`${WORK_MIN} min`, color:'#1D9E75' },
-          { emoji:'☕', label:'Repos',    val:`${REST_MIN} min`,  color:'#D4AF37' },
+          { emoji:'☕', label:'Repos',    val:`${REST_MIN} min`,  color:'#8B5CF6' },
         ].map(item => (
           <div key={item.label} style={{
-            background:'#111111', borderRadius:14, border:'1px solid #1a1a1a',
+            background:'#0d0d1a', borderRadius:14, border:'1px solid #1a1a1a',
             padding:'14px 18px', display:'flex', alignItems:'center', gap:12,
           }}>
             <span style={{ fontSize:22 }}>{item.emoji}</span>
             <div>
-              <div style={{ fontSize:11, color:'#555555', fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase' }}>{item.label}</div>
+              <div style={{ fontSize:11, color:'#475569', fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase' }}>{item.label}</div>
               <div style={{ fontSize:18, fontWeight:800, color: item.color }}>{item.val}</div>
             </div>
           </div>

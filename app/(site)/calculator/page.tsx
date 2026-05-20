@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { NUTRITION_DATA, type NutritionItem } from '@/lib/nutrition-data'
 
 // ─── Colors ───────────────────────────────────────────────────────────────────
-const GOLD  = '#D4AF37'
+const GOLD  = '#8B5CF6'
 const GREEN = '#1D9E75'
 const BLUE  = '#4A9EE0'
 const RED   = '#E05252'
@@ -155,7 +155,7 @@ export default function CalculatorPage() {
       <style>{`
         .calc-inp:focus { border-color: ${GOLD} !important; }
         .calc-inp::placeholder { color: #3a3a3a; }
-        .calc-sug:hover { background: rgba(212,175,55,0.08) !important; color: #fff !important; }
+        .calc-sug:hover { background: rgba(139,92,246,0.08) !important; color: #fff !important; }
         .meal-row:hover .meal-del { opacity: 1 !important; }
         @keyframes calcFadeUp { from { opacity:0; transform:translateY(10px) } to { opacity:1; transform:none } }
         .calc-fade { animation: calcFadeUp .35s ease forwards; }
@@ -165,10 +165,10 @@ export default function CalculatorPage() {
 
       {/* ── HEADER ─────────────────────────────────────────── */}
       <div style={{ textAlign: 'center', marginBottom: 36 }}>
-        <div style={{ display: 'inline-block', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: 100, padding: '4px 16px', fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
+        <div style={{ display: 'inline-block', background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 100, padding: '4px 16px', fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
           Nutrition
         </div>
-        <h1 style={{ fontSize: 'clamp(26px,5vw,40px)', fontWeight: 800, color: '#F0F0F0', margin: '0 0 8px' }}>
+        <h1 style={{ fontSize: 'clamp(26px,5vw,40px)', fontWeight: 800, color: '#E2E8F0', margin: '0 0 8px' }}>
           🧮 Calculateur de macros
         </h1>
         <p style={{ color: '#555', fontSize: 13, margin: 0 }}>
@@ -247,7 +247,7 @@ export default function CalculatorPage() {
           {/* Add button */}
           <button onClick={addIngredient} disabled={!selected || !qty}
             style={{
-              background: selected && qty ? GOLD : '#1a1a1a',
+              background: selected && qty ? GOLD : '#12121f',
               color: selected && qty ? '#000' : '#333',
               border: 'none', borderRadius: 10, padding: '12px 22px',
               fontSize: 14, fontWeight: 800, cursor: selected && qty ? 'pointer' : 'not-allowed',
@@ -259,7 +259,7 @@ export default function CalculatorPage() {
 
         {/* Selected item preview */}
         {selected && (
-          <div style={{ marginTop: 14, padding: '10px 14px', background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.12)', borderRadius: 8, fontSize: 12, color: '#888', display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          <div style={{ marginTop: 14, padding: '10px 14px', background: 'rgba(139,92,246,0.05)', border: '1px solid rgba(139,92,246,0.12)', borderRadius: 8, fontSize: 12, color: '#888', display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             <span style={{ color: GOLD, fontWeight: 700 }}>{selected.name}</span>
             <span>🔥 {selected.calories} kcal</span>
             <span style={{ color: GREEN }}>P: {selected.proteins}g</span>
@@ -316,7 +316,7 @@ export default function CalculatorPage() {
           </div>
 
           {/* Live running totals */}
-          <div style={{ display: 'flex', gap: 8, padding: '12px 14px', background: '#0a0a0a', borderRadius: 8, border: '1px solid rgba(212,175,55,0.1)', flexWrap: 'wrap', marginBottom: 20 }}>
+          <div style={{ display: 'flex', gap: 8, padding: '12px 14px', background: '#07070f', borderRadius: 8, border: '1px solid rgba(139,92,246,0.1)', flexWrap: 'wrap', marginBottom: 20 }}>
             <span style={{ fontSize: 11, color: '#444', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginRight: 4 }}>Estimé :</span>
             <span style={{ fontSize: 13, fontWeight: 800, color: GOLD }}>{liveTotals.cal} kcal</span>
             <span style={{ color: '#222' }}>·</span>
@@ -331,7 +331,7 @@ export default function CalculatorPage() {
           <button onClick={calculate} disabled={loading}
             style={{
               width: '100%', background: loading ? '#111' : GOLD,
-              color: loading ? '#555' : '#000', border: `1px solid ${loading ? '#2a2a2a' : GOLD}`,
+              color: loading ? '#555' : '#000', border: `1px solid ${loading ? '#1e1e2e' : GOLD}`,
               borderRadius: 10, padding: '14px 24px', fontSize: 15, fontWeight: 900,
               cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '0.04em',
               transition: 'all .2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
@@ -356,7 +356,7 @@ export default function CalculatorPage() {
 
       {/* ── RESULTS ────────────────────────────────────────── */}
       {result && (
-        <div className="calc-fade" style={{ background: '#0d0d0d', border: `1px solid rgba(212,175,55,0.2)`, borderRadius: 16, padding: 'clamp(20px,4vw,32px)' }}>
+        <div className="calc-fade" style={{ background: '#0d0d0d', border: `1px solid rgba(139,92,246,0.2)`, borderRadius: 16, padding: 'clamp(20px,4vw,32px)' }}>
 
           <div style={{ fontSize: 11, fontWeight: 700, color: '#444', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 18 }}>
             📊 Résultats
@@ -394,7 +394,7 @@ export default function CalculatorPage() {
 
           {/* Claude summary */}
           {result.summary && (
-            <div style={{ padding: '14px 18px', background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.12)', borderRadius: 10 }}>
+            <div style={{ padding: '14px 18px', background: 'rgba(139,92,246,0.05)', border: '1px solid rgba(139,92,246,0.12)', borderRadius: 10 }}>
               <div style={{ fontSize: 10, fontWeight: 700, color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>
                 🤖 Analyse Claude
               </div>
@@ -412,7 +412,7 @@ export default function CalculatorPage() {
               fontSize: 13, fontWeight: 700, cursor: 'pointer', transition: 'all .2s',
             }}
             onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = '#444'; el.style.color = '#C0C0C0' }}
-            onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = '#2a2a2a'; el.style.color = '#666' }}>
+            onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = '#1e1e2e'; el.style.color = '#666' }}>
             ↺ Nouveau repas
           </button>
         </div>
@@ -420,7 +420,7 @@ export default function CalculatorPage() {
 
       {/* ── EMPTY STATE ────────────────────────────────────── */}
       {mealItems.length === 0 && !result && (
-        <div style={{ textAlign: 'center', padding: '40px 0', color: '#2a2a2a' }}>
+        <div style={{ textAlign: 'center', padding: '40px 0', color: '#1e1e2e' }}>
           <div style={{ fontSize: 40, marginBottom: 12 }}>🍽</div>
           <div style={{ fontSize: 14, color: '#333' }}>Commence par ajouter un ingrédient</div>
           <div style={{ fontSize: 12, color: '#222', marginTop: 6 }}>{NUTRITION_DATA.length} ingrédients disponibles</div>

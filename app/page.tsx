@@ -10,23 +10,23 @@ export default function WelcomePage() {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
-      style={{ background: 'radial-gradient(ellipse at 60% 30%, #1a1400 0%, #0a0a0a 55%, #050505 100%)' }}
+      style={{ background: 'radial-gradient(ellipse at 50% 40%, #0f0720 0%, #07070f 55%, #03030a 100%)' }}
     >
       {/* Ambient orbs */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <div className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full opacity-15"
-          style={{ background: '#D4AF37', filter: 'blur(100px)' }} />
-        <div className="absolute bottom-1/3 right-1/4 w-64 h-64 rounded-full opacity-10"
-          style={{ background: '#C0C0C0', filter: 'blur(90px)' }} />
-        <div className="absolute top-2/3 left-1/5 w-48 h-48 rounded-full opacity-08"
-          style={{ background: '#1D9E75', filter: 'blur(80px)' }} />
+        <div className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full"
+          style={{ background: '#8B5CF6', filter: 'blur(120px)', opacity: 0.18 }} />
+        <div className="absolute bottom-1/3 right-1/4 w-64 h-64 rounded-full"
+          style={{ background: '#EC4899', filter: 'blur(100px)', opacity: 0.12 }} />
+        <div className="absolute top-2/3 left-1/5 w-48 h-48 rounded-full"
+          style={{ background: '#3B82F6', filter: 'blur(90px)', opacity: 0.1 }} />
       </div>
 
       {/* Language toggle */}
       <button
         onClick={toggle}
         className="absolute top-4 right-4 z-20 text-xs font-bold px-2.5 py-1.5 rounded-lg border transition-colors"
-        style={{ borderColor: '#3a3a3a', color: '#C0C0C0', backgroundColor: 'rgba(26,26,26,0.8)' }}>
+        style={{ borderColor: 'rgba(139,92,246,0.3)', color: '#A78BFA', backgroundColor: 'rgba(139,92,246,0.08)' }}>
         {lang === 'en' ? 'FR' : 'EN'}
       </button>
 
@@ -36,14 +36,14 @@ export default function WelcomePage() {
         <div
           className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl flex items-center justify-center mb-8 btn-glass"
           style={{
-            background: 'rgba(212,175,55,0.1)',
-            borderColor: 'rgba(212,175,55,0.3)',
-            boxShadow: '0 8px 40px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.08)',
+            background: 'rgba(139,92,246,0.1)',
+            borderColor: 'rgba(139,92,246,0.3)',
+            boxShadow: '0 8px 40px rgba(139,92,246,0.15), inset 0 1px 0 rgba(255,255,255,0.08)',
           }}>
-          <span className="font-bold text-4xl sm:text-5xl tracking-tighter" style={{ color: '#D4AF37' }}>MAK</span>
+          <span className="font-bold text-4xl sm:text-5xl tracking-tighter" style={{ color: '#8B5CF6' }}>MAK</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3" style={{ color: '#F0F0F0' }}>
+        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3" style={{ color: '#E2E8F0' }}>
           {t.tagline}
         </h1>
         <Link

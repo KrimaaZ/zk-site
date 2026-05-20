@@ -83,7 +83,7 @@ function ItemRow({ item, onToggle, onDelete, justDone, confirmingDelete }: {
       {/* Text */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <span style={{
-          fontSize: 14, color: item.done ? '#555' : '#F0F0F0',
+          fontSize: 14, color: item.done ? '#555' : '#E2E8F0',
           textDecoration: item.done ? 'line-through' : 'none',
           opacity: item.done ? 0.55 : 1, transition: 'all .3s',
         }}>
@@ -124,7 +124,7 @@ function ItemRow({ item, onToggle, onDelete, justDone, confirmingDelete }: {
             style={{
               background: delHov ? 'rgba(239,68,68,0.12)' : 'transparent',
               border: delHov ? '1px solid rgba(239,68,68,0.35)' : '1px solid transparent',
-              color: delHov ? '#ef4444' : '#3a3a3a',
+              color: delHov ? '#ef4444' : '#2a2a40',
               fontSize: 14, cursor: 'pointer', padding: '3px 6px',
               borderRadius: 6, lineHeight: 1,
               transition: 'all .18s',
@@ -157,7 +157,7 @@ function CategoryBlock({ cat, items, openCats, toggleCat, onToggle, onDelete, ju
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '13px 16px', cursor: 'pointer', userSelect: 'none',
       }}>
-        <span style={{ fontWeight: 700, fontSize: 14, color: '#F0F0F0' }}>{cat}</span>
+        <span style={{ fontWeight: 700, fontSize: 14, color: '#E2E8F0' }}>{cat}</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontSize: 12, fontWeight: 700, color: GOLD }}>{done}/{total}</span>
           <span style={{ color: '#555', fontSize: 14, transition: 'transform .2s', display: 'inline-block', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}>▾</span>
@@ -273,7 +273,7 @@ export default function BucketListPage() {
 
   // ─────────────────────────────────────────────────────────────────────────
 
-  const inp: React.CSSProperties = { backgroundColor: '#1a1a1a', border: '1px solid #333', color: '#fff', borderRadius: 8, padding: '10px 14px', fontSize: 14, outline: 'none', width: '100%', boxSizing: 'border-box' }
+  const inp: React.CSSProperties = { backgroundColor: '#12121f', border: '1px solid #333', color: '#fff', borderRadius: 8, padding: '10px 14px', fontSize: 14, outline: 'none', width: '100%', boxSizing: 'border-box' }
 
   return (
     <div style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(20px,4vw,40px) clamp(16px,4vw,32px) 80px' }}>
@@ -294,7 +294,7 @@ export default function BucketListPage() {
       )}
 
       {/* ── HEADER ───────────────────────────────────────── */}
-      <div style={{ background: '#0a0a0a', borderRadius: 18, padding: 'clamp(24px,5vw,40px)', marginBottom: 24, border: '1px solid rgba(245,197,24,0.12)' }}>
+      <div style={{ background: '#07070f', borderRadius: 18, padding: 'clamp(24px,5vw,40px)', marginBottom: 24, border: '1px solid rgba(245,197,24,0.12)' }}>
 
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <div style={{ display: 'inline-block', backgroundColor: 'rgba(245,197,24,0.08)', border: `1px solid rgba(245,197,24,0.2)`, borderRadius: 100, padding: '4px 16px', fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>
@@ -327,7 +327,7 @@ export default function BucketListPage() {
             <span>Progression</span>
             <span style={{ color: GOLD, fontWeight: 700 }}>{done} / {total} accomplis · {pct}%</span>
           </div>
-          <div style={{ height: 8, background: '#1a1a1a', borderRadius: 100, overflow: 'hidden' }}>
+          <div style={{ height: 8, background: '#12121f', borderRadius: 100, overflow: 'hidden' }}>
             <div className="bl-progress" style={{ height: '100%', width: `${pct}%`, background: `linear-gradient(90deg, ${GOLD}, #FFD700)`, borderRadius: 100, transition: 'width .5s ease' }} />
           </div>
         </div>
@@ -345,7 +345,7 @@ export default function BucketListPage() {
 
       {/* ── ADD FORM ─────────────────────────────────────── */}
       {showForm && (
-        <div style={{ background: '#0a0a0a', border: `1px solid rgba(245,197,24,0.2)`, borderRadius: 14, padding: '22px 24px', marginBottom: 20 }}>
+        <div style={{ background: '#07070f', border: `1px solid rgba(245,197,24,0.2)`, borderRadius: 14, padding: '22px 24px', marginBottom: 20 }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
 
             {/* Category */}
@@ -385,7 +385,7 @@ export default function BucketListPage() {
                 <div style={{ display: 'flex', gap: 8 }}>
                   {[1, 2, 3].map(p => (
                     <button key={p} onClick={() => setFPriority(p)} style={{
-                      flex: 1, background: fPriority === p ? 'rgba(245,197,24,0.15)' : '#1a1a1a',
+                      flex: 1, background: fPriority === p ? 'rgba(245,197,24,0.15)' : '#12121f',
                       border: `1px solid ${fPriority === p ? GOLD : '#333'}`, color: fPriority === p ? GOLD : '#666',
                       borderRadius: 8, padding: '9px 4px', fontSize: 13, cursor: 'pointer', transition: 'all .15s',
                     }}>{STARS[p]}</button>
@@ -423,13 +423,13 @@ export default function BucketListPage() {
           {doneItems.length > 0 && (
             <div style={{ marginTop: 24 }}>
               <button onClick={() => setShowDone(s => !s)}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: '#0a0a0a', border: '1px solid rgba(29,158,117,0.2)', borderRadius: 12, padding: '14px 18px', cursor: 'pointer', color: '#fff', borderLeft: `3px solid ${GREEN}` }}>
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: '#07070f', border: '1px solid rgba(29,158,117,0.2)', borderRadius: 12, padding: '14px 18px', cursor: 'pointer', color: '#fff', borderLeft: `3px solid ${GREEN}` }}>
                 <span style={{ fontWeight: 700, fontSize: 14 }}>✅ Déjà accomplis <span style={{ color: GREEN }}>({doneItems.length})</span></span>
                 <span style={{ color: '#555', transition: 'transform .2s', display: 'inline-block', transform: showDone ? 'rotate(180deg)' : 'rotate(0deg)' }}>▾</span>
               </button>
 
               {showDone && (
-                <div style={{ background: '#0a0a0a', border: '1px solid rgba(29,158,117,0.15)', borderTop: 'none', borderRadius: '0 0 12px 12px', padding: '8px 0' }}>
+                <div style={{ background: '#07070f', border: '1px solid rgba(29,158,117,0.15)', borderTop: 'none', borderRadius: '0 0 12px 12px', padding: '8px 0' }}>
                   {allCats.filter(c => doneItems.some(i => i.category === c)).map(cat => {
                     const catDone = doneItems.filter(i => i.category === cat)
                     return (

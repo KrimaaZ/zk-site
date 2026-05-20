@@ -125,7 +125,7 @@ function DropZone({ img, setImg }: { img: string; setImg: (v: string) => void })
     <div onDragOver={e => { e.preventDefault(); setDrag(true) }} onDragLeave={() => setDrag(false)}
       onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f?.type.startsWith('image/')) read(f) }}
       onClick={() => !loading && ref.current?.click()}
-      style={{ border: `1px dashed ${drag ? '#fff' : '#333'}`, borderRadius: 4, padding: img ? 0 : '28px 0', cursor: loading ? 'wait' : 'pointer', overflow: 'hidden', marginBottom: 14, textAlign: 'center', background: drag ? 'rgba(255,255,255,0.04)' : '#0a0a0a', transition: 'all .2s', minHeight: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      style={{ border: `1px dashed ${drag ? '#fff' : '#333'}`, borderRadius: 4, padding: img ? 0 : '28px 0', cursor: loading ? 'wait' : 'pointer', overflow: 'hidden', marginBottom: 14, textAlign: 'center', background: drag ? 'rgba(255,255,255,0.04)' : '#07070f', transition: 'all .2s', minHeight: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {loading
         ? <div style={{ fontSize: 12, color: '#666' }}>Compression…</div>
         : img
