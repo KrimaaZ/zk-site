@@ -25,8 +25,14 @@ export default function MusicPage() {
   const [editTitle, setEditTitle] = useState('')
   const [editLyrics, setEditLyrics] = useState('')
   const [savedMsg, setSavedMsg] = useState(false)
+  const [saveErr, setSaveErr] = useState(false)
+  const [songCreating, setSongCreating] = useState(false)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Instrumentals errors
+  const [instrErr, setInstrErr] = useState('')
+  const [instrSaving, setInstrSaving] = useState(false)
 
   // Instrumentals
   const [instrumentals, setInstrumentals] = useState<Instrumental[]>([])
@@ -50,17 +56,24 @@ export default function MusicPage() {
   // ── Song editor autosave ──────────────────────────────────────────────────
 
   const triggerSave = useCallback((id: string, title: string, lyrics: string) => {
+    if (!id) return  // guard: ne jamais appeler PATCH avec id undefined
     if (saveTimer.current) clearTimeout(saveTimer.current)
     saveTimer.current = setTimeout(async () => {
-      await fetch(`/api/music/songs/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, lyrics }),
-      })
-      setSongs(prev => prev.map(s => s.id === id ? { ...s, title, lyrics } : s))
-      setSavedMsg(true)
-      if (savedTimer.current) clearTimeout(savedTimer.current)
-      savedTimer.current = setTimeout(() => setSavedMsg(false), 2000)
+      try {
+        const res = await fetch(`/api/music/songs/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, lyrics }),
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        setSongs(prev => prev.map(s => s.id === id ? { ...s, title, lyrics } : s))
+        setSaveErr(false)
+        setSavedMsg(true)
+        if (savedTimer.current) clearTimeout(savedTimer.current)
+        savedTimer.current = setTimeout(() => setSavedMsg(false), 2000)
+      } catch {
+        setSaveErr(true)
+      }
     }, 500)
   }, [])
 
@@ -73,16 +86,50 @@ export default function MusicPage() {
     if (activeSong) triggerSave(activeSong.id, editTitle, v)
   }
 
-  const openSong = (s: Song) => { setActiveSong(s); setEditTitle(s.title); setEditLyrics(s.lyrics) }
+  const openSong = (s: Song) => {
+    setActiveSong(s); setEditTitle(s.title); setEditLyrics(s.lyrics)
+    setSavedMsg(false); setSaveErr(false)
+  }
+
+  // Sauvegarde immédiate (utilisé sur "← Retour" et avant de naviguer)
+  const saveNow = async (id: string, title: string, lyrics: string) => {
+    if (!id) return
+    if (saveTimer.current) clearTimeout(saveTimer.current)
+    try {
+      const res = await fetch(`/api/music/songs/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, lyrics }),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setSongs(prev => prev.map(s => s.id === id ? { ...s, title, lyrics } : s))
+      setSaveErr(false)
+    } catch {
+      setSaveErr(true)
+    }
+  }
+
+  const handleBack = () => {
+    if (activeSong) saveNow(activeSong.id, editTitle, editLyrics)
+    setActiveSong(null)
+  }
 
   const newSong = async () => {
-    const res = await fetch('/api/music/songs', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: 'Sans titre', lyrics: '' }),
-    })
-    const s: Song = await res.json()
-    setSongs(prev => [s, ...prev])
-    openSong(s)
+    setSongCreating(true)
+    try {
+      const res = await fetch('/api/music/songs', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'Sans titre', lyrics: '' }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) throw new Error(data.error || `HTTP ${res.status}`)
+      setSongs(prev => [data as Song, ...prev])
+      openSong(data as Song)
+    } catch (e: any) {
+      alert('Erreur création : ' + e.message)
+    } finally {
+      setSongCreating(false)
+    }
   }
 
   const deleteSong = async (id: string) => {
@@ -96,13 +143,21 @@ export default function MusicPage() {
 
   const addInstrumental = async () => {
     if (!beatName.trim() || !beatUrl.trim()) return
-    const res = await fetch('/api/music/instrumentals', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: beatName.trim(), url: beatUrl.trim() }),
-    })
-    const item: Instrumental = await res.json()
-    setInstrumentals(prev => [item, ...prev])
-    setBeatName(''); setBeatUrl('')
+    setInstrSaving(true); setInstrErr('')
+    try {
+      const res = await fetch('/api/music/instrumentals', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: beatName.trim(), url: beatUrl.trim() }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) throw new Error(data.error || `HTTP ${res.status}`)
+      setInstrumentals(prev => [data as Instrumental, ...prev])
+      setBeatName(''); setBeatUrl('')
+    } catch (e: any) {
+      setInstrErr('Erreur : ' + e.message)
+    } finally {
+      setInstrSaving(false)
+    }
   }
 
   const deleteInstrumental = async (id: string) => {
@@ -218,7 +273,10 @@ export default function MusicPage() {
               </div>
             </div>
             {!activeSong && (
-              <button onClick={newSong} style={btn()}>+ Nouvelle chanson</button>
+              <button onClick={newSong} disabled={songCreating}
+                style={{ ...btn(), opacity: songCreating ? 0.6 : 1, cursor: songCreating ? 'not-allowed' : 'pointer' }}>
+                {songCreating ? '...' : '+ Nouvelle chanson'}
+              </button>
             )}
           </div>
 
@@ -229,15 +287,16 @@ export default function MusicPage() {
               <div className="fadein">
                 {/* Top bar */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 8 }}>
-                  <button onClick={() => setActiveSong(null)}
+                  <button onClick={handleBack}
                     style={{ background: 'rgba(29,158,117,0.08)', border: '1px solid rgba(29,158,117,0.25)', color: '#1D9E75', borderRadius: 8, padding: '7px 14px', fontSize: 13, cursor: 'pointer', fontWeight: 600 }}>
                     ← Retour
                   </button>
                   <span style={{
-                    fontSize: 12, color: savedMsg ? '#1D9E75' : 'transparent',
+                    fontSize: 12,
+                    color: saveErr ? '#ef4444' : savedMsg ? '#1D9E75' : 'transparent',
                     fontWeight: 600, transition: 'color .3s',
                   }}>
-                    Sauvegardé ✓
+                    {saveErr ? '⚠ Erreur de sauvegarde' : 'Sauvegardé ✓'}
                   </span>
                 </div>
 
@@ -337,13 +396,21 @@ export default function MusicPage() {
 
             {/* Add form */}
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <input className="music-input" value={beatName} onChange={e => setBeatName(e.target.value)}
+              <input className="music-input" value={beatName} onChange={e => { setBeatName(e.target.value); setInstrErr('') }}
                 placeholder="Nom du beat..." style={{ ...inp, flex: '1 1 140px' }} />
-              <input className="music-input" value={beatUrl} onChange={e => setBeatUrl(e.target.value)}
+              <input className="music-input" value={beatUrl} onChange={e => { setBeatUrl(e.target.value); setInstrErr('') }}
                 onKeyDown={e => e.key === 'Enter' && addInstrumental()}
                 placeholder="Colle ton lien YouTube, SoundCloud, Drive..." style={{ ...inp, flex: '3 1 240px' }} />
-              <button onClick={addInstrumental} style={{ ...btn(), flexShrink: 0 }}>Ajouter +</button>
+              <button onClick={addInstrumental} disabled={instrSaving}
+                style={{ ...btn(), flexShrink: 0, opacity: instrSaving ? 0.6 : 1, cursor: instrSaving ? 'not-allowed' : 'pointer' }}>
+                {instrSaving ? '...' : 'Ajouter +'}
+              </button>
             </div>
+            {instrErr && (
+              <div style={{ fontSize: 12, color: '#ef4444', padding: '8px 12px', background: 'rgba(239,68,68,0.08)', borderRadius: 8, border: '1px solid rgba(239,68,68,0.2)' }}>
+                {instrErr}
+              </div>
+            )}
 
             {/* List */}
             {instrumentals.length === 0 ? (
