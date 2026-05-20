@@ -27,7 +27,7 @@ const LINKS = [
       p.startsWith('/workout')  || p.startsWith('/diet')       ||
       p.startsWith('/aesthetic')|| p.startsWith('/bucketlist') ||
       p.startsWith('/progression') || p.startsWith('/calculator') ||
-      p.startsWith('/music')    || p.startsWith('/summer'),
+      p.startsWith('/music')    || p.startsWith('/summer') || p.startsWith('/italiano'),
   },
   {
     href:  '/raja',
