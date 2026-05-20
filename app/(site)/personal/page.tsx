@@ -93,6 +93,15 @@ const SECTIONS = [
     bg:      'rgba(212,175,55,0.08)',
     border:  'rgba(212,175,55,0.25)',
   },
+  {
+    href:    '/smart',
+    emoji:   '🎯',
+    title:   'Objectifs SMART',
+    desc:    'Transforme un objectif vague en plan SMART précis et motivant via Claude AI.',
+    color:   '#3B82F6',
+    bg:      'rgba(59,130,246,0.08)',
+    border:  'rgba(59,130,246,0.25)',
+  },
 ]
 
 export default function PersonalPage() {
