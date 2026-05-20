@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useLang } from '@/lib/lang'
-import BottomBar from '@/components/BottomBar'
 
 export default function WelcomePage() {
   const { lang, t, toggle } = useLang()
@@ -54,7 +53,19 @@ export default function WelcomePage() {
         </Link>
       </div>
 
-      <BottomBar />
+      {/* Bottom phrase */}
+      <div className="absolute bottom-8 left-0 right-0 text-center px-6">
+        <p style={{
+          fontSize: 12,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: 'rgba(139,92,246,0.45)',
+          fontWeight: 600,
+          userSelect: 'none',
+        }}>
+          remember rof · remember fish · remember all of them
+        </p>
+      </div>
     </div>
   )
 }
